@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   width="700"
+   height="700"
+   id="svg2"
+   version="1.1">
+
+   <defs>
+      <style type="text/css"><![CDATA[
+         @font-face {
+            font-family: 'dejavusansweb';
+            src: url('DejaVuSans.woff2');
+         }
+      ]]></style>
+  </defs>
+
+
+  <g
+     id="layer1"
+     transform="rotate(0, 350, 350)">
+
+     <circle
+        style="opacity:1;fill:#fefff0;fill-opacity:1;stroke:#cccccc;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+        cx="350"
+        cy="350"
+        r="340" />
+
+
+     <path
+        id="line1"
+        d="M 10 350 L 690 350"
+        style="fill:none;fill-rule:evenodd;stroke:#999999;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />   
+
+     <path
+        id="line2"
+        d="M 350 10 L 350 690"
+        style="fill:none;fill-rule:evenodd;stroke:#999999;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />  
+
+     <path
+        id="line3"
+        d="M 55.5 180 L 644 520"
+        style="fill:none;fill-rule:evenodd;stroke:#999999;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />  
+
+      <path
+        id="line4"
+        d="M 180 55.5 L 520 644"
+        style="fill:none;fill-rule:evenodd;stroke:#999999;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />  
+
+      <path
+        id="line5"
+        d="M 520 55.5 L 180 644"
+        style="fill:none;fill-rule:evenodd;stroke:#999999;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />  
+
+      <path
+        id="line6"
+        d="M 644 180 L 55.5 520"
+        style="fill:none;fill-rule:evenodd;stroke:#999999;stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+
+  <!--marker-->
+
+
+     <circle
+        style="opacity:1;fill:#fafafa;fill-opacity:1;stroke:#cccccc;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+        cx="350"
+        cy="350"
+        r="270" />
+
+  <!--houses-->
+
+
+     <circle
+        onclick='set("Alle")' 
+        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#cccccc;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+        cx="350"
+        cy="350"
+        r="150" />
+
+  <!--aspectlines-->
+
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:60px;line-height:125%;font-family:'DejaVu Sans','dejavusansweb','dejavusansweb';letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="-456.70218"
+     y="-33.603241"
+     id="text3459"
+     transform="matrix(-0.25881905,-0.96592583,0.96592583,-0.25881905,0,0)">♈︎</text>
+
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:60px;line-height:125%;font-family:'DejaVu Sans','dejavusansweb';letter-spacing:0px;word-spacing:0px;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="-521.38855"
+     y="-281.11649"
+     id="text3463"
+     transform="matrix(-0.70710678,-0.70710678,0.70710678,-0.70710678,0,0)">♉︎</text>
+
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:60px;line-height:125%;font-family:'DejaVu Sans','dejavusansweb';letter-spacing:0px;word-spacing:0px;fill:#d7bb00ff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="-455.28873"
+     y="-529.09979"
+     id="text3467"
+     transform="matrix(-0.96592583,-0.25881905,0.25881905,-0.96592583,0,0)">♊︎</text>
+
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:60px;line-height:125%;font-family:'DejaVu Sans','dejavusansweb';letter-spacing:0px;word-spacing:0px;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="-274.44275"
+     y="-711.50787"
+     id="text3471"
+     transform="matrix(-0.96592583,0.25881905,-0.25881905,-0.96592583,0,0)">♋︎</text>
+
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:60px;line-height:125%;font-family:'DejaVu Sans','dejavusansweb';letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="-29.362494"
+     y="-778.09302"
+     id="text3475"
+     transform="matrix(-0.70710678,0.70710678,-0.70710678,-0.70710678,0,0)">♌︎</text>
+
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:60px;line-height:125%;font-family:'DejaVu Sans','dejavusansweb';letter-spacing:0px;word-spacing:0px;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="221.30782"
+     y="-717.54358"
+     id="text3479"
+     transform="matrix(-0.25881905,0.96592583,-0.96592583,-0.25881905,0,0)">♍︎</text>
+
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:60px;line-height:125%;font-family:'DejaVu Sans','dejavusansweb';letter-spacing:0px;word-spacing:0px;fill:#d7bb00ff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="403.69681"
+     y="-533.96692"
+     id="text3483"
+     transform="matrix(0.25881905,0.96592583,-0.96592583,0.25881905,0,0)">♎︎</text>
+
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:60px;line-height:125%;font-family:'DejaVu Sans','dejavusansweb';letter-spacing:0px;word-spacing:0px;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="473.62784"
+     y="-284.28537"
+     id="text3487"
+     transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,0,0)">♏︎</text>
+
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:60px;line-height:125%;font-family:'DejaVu Sans','dejavusansweb';letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="402.24707"
+     y="-32.034336"
+     id="text3491"
+     transform="matrix(0.96592583,0.25881905,-0.25881905,0.96592583,0,0)">♐︎</text>
+
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:60px;line-height:125%;font-family:'DejaVu Sans','dejavusansweb';letter-spacing:0px;word-spacing:0px;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="220.92722"
+     y="148.64017"
+     id="text3495"
+     transform="matrix(0.96592583,-0.25881905,0.25881905,0.96592583,0,0)">♑︎</text>
+
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:60px;line-height:125%;font-family:'DejaVu Sans','dejavusansweb';letter-spacing:0px;word-spacing:0px;fill:#d7bb00ff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="-27.701618"
+     y="216.89079"
+     id="text3499"
+     transform="matrix(0.70710678,-0.70710678,0.70710678,0.70710678,0,0)">♒︎</text>
+
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:60px;line-height:125%;font-family:'DejaVu Sans','dejavusansweb';letter-spacing:0px;word-spacing:0px;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="-274.34109"
+     y="147.30283"
+     id="text3503"
+     transform="matrix(0.25881905,-0.96592583,0.96592583,0.25881905,0,0)">♓︎</text>
+
+  </g>
+
+  <!--planets-->
+
+  <!--hnr-->
+
+</svg>

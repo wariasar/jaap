@@ -1,0 +1,733 @@
+body {
+   font-family: 'DejaVu Serif', 'dejavuserifweb';
+   width: 1200px;
+}
+
+@font-face {
+   font-family: 'dejavusansweb'; 
+   src: url('DejaVuSans.woff2');
+}
+
+
+@font-face {
+   font-family: 'dejavuserifweb'; 
+   src: url('DejaVuSerif.woff2');
+}
+
+.links {
+  float: left;
+  /*background-color: #eeeeee;*/
+  margin-right: 40px;
+}
+
+.rechts {
+  float: right;
+  /*background-color: #eeeeee;*/
+  /* margin-right: 80px;*/
+}
+
+.tplanets {
+    margin-top: 15px;
+}
+
+.debug {
+   display: none;
+   font-size: 9px;
+}
+
+.inactive {
+   color: #999999;
+}
+
+.zinfo {
+   text-decoration: none;
+   color: black;
+}
+
+.ainfo {
+   text-decoration: none;
+   color: black;
+}
+
+.ainfo:hover {
+   /*text-decoration: underline overline;*/
+   background-color: #eeeeee;
+}
+
+.asp {
+  margin-top: 25px;
+}
+
+.diff1 {
+   width: 25px;
+   /*padding-left: 8px;*/
+}
+
+.diff2 {
+   width: 95px;
+   /*padding-left: 8px;*/
+}
+
+.diff3 {
+   width: 20px;
+   /*padding-left: 8px;*/
+}
+
+.diff4 {
+   width: 10px;
+   /*padding-left: 8px;*/
+}
+
+.grey {
+   color: #ff0000;
+}
+
+table.head {
+   width: 1200px;
+   table-layout:fixed;
+   /*background-color: #F8E0E0;*/
+   /*background-color: #E0F8F7;*/
+   /*background-color: #CEF6CE*/
+   border-bottom: 1px solid #cccccc;
+   border-top: 1px solid #cccccc;
+   margin-bottom: 10px;
+}
+
+
+#tabplanets {
+   border-collapse: collapse;
+   /*width: 160px;*/
+}
+
+#tabhouses {
+   border-collapse: collapse;
+   width: 160px;
+}
+
+#tabasp {
+   border-collapse: collapse;
+}
+
+td {
+   /*border: 1px solid #000000;*/
+}
+
+td.datestr {
+   width: 300px;
+   padding-left: 20px;
+} 
+
+td.infostr {
+   padding-right: 10px;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   text-align: right;
+} 
+
+td.offstr {
+   width: 80px;
+   /*padding-left: 20px;*/
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+} 
+
+td.bnew {
+   width: 32px;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+} 
+
+td.bnow {
+   width: 32px;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+} 
+
+td.bsub {
+   width: 32px;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+} 
+
+td.btrans {
+   width: 32px;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+} 
+
+td.bpl {
+   width: 32px;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+} 
+
+td.bmin {
+   width: 32px;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+} 
+
+td.bmult {
+   width: 36px;
+   padding-left: 20px;
+   /*overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;*/
+} 
+
+td.radix {
+   width: 192px;
+   padding-left: 20px;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+} 
+
+td.hstr {
+   width: 15px;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   padding-left: 20px;
+} 
+
+td.hs {
+   width: 130px;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+} 
+
+td.pl {
+   width: 123px;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+} 
+
+button {
+   background-color: #eeeeee;
+   border: 1px solid #aaaaaa;
+   text-decoration: none;
+   font-size: 16px;
+   cursor:pointer;
+   width: 30px;
+   height: 23px;
+   line-height: 20px;
+}
+
+button:hover{
+   background-color: #aaaaaa;
+}
+
+select {
+   background-color: #eeeeee;
+   border: 1px solid #aaaaaa;
+   text-decoration: none;
+   font-size: 16px;
+   cursor:pointer;
+}
+
+#plus {
+   width: 30px;
+}
+
+#minus {
+   width: 30px;
+}
+
+#new {
+   width: 30px;
+}
+
+#now {
+   width: 30px;
+}
+
+#tran {
+   width: 30px;
+}
+
+#mult {
+  box-sizing: border-box;
+  border-radius: 2px;
+  border: 1px solid gray;
+  height: 23px;
+  line-height: 18px;
+  padding: 2px;
+  width: 36px;
+}
+
+#hsys {
+   width: 128px;
+}
+
+#houses {
+   width: 108px;
+}
+
+
+/*----------------------------------------------------------------
+neu radix*/
+
+table.out {
+	background-color : #ffffff;
+	/*font-family: Verdana, Arial, Helvetica, sans-serif;*/
+	font-size: 10pt;
+	border-collapse:collapse;
+	/*border: 3px solid #0000ff;*/
+	border-spacing: 0;
+	margin: 10px;
+}
+
+
+.noline {
+	border: 1px solid #aaaaaa;
+	font-size: 12pt;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.noline_c {
+	border: 1px solid #aaaaaa;
+	font-size: 12pt;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 15px;
+	padding-bottom: 5px;
+        text-align: center;
+}
+.noline_sh {
+        width: 195px;
+	border: 1px solid #aaaaaa;
+	font-size: 12pt;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.sethome {
+   font-size: 25px;
+   color: #aaaaaa;
+   cursor:pointer;
+   text-decoration: none;
+}
+
+.noborder {
+        width: 195px;
+	font-size: 12pt;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.name{
+	/*font-family: Verdana, Arial, Helvetica, sans-serif;*/
+	font-size: 10pt;
+	font-weight: bold;
+	color:#008080;
+}
+
+.text {
+	display:block;
+	/*font-family: Verdana, Arial, Helvetica, sans-serif;*/
+	border:1px solid #999999;
+	/*color: #0000ff;*/
+	background-color: #eeeeee;
+	font-size: 12pt;
+	width: 376px;
+	height: 25px;
+}
+
+.htext {
+	display:block;
+	/*font-family: Verdana, Arial, Helvetica, sans-serif;*/
+	border:1px solid #999999;
+	/*color: #0000ff;*/
+	background-color: #eeeeee;
+	font-size: 12pt;
+	width: 170px;
+	height: 25px;
+}
+
+.otext {
+	display:block;
+	/*font-family: Verdana, Arial, Helvetica, sans-serif;*/
+	border:1px solid #999999;
+	/*color: #0000ff;*/
+	background-color: #eeeeee;
+	font-size: 12pt;
+	width: 170px;
+	height: 25px;
+}
+
+#olist {
+        font-size: 9pt;
+        width: 580px; 
+        /*overflow: hidden;*/
+        /*text-overflow: ellipsis;*/
+        white-space: nowrap;
+}
+
+
+#llist {
+        font-size: 9pt;
+        width: 580px; 
+        /*overflow: hidden;*/
+        /*text-overflow: ellipsis;*/
+        white-space: nowrap;
+}
+
+.message {
+	display:block;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	border:1px solid #999999;
+	/*color: #0000ff;*/
+	background-color: #eeeeee;
+	font-size: 12pt;
+	width: 650px;
+	height: 250px;
+}
+
+.sbtn {
+	/*font-family: Verdana, Arial, Helvetica, sans-serif;*/
+        display: inline-block;
+        margin-top: 20px;
+	background-color: #eeeeee;
+	font-size: 12pt;
+	height: 17px;
+        padding: 5px;
+        border: solid 1px #999999;
+        text-decoration: none;
+}
+
+.ok {
+	/*font-family: Verdana, Arial, Helvetica, sans-serif;*/
+    display: inline-block;
+	font-size: 14pt;
+	color:#006633;
+    height: 28px;
+}
+
+.err {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14pt;
+	color:#FF0000;
+}
+
+.cont {
+	width: 182px;
+	height: 20px;
+}
+
+a.haus {
+   font-size: 14px;
+}
+
+.button1 {
+	display:block;
+	height: 26px;
+	line-height: 13px;
+	width: 100px;
+	border:1px solid #999999; 
+	background-color: #eeeeee;
+	color: #0000ff;
+	font-size: 11pt;
+	float: left;
+	text-align: center;
+	padding: 5px;
+        margin-top: 10px;
+
+	}
+
+.button1:hover {
+	background-color: #bbbbbb;
+}
+
+
+a.message:hover {
+	color: red;
+}
+
+/*----------------------------------------------------------------
+Modal logik*/
+
+/* The Modal (background) */
+.dialog {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.dialog-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 5px;
+  border: 1px solid #888;
+  width: 610px;
+  height: 450px;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.close:hover,
+.close:focus {
+  color: #ff0000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/*----------------------------------------------------------------*/
+.dialog_open {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.dialog_open-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 5px;
+  border: 1px solid #888;
+  width: 610px;
+  height: 450px;
+}
+
+/* The Close Button */
+.close_open {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.close_open:hover,
+.close_dialog:focus {
+  color: #ff0000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.sl {
+   padding-top: 20px;
+   padding-left: 15px;
+}
+
+.dsl {
+}
+
+
+/*----------------------------------------------------------------*/
+.dialog_about {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.dialog_about-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 5px;
+  border: 1px solid #888;
+  width: 610px;
+  height: 450px;
+}
+
+/* The Close Button */
+.close_about {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.close_about:hover,
+.close:focus {
+  color: #ff0000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+/*----------------------------------------------------------------*/
+.textbox {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.textbox-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 5px;
+  border: 1px solid #888;
+  width: 610px;
+  height: 450px;
+}
+
+/* The Close Button */
+.close_tb {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.close_tb:hover,
+.close:focus {
+  color: #ff0000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+/*----------------------------------------------------------------
+Dropdown menue*/
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 42px;
+  background-color: #eeeeee;
+  border: 1px solid #aaaaaa;
+  min-width: 160px;
+  /*z-index: 1;*/
+  /*margin-top: 36px;*/
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 5px 5px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+   background-color: #0b81d0;
+   color: #ffffff;
+   
+}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
+
+/* menue icons */
+.icon {
+   float: left;
+   margin-right: 10px;
+} 
+
+
+.irrenhaus {
+   border-top: solid 1px;
+   border-color: #cccccc;
+   font-size: 14px;
+   color: red;
+   margin-top: 20px;
+}
+
+.hinweis {
+   font-size: 14px;
+   color: black;
+   margin-top: 10px;
+}
+
+.gnu {
+   font-size: 14px;
+   color: #777777;
+   margin-top:3px;
+}
+
+
+.ih {
+   margin-left: 10px;
+}
+
+.features {
+   font-size: 14px;
+   color: black;
+   margin-top: 20px;
+}
+
+
+.as{
+  margin-right: 5px;
+  text-align: left;
+}
+
+.as2{
+  margin-left: 10px;
+  text-align: left;
+  color: #aaaaaa;
+}
+
+textarea {
+   caret-color: red;  
+   width: 560px;
+   height: 330px;
+   border: 1px solid #cccccc;
+   padding: 0.5em;
+   resize: none;
+   font-family: Tahoma, sans-serif;
+}

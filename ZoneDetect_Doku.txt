@@ -1,0 +1,18 @@
+mkdir ZoneDetect
+cd ZoneDetect/
+git clone https://github.com/BertoldVdb/ZoneDetect.git
+
+cd database/
+vi README.md 
+wget https://files.bertold.org/zd/db.zip
+unzip db.zip 
+
+
+cd library
+make
+make install
+make clean 
+
+
+gcc -Wall -o demo demo.c /usr/lib/libzonedetect.so -lm
+
