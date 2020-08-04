@@ -1,4 +1,4 @@
-#jaap
+# jaap
 ## just another astrology program
 
 jaap ist eine webbasierte Astrologie Software.
