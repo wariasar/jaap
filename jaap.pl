@@ -1183,7 +1183,7 @@ sub ortssuche {
    $location =~ s/^\%20//g;
    $location =~ s/\s/\%20/g;
 
-   my $jstr = `curl https://nominatim.openstreetmap.org/search/$location?format=json 2> /dev/null`;
+   my $jstr = `curl -H 'Accept-Language: de,en-US' https://nominatim.openstreetmap.org/search/$location?format=json 2> /dev/null`;
    my (@part1, @part2, @part3, $p1, $p2, $p3, %vals, $name);
    my $count = 0;
 
