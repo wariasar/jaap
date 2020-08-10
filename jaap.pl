@@ -66,7 +66,7 @@ my @pl = ("Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Chiro
 my %psym = ("Sun" => "☉", "Moon" => "☽", "Mercury" => "☿", "Ascendant" => "AC", "MC" => "MC",
             "Venus" => "♀", "Mars" => "♂", "Jupiter" => "♃",
             "Saturn" => "♄", "Uranus" => "⛢", "Neptune" => "♆" , "Pluto" => "♇", "true Node" => "☊", "Chiron" => "⚷", "mean Apogee" => "⚸");
-my %hflag = ("Placidus" => "P", "Topozentrisch" => "T", "Koch" => "K", "Äqual" => "A", "Krusinsky" => "U", "Porphyrius" => "O");
+my %hflag = ("Placidus" => "P", "Topozentrisch" => "T", "Koch" => "K", "Äqual" => "A", "Krusinsky" => "U", "Porphyrius" => "O", "Regiomontanus" => "R", "Campanus" => "C");
 
 
 foreach my $Feld (@Feldnamen) {
