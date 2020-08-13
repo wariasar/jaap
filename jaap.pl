@@ -1359,7 +1359,8 @@ sub open_about {
 
    print "<div class=\"irrenhaus\"><p>Aus technischen Gründen müssen Cookies benutzt werden, damit die Funktionen von jaap gewährleistet sind. ";
    print "Wenn du das Programm verwenden möchtest, musst du der Cookie Nutzung zustimmen. ";
-   print "Hier bekommst du weitere Informationen:<p> <a href=\"datenschutz.html\">Datenschutzerklärung</a></div> ";
+   print "Hier bekommst du weitere Informationen:<p> <a href=\"datenschutz.html\">Datenschutz</a>&nbsp;\n";
+   print "<a href=\"impressum.html\">Impressum</a></div>\n";
 
    print "</td>\n</tr>\n</table>\n";
    print "<p class=\"ih\"><button class=\"button1\" onclick=\"cookie_agree()\">OK</button>\n</p></div>\n</div>\n\n";   
