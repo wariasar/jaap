@@ -62,6 +62,7 @@ my $ort = "";
 my $hlo_set = 0;
 my $hla_set = 0;
 my $hlpl = "";
+my $hlh = "";
 my (%planets, %planets_tr, %houses, %planets_rel, %pl_h, @aspects, %rueckl, %rueckl_tr);
 my @pl = ("Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Chiron", "Uranus", "Neptune", "Pluto", "true Node", "mean Apogee");
 my %psym = ("Sun" => "☉", "Moon" => "☽", "Mercury" => "☿", "Ascendant" => "AC", "MC" => "MC",
@@ -340,13 +341,18 @@ print "</table>\n";
 
 #------------------------------------------------------------------------------
 # Häuser
+my $fhouse;
 print "<h4>Häuser</h4>\n<table id=\"tabhouses\">\n";
 if ($hsys ne "Keine" && $rx{"uhrzeit"} ne "") {
    foreach (sort keys %houses) {
       $hnr = $_;
       $hnr =~ s/house //g;
       @reldeg = split(/\s+/, relative_deg($houses{$_}));
-      print "<tr>\n<td>$hnr</td>\n<td class=\"diff\">$reldeg[0]</td>\n<td class=\"diff\">$reldeg[1]</td>\n</tr>\n";
+      $hlh = "";
+      $fhouse = $hnr;
+      $fhouse =~ s/^\s+|\s+$//g;
+      if ($pl_h{$filter} eq $fhouse) { $hlh = " style=\"background-color:#ff9900;\"";}
+      print "<tr$hlh>\n<td>$hnr</td>\n<td class=\"diff\">$reldeg[0]</td>\n<td class=\"diff\">$reldeg[1]</td>\n</tr>\n";
    }
 }
 else { print "<tr><td></td></tr>\n"; }
@@ -383,6 +389,10 @@ foreach (@aspects) {
 
 }
 print "</table>\n</div>\n";
+
+if ($filter) {
+   print "<h4>Würden ($transpl)</h4>\n";
+}
 
 #------------------------------------------------------------------------------
 # Modal Dialog Fenster
