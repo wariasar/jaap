@@ -24,7 +24,7 @@ use Math::Trig;
 use Time::Local;
 #use open IO => ':utf8';
 
-my $version = "alpha 0.0.33";
+my $version = "alpha 0.0.34";
 
 my $template = "radix.svg";
 my $css = "jaap.css";
@@ -61,6 +61,7 @@ my $transit = 0;
 my $ort = "";
 my $hlo_set = 0;
 my $hla_set = 0;
+my $hlpl = "";
 my (%planets, %planets_tr, %houses, %planets_rel, %pl_h, @aspects, %rueckl, %rueckl_tr);
 my @pl = ("Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Chiron", "Uranus", "Neptune", "Pluto", "true Node", "mean Apogee");
 my %psym = ("Sun" => "☉", "Moon" => "☽", "Mercury" => "☿", "Ascendant" => "AC", "MC" => "MC",
@@ -318,6 +319,8 @@ print "<div class=\"debug\" id=\"tzi\">$utc[4] ($utc[2])</div>\n";
 
 print "<h4 class=\"tplanets\">Planeten</h4>\n<table id=\"tabplanets\">\n";
 foreach (@pl) {
+   $hlpl = "";
+   if ($filter eq $_) { $hlpl = " style=\"background-color:#00ff00;\""; }
    next if ($_ eq "Ascendant" or $_ eq "MC");
    # Hausposition des Planeten bestimmen
    if ($transit) { if ($hsys ne "Keine") { $pl_h{$_} = planet_house (get_ang($planets_tr{$_}), $_); }}
@@ -327,8 +330,8 @@ foreach (@pl) {
    @p = split (/°/, $reldeg[0]);
    #$planets_rel{$reldeg[1]} .= $p[0].",".$psym{$_}.":";
    $planets_rel{$_} = $reldeg[0]." ".$reldeg[1];
-   if (!$transit) { print "<tr>\n<td class=\"diff1\">$psym{$_}</td>\n<td class=\"diff2\">$reldeg[0]</td>\n<td class=\"diff3\">$reldeg[1]</td>\n<td class=\"diff4\"><div class =\"grey\">$rueckl{$_}</div></td>\n</tr>\n"; }
-else { print "<tr>\n<td class=\"diff1\">$psym{$_}</td>\n<td class=\"diff2\">$reldeg[0]</td>\n<td class=\"diff3\">$reldeg[1]</td>\n<td class=\"diff4\"><div class =\"grey\">$rueckl_tr{$_}</div></td>\n</tr>\n"; }
+   if (!$transit) { print "<tr$hlpl>\n<td class=\"diff1\">$psym{$_}</td>\n<td class=\"diff2\">$reldeg[0]</td>\n<td class=\"diff3\">$reldeg[1]</td>\n<td class=\"diff4\"><div class =\"grey\">$rueckl{$_}</div></td>\n</tr>\n"; }
+else { print "<tr$hlpl>\n<td class=\"diff1\">$psym{$_}</td>\n<td class=\"diff2\">$reldeg[0]</td>\n<td class=\"diff3\">$reldeg[1]</td>\n<td class=\"diff4\"><div class =\"grey\">$rueckl_tr{$_}</div></td>\n</tr>\n"; }
 
 
 }
