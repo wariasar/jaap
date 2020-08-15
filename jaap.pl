@@ -101,7 +101,7 @@ else { print "<div id=\"homecgi\" style=\"display: none\"></div>\n"; }
 
 
 #---------- DEBUG --------
-$filter = "Moon";
+#$filter = "Moon";
 #-------------------------
 
 
@@ -321,8 +321,8 @@ foreach (@pl) {
    # Hausposition des Planeten bestimmen
    if ($transit) { if ($hsys ne "Keine") { $pl_h{$_} = planet_house (get_ang($planets_tr{$_}), $_); }}
    else { if ($hsys ne "Keine") { $pl_h{$_} = planet_house (get_ang($planets{$_}), $_); }}
-   if ($transit) { @reldeg = split(/\s+/, relative_deg($planets_tr{$_})); }
-   else { @reldeg = split(/\s+/, relative_deg($planets{$_})); }   
+   if ($transit) { @reldeg = split(/\s+/, relative_deg($planets_tr{$_},"sym")); }
+   else { @reldeg = split(/\s+/, relative_deg($planets{$_},"sym")); }   
    @p = split (/°/, $reldeg[0]);
    #$planets_rel{$reldeg[1]} .= $p[0].",".$psym{$_}.":";
    $planets_rel{$_} = $reldeg[0]." ".$reldeg[1];
@@ -342,7 +342,7 @@ if ($hsys ne "Keine" && $rx{"uhrzeit"} ne "") {
    foreach (sort keys %houses) {
       $hnr = $_;
       $hnr =~ s/house //g;
-      @reldeg = split(/\s+/, relative_deg($houses{$_}));
+      @reldeg = split(/\s+/, relative_deg($houses{$_}, "sym"));
       $hlh = "";
       $fhouse = $hnr;
       $fhouse =~ s/^\s+|\s+$//g;
@@ -932,9 +932,17 @@ sub calc_asp {
 # den relativen Winkel im Tierkreiszeichen
 #------------------------------------------------------------------------------
 sub relative_deg {
-   my %rel_deg = (0 => "♈︎", 30 => "♉︎", 60 => "♊︎", 90 => "♋︎", 120 => "♌︎", 150 => "♍︎", 180 => "♎︎",
-                  210 => "♏︎", 240 => "♐︎", 270 => "♑︎", 300 => "♒︎", 330 => "♓︎");
    my ($max, $relw);
+   my %rel_deg;
+
+   if ($_[1] eq "sym") {  
+      %rel_deg = (0 => "♈︎", 30 => "♉︎", 60 => "♊︎", 90 => "♋︎", 120 => "♌︎", 150 => "♍︎", 180 => "♎︎",
+                  210 => "♏︎", 240 => "♐︎", 270 => "♑︎", 300 => "♒︎", 330 => "♓︎");
+   }
+   else {
+      %rel_deg = (0 => "wid", 30 => "sti", 60 => "zwi", 90 => "kre", 120 => "loe", 150 => "jfr", 180 => "wag",
+                  210 => "sko", 240 => "sch", 270 => "stb", 300 => "wma", 330 => "fis");
+   }
    
    my @p1 = split(/°/, $_[0]);
    my $deg = $p1[0];
@@ -1283,81 +1291,111 @@ sub ZoneDetect {
 sub wuerden {
    my $planet_w = $_[0];
    my $rel = relative_deg ($planets{$planet_w});
-
+   my @p = split (/\s+/, $rel);
+   my (@multi, $mu, $ew);
+   my $tkz = $p[1];
+   my @mainpl = ("Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"); 
+   my $skip = 1;
+   
    my %EssWue = (
        Sun => {
-           Domizil       => "",
-           Exil          => "",
-           Erhoehung     => "",
-           Fall          => "",
-           Triplizitaet  => "",
+           Domizil       => "loe",
+           Exil          => "wma",
+           Erhoehung     => "wid",
+           Fall          => "wag",
+           Triplizitaet  => "sch",
        },
        Moon => {
-           Domizil       => "",
-           Exil          => "",
-           Erhoehung     => "",
-           Fall          => "",
-           Triplizitaet  => "",
+           Domizil       => "kre",
+           Exil          => "stb",
+           Erhoehung     => "sti",
+           Fall          => "sko",
+           Triplizitaet  => "fis",
        },
        Mercury => {
-           Domizil       => "",
-           Exil          => "",
-           Erhoehung     => "",
-           Fall          => "",
-           Triplizitaet  => "",
+           Domizil       => "zwi:jfr",
+           Exil          => "sch:fis",
+           Erhoehung     => "jfr",
+           Fall          => "fis",
+           Triplizitaet  => "wag:wma:sti:stb",
        },
        Venus => {
-           Domizil       => "",
-           Exil          => "",
-           Erhoehung     => "",
-           Fall          => "",
-           Triplizitaet  => "",
+           Domizil       => "sti:wag",
+           Exil          => "sko:wid",
+           Erhoehung     => "fis",
+           Fall          => "jfr",
+           Triplizitaet  => "stb:zwi:wma",
        },
        Mars => {
-           Domizil       => "",
-           Exil          => "",
-           Erhoehung     => "",
-           Fall          => "",
-           Triplizitaet  => "",
+           Domizil       => "wid:sko",
+           Exil          => "wag:sti",
+           Erhoehung     => "stb",
+           Fall          => "kre",
+           Triplizitaet  => "loe:sch",
        },
        Jupiter => {
-           Domizil       => "",
-           Exil          => "",
-           Erhoehung     => "",
-           Fall          => "",
-           Triplizitaet  => "",
+           Domizil       => "sch:fis",
+           Exil          => "zwi:jfr",
+           Erhoehung     => "kre",
+           Fall          => "stb",
+           Triplizitaet  => "wid:loe",
        },
        Saturn => {
-           Domizil       => "",
-           Exil          => "",
-           Erhoehung     => "",
-           Fall          => "",
-           Triplizitaet  => "",
+           Domizil       => "stb:wma",
+           Exil          => "kre:loe",
+           Erhoehung     => "wag",
+           Fall          => "wid",
+           Triplizitaet  => "sti:jfr",
        },
        Uranus => {
-           Domizil       => "",
-           Exil          => "",
-           Erhoehung     => "",
-           Fall          => "",
-           Triplizitaet  => "",
+           Domizil       => "wma",
+           Exil          => "loe",
+           Erhoehung     => "sko",
+           Fall          => "sti",
+           Triplizitaet  => "zwi:wag",
        },
        Neptune => {
-           Domizil       => "",
-           Exil          => "",
-           Erhoehung     => "",
-           Fall          => "",
-           Triplizitaet  => "",
+           Domizil       => "fis",
+           Exil          => "jfr",
+           Erhoehung     => "kre",
+           Fall          => "stb",
+           Triplizitaet  => "sko",
        },
        Pluto => {
-           Domizil       => "",
-           Exil          => "",
-           Erhoehung     => "",
-           Fall          => "",
-           Triplizitaet  => "",
+           Domizil       => "sko",
+           Exil          => "sti",
+           Erhoehung     => "loe",
+           Fall          => "wma",
+           Triplizitaet  => "kre:fis",
        },
    ); 
 
+   foreach (@mainpl) { if ($_ eq $planet_w) { $skip = 0; }}
+
    print "<h4>Würden ($transpl)</h4>\n";
+   if (!$skip) {
+      foreach $ew (keys $EssWue{$planet_w}) {
+         if ($EssWue{$planet_w}{$ew} =~ /:/) {
+            @multi = split (/:/, $EssWue{$planet_w}{$ew});
+            foreach $mu (@multi) { 
+               if ($mu eq $tkz) { 
+                  $ew =~ s/oe/ö/g;
+                  $ew =~ s/ae/ä/g;
+                  print "$ew<br />\n";
+               }
+            }
+         }
+         else {
+            if ($EssWue{$planet_w}{$ew} eq $tkz) { 
+               $ew =~ s/oe/ö/g;
+               $ew =~ s/ae/ä/g;
+               print "$ew<br />\n";
+            }
+         }
+      }
+   }
+
+
 }
 
 
