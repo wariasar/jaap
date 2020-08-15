@@ -26,6 +26,12 @@ body {
   /* margin-right: 80px;*/
 }
 
+.wuerden {
+   position: absolute;
+   top: 380px;
+   left: 950px;
+}
+
 .tplanets {
     margin-top: 15px;
 }

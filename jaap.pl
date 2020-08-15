@@ -1296,6 +1296,8 @@ sub wuerden {
    my $tkz = $p[1];
    my @mainpl = ("Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"); 
    my $skip = 1;
+   my $found = 0;
+   my $sty;
    
    my %EssWue = (
        Sun => {
@@ -1372,32 +1374,62 @@ sub wuerden {
 
    foreach (@mainpl) { if ($_ eq $planet_w) { $skip = 0; }}
 
-   print "<h4>Würden ($transpl)</h4>\n";
+   print "<div class=\"wuerden\">\n<h4>Würden ($transpl)</h4>\n";
    if (!$skip) {
       foreach $ew (keys $EssWue{$planet_w}) {
          if ($EssWue{$planet_w}{$ew} =~ /:/) {
             @multi = split (/:/, $EssWue{$planet_w}{$ew});
             foreach $mu (@multi) { 
                if ($mu eq $tkz) { 
+                  $sty = get_style ("ess", $ew);
                   $ew =~ s/oe/ö/g;
                   $ew =~ s/ae/ä/g;
-                  print "$ew<br />\n";
+                  print "$sty $ew</div>\n";
+                  $found = 1;
                }
             }
          }
          else {
             if ($EssWue{$planet_w}{$ew} eq $tkz) { 
+               $sty = get_style ("ess", $ew);
                $ew =~ s/oe/ö/g;
                $ew =~ s/ae/ä/g;
-               print "$ew<br />\n";
+               print "$sty $ew</div>\n";
+               $found = 1;
             }
          }
+      }
+      if (!$found) { 
+         $sty = get_style ("ess", "Peregrin");
+         print "$sty Peregrin</div>\n";
       }
    }
 
 
+print "</div>\n";
+
 }
 
+#------------------------------------------------------------------------------
+# Funktion get_style
+# generiert den styletag für die Planeten Informationen
+#------------------------------------------------------------------------------
+sub get_style {
+   if ($_[0] eq "ess") {
+      if ($_[1] eq "Domizil" || $_[1] eq "Triplizitaet" || $_[1] eq "Erhoehung") {
+         return "<div style=\"color:#007000; font-weight:bold\">+ ";
+      }
+      elsif ($_[1] eq "Peregrin") {
+         return "<div style=\"color:#ff9900; font-weight:bold\">– ";
+      }
+      elsif ($_[1] eq "Fall" || $_[1] eq "Exil") {
+         return "<div style=\"color:#ff0000; font-weight:bold\">– ";
+      }
+      else {
+         return "<div>";     
+      }
+   }
+}
 
 #------------------------------------------------------------------------------
 # Funktion neu_dialog
