@@ -101,12 +101,7 @@ else { print "<div id=\"homecgi\" style=\"display: none\"></div>\n"; }
 
 
 #---------- DEBUG --------
-#print "DEBUG: transit: $transit";
-#$ret_date = "22.8.1992 03:43 CEST 8.47 50.08";
-#$ret_date_tr = "20.7.2020 16:29 CEST 11.08 49.45";
-#$name = "Armin Warias";
-#$transit = 1;
-#print "hlo: $home_long - hla: $home_lat";
+$filter = "Moon";
 #-------------------------
 
 
@@ -391,7 +386,7 @@ foreach (@aspects) {
 print "</table>\n</div>\n";
 
 if ($filter) {
-   print "<h4>Würden ($transpl)</h4>\n";
+   wuerden ($filter);
 }
 
 #------------------------------------------------------------------------------
@@ -1278,6 +1273,91 @@ sub ZoneDetect {
    }
 
    return (join(';', $utcdate, $utctime, $diff, $lc, $zone, $atza));
+}
+
+
+#------------------------------------------------------------------------------
+# Funktion wuerden
+# Schreibt die wuerden eines gefilterten Planeten auf den Bildschirm
+#------------------------------------------------------------------------------
+sub wuerden {
+   my $planet_w = $_[0];
+   my $rel = relative_deg ($planets{$planet_w});
+
+   my %EssWue = (
+       Sun => {
+           Domizil       => "",
+           Exil          => "",
+           Erhoehung     => "",
+           Fall          => "",
+           Triplizitaet  => "",
+       },
+       Moon => {
+           Domizil       => "",
+           Exil          => "",
+           Erhoehung     => "",
+           Fall          => "",
+           Triplizitaet  => "",
+       },
+       Mercury => {
+           Domizil       => "",
+           Exil          => "",
+           Erhoehung     => "",
+           Fall          => "",
+           Triplizitaet  => "",
+       },
+       Venus => {
+           Domizil       => "",
+           Exil          => "",
+           Erhoehung     => "",
+           Fall          => "",
+           Triplizitaet  => "",
+       },
+       Mars => {
+           Domizil       => "",
+           Exil          => "",
+           Erhoehung     => "",
+           Fall          => "",
+           Triplizitaet  => "",
+       },
+       Jupiter => {
+           Domizil       => "",
+           Exil          => "",
+           Erhoehung     => "",
+           Fall          => "",
+           Triplizitaet  => "",
+       },
+       Saturn => {
+           Domizil       => "",
+           Exil          => "",
+           Erhoehung     => "",
+           Fall          => "",
+           Triplizitaet  => "",
+       },
+       Uranus => {
+           Domizil       => "",
+           Exil          => "",
+           Erhoehung     => "",
+           Fall          => "",
+           Triplizitaet  => "",
+       },
+       Neptune => {
+           Domizil       => "",
+           Exil          => "",
+           Erhoehung     => "",
+           Fall          => "",
+           Triplizitaet  => "",
+       },
+       Pluto => {
+           Domizil       => "",
+           Exil          => "",
+           Erhoehung     => "",
+           Fall          => "",
+           Triplizitaet  => "",
+       },
+   ); 
+
+   print "<h4>Würden ($transpl)</h4>\n";
 }
 
 
