@@ -63,7 +63,7 @@ my $hlo_set = 0;
 my $hla_set = 0;
 my $hlpl = "";
 my $hlh = "";
-my (%planets, %planets_tr, %houses, %planets_rel, %pl_h, @aspects, %rueckl, %rueckl_tr);
+my (%planets, %planets_tr, %houses, %planets_rel, %pl_h, @aspects, %rueckl, %rueckl_tr, %speed, %speed_tr);
 my @pl = ("Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Chiron", "Uranus", "Neptune", "Pluto", "true Node", "mean Apogee");
 my %psym = ("Sun" => "☉", "Moon" => "☽", "Mercury" => "☿", "Ascendant" => "AC", "MC" => "MC",
             "Venus" => "♀", "Mars" => "♂", "Jupiter" => "♃",
@@ -461,11 +461,13 @@ sub get_ephe {
          if ($p[0] eq "$pla") {
             if ($dstr->{"mode"} eq "radix") {
                $planets{$p[0]} = $p[1];
+               $speed{$p[0]} = $p[4];
                # Rückläufig
                if ($p[4] =~ /^-/) { $rueckl{$p[0]} = "R"; }
             }
             if ($dstr->{"mode"} eq "transit") {
                $planets_tr{$p[0]} = $p[1];
+               $speed_tr{$p[0]} = $p[4];
                # Rückläufig
                if ($p[4] =~ /^-/) { $rueckl_tr{$p[0]} = "R"; }
             }
@@ -1290,10 +1292,8 @@ sub ZoneDetect {
 #------------------------------------------------------------------------------
 sub wuerden {
    my $planet_w = $_[0];
-   my $rel = relative_deg ($planets{$planet_w});
-   my @p = split (/\s+/, $rel);
+   my $rel;
    my (@multi, $mu, $ew);
-   my $tkz = $p[1];
    my @mainpl = ("Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"); 
    my $skip = 1;
    my $found = 0;
@@ -1372,6 +1372,12 @@ sub wuerden {
        },
    ); 
 
+   if (!$transit) { $rel = relative_deg ($planets{$planet_w}); }
+   else { $rel = relative_deg ($planets_tr{$planet_w}); }
+
+   my @p = split (/\s+/, $rel);
+   my $tkz = $p[1];
+
    foreach (@mainpl) { if ($_ eq $planet_w) { $skip = 0; }}
 
    print "<div class=\"wuerden\">\n<h4>Würden ($transpl)</h4>\n";
@@ -1405,8 +1411,35 @@ sub wuerden {
       }
    }
 
+   # Läufigkeit und Gewchwindigkeit
+   if (!$transit) {
+      if ($rueckl{$planet_w} eq "R") {
+         $sty = get_style ("akz", "rueck");
+         print "$sty rückläufig</div>\n";
+      }
+      else {
+         $sty = get_style ("akz", "direkt");
+         print "$sty direktläufig</div>\n";
+      }
+      $speed{$planet_w} =~ s/\.\d\d\d\d//g;
+      print "&nbsp;&nbsp;&nbsp;Beschl: $speed{$planet_w} °/Tag\n";
+   }
 
-print "</div>\n";
+
+   else {
+      if ($rueckl_tr{$planet_w} eq "R") {
+         $sty = get_style ("akz", "rueck");
+         print "$sty rückläufig</div>\n";
+      }
+      else {
+         $sty = get_style ("akz", "direkt");
+         print "$sty direktläufig</div>\n";
+      }
+      $speed_tr{$planet_w} =~ s/\.\d\d\d\d//g;
+      print "&nbsp;&nbsp;&nbsp;Beschl.: $speed_tr{$planet_w} °/Tag\n";
+   }
+
+   print "</div>\n";
 
 }
 
@@ -1415,6 +1448,7 @@ print "</div>\n";
 # generiert den styletag für die Planeten Informationen
 #------------------------------------------------------------------------------
 sub get_style {
+   # essentiell
    if ($_[0] eq "ess") {
       if ($_[1] eq "Domizil" || $_[1] eq "Triplizitaet" || $_[1] eq "Erhoehung") {
          return "<div style=\"color:#007000; font-weight:bold\">+ ";
@@ -1427,6 +1461,16 @@ sub get_style {
       }
       else {
          return "<div>";     
+      }
+   }
+
+   #Akzident
+   if ($_[0] eq "akz") {
+      if ($_[1] eq "rueck") {
+         return "<div style=\"color:#ff0000\">– ";
+      }
+      elsif ($_[1] eq "direkt") {
+         return "<div style=\"color:#007000\">+ ";
       }
    }
 }
