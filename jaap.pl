@@ -1462,20 +1462,21 @@ sub wuerden {
 sub get_spstat {
 
    if ($_[0] eq "Sun" || $_[0] eq "Moon") { return ""; }
-   my $x = $speed{$_[0]};
+
+   my $x;
+   if (!$transit) { $x = $speed{$_[0]}; }
+   else { $x = $speed_tr{$_[0]}; }
    $x =~ s/\-//g;
-   my $sp = get_ang ($x);
-   my %av_speed = ("Mercury" => "1°02’26", "Venus" => "0°38’08", "Mars" => "0°31’27", "Jupiter" => "0°06’59",
-                   "Saturn" => "0°03’45", "Uranus" => "0°01’12", "Neptune" => "0°01’08", "Pluto" => "0°01’00");
-   my $plsp; 
-   if (!$transit) { $plsp = get_ang ($sp); }
-   else { $plsp = get_ang ($sp); }
+   my $plsp = get_ang ($x);
 
-   my $avsp = get_ang ($av_speed{$_[0]});
+   my %max_speed = ("Mercury" => "2°07’26", "Venus" => "1°15’18", "Mars" => "0°45’22", "Jupiter" => "0°14’31",
+                   "Saturn" => "0°07’11", "Uranus" => "0°03’27", "Neptune" => "0°02’16", "Pluto" => "0°01’58");
 
-   my $station = $avsp/100*5;
-   my $slow = $avsp - ($avsp/100*20);
-   my $fast = $avsp + ($avsp/100*20); 
+   my $maxsp = get_ang ($max_speed{$_[0]});
+
+   my $station = $maxsp/100*3;
+   my $slow = $maxsp/100*20;
+   my $fast = $maxsp/100*80; 
 
 
    if ($plsp <= $station) { return "stationär"; } 
