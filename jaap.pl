@@ -101,7 +101,7 @@ else { print "<div id=\"homecgi\" style=\"display: none\"></div>\n"; }
 
 
 #---------- DEBUG --------
-#$filter = "Moon";
+#$filter = "Mercury";
 #-------------------------
 
 
@@ -792,7 +792,7 @@ sub get_ang {
   my @p2 = split (/'/, $p[1]);
   my $min = $p2[0];
   my $sek = $p2[1];
-  
+ 
   my $dec = ((($sek/60)+$min)/60)+$grad;
   my $roundet = int(100 * $dec + 0.5) / 100;
 
@@ -1293,7 +1293,7 @@ sub ZoneDetect {
 sub wuerden {
    my $planet_w = $_[0];
    my $rel;
-   my (@multi, $mu, $ew);
+   my (@multi, $mu, $ew, $spstat);
    my @mainpl = ("Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"); 
    my $skip = 1;
    my $found = 0;
@@ -1372,6 +1372,7 @@ sub wuerden {
        },
    ); 
 
+
    if (!$transit) { $rel = relative_deg ($planets{$planet_w}); }
    else { $rel = relative_deg ($planets_tr{$planet_w}); }
 
@@ -1421,8 +1422,14 @@ sub wuerden {
          $sty = get_style ("akz", "direkt");
          print "$sty direktläufig</div>\n";
       }
+      $spstat = get_spstat($planet_w);
+      if ($spstat ne "") {
+         $sty = get_style ("akz", $spstat);
+         print "$sty $spstat</div>\n";
+      }
+      
       $speed{$planet_w} =~ s/\.\d\d\d\d//g;
-      print "&nbsp;&nbsp;&nbsp;Beschl: $speed{$planet_w} °/Tag\n";
+      print "&nbsp;&nbsp;&nbsp;Beschl: $speed{$planet_w}/Tag\n";
    }
 
 
@@ -1435,13 +1442,48 @@ sub wuerden {
          $sty = get_style ("akz", "direkt");
          print "$sty direktläufig</div>\n";
       }
+      $spstat = get_spstat($planet_w);
+      if ($spstat ne "") {
+         $sty = get_style ("akz", $spstat);
+         print "$sty $spstat</div>\n";
+      }
       $speed_tr{$planet_w} =~ s/\.\d\d\d\d//g;
-      print "&nbsp;&nbsp;&nbsp;Beschl.: $speed_tr{$planet_w} °/Tag\n";
+      print "&nbsp;&nbsp;&nbsp;Beschl.: $speed_tr{$planet_w}/Tag\n";
    }
 
    print "</div>\n";
 
 }
+
+#------------------------------------------------------------------------------
+# Funktion get_spstat
+# Ermittelt ob ein Planet langsam oder schnell ist
+#------------------------------------------------------------------------------
+sub get_spstat {
+
+   if ($_[0] eq "Sun" || $_[0] eq "Moon") { return ""; }
+   my $x = $speed{$_[0]};
+   $x =~ s/\-//g;
+   my $sp = get_ang ($x);
+   my %av_speed = ("Mercury" => "1°02’26", "Venus" => "0°38’08", "Mars" => "0°31’27", "Jupiter" => "0°06’59",
+                   "Saturn" => "0°03’45", "Uranus" => "0°01’12", "Neptune" => "0°01’08", "Pluto" => "0°01’00");
+   my $plsp; 
+   if (!$transit) { $plsp = get_ang ($sp); }
+   else { $plsp = get_ang ($sp); }
+
+   my $avsp = get_ang ($av_speed{$_[0]});
+
+   my $station = $avsp/100*5;
+   my $slow = $avsp - ($avsp/100*20);
+   my $fast = $avsp + ($avsp/100*20); 
+
+
+   if ($plsp <= $station) { return "stationär"; } 
+   elsif ($plsp >= $fast) { return "schnell"; } 
+   elsif ($plsp <= $slow) { return "langsam"; } 
+   else { return ""; }
+}
+
 
 #------------------------------------------------------------------------------
 # Funktion get_style
@@ -1466,10 +1508,10 @@ sub get_style {
 
    #Akzident
    if ($_[0] eq "akz") {
-      if ($_[1] eq "rueck") {
+      if ($_[1] eq "rueck" || $_[1] eq "langsam" || $_[1] eq "stationär") {
          return "<div style=\"color:#ff0000\">– ";
       }
-      elsif ($_[1] eq "direkt") {
+      elsif ($_[1] eq "direkt" || $_[1] eq "schnell") {
          return "<div style=\"color:#007000\">+ ";
       }
    }
