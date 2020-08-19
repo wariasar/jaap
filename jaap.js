@@ -560,7 +560,7 @@ function open_file() {
       reader.onload = readerEvent => {
          var content = readerEvent.target.result; // this is the content!
          var part = content.split(/\r?\n/);
-         var part2, partA, partB, Name, zeit, line, date, time, timestr, utcd, utcdate, utctime, utcdatetime, x, tB1, tB2, xlong, xlat;
+         var part2, partA, partB, Name, zeit, line, date, time, timestr, utcd, utcdate, utctime, utcdatetime, x, tB1, tB2, xlong, xlat, ortsname;
          var lines = new Array;
          var count = 0;
          var bcount = 0;
@@ -573,6 +573,7 @@ function open_file() {
                part[i] = part[i].replace(/(\r\n|\n|\r)/gm," ");
                line = part[i].slice(5);
                partA = line.split(",");
+               ortsname = partA[5];
                if (partA[0] == "*") { partA[0] = ""; }
                if (partA[1] == "*") { partA[1] = ""; }
                name = (partA[0] + " " + partA[1]).trim();
@@ -606,7 +607,7 @@ function open_file() {
                xlong = x;
                
                //console.log (name + " " + utcdate + " " + utctime + " " + xlong + " " + xlat);
-               lines[count++] = name + ";" + dstr + ";" + tstr + ";" + xlong + ";" + xlat;
+               lines[count++] = name + ";" + dstr + ";" + tstr + ";" + xlong + ";" + xlat + ";" + ortsname;
 
             }
             if ( i == pLen-1) { set_open(lines); }
@@ -658,6 +659,7 @@ function set_load (){
    var part = sel.split(";");
    var name = part[0].replace(" ","%20");
    var hsys = get_cookie("hsys");
+   document.cookie = "ort=" + part[5];
 
    xmlhttp=new XMLHttpRequest();
    xmlhttp.onreadystatechange=function() {
