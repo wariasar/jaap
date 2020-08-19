@@ -1558,7 +1558,7 @@ sub neu_dialog {
    print "<tr>\n<td colspan=\"3\" class=\"noborder\">\n<b>Neues Radix berechnen</b>\n</td>\n</tr>\n";
    print "<tr>\n<td colspan=\"3\" class=\"noline\">Name:\n";
    print "<input type=\"text\" name=\"name\" class=\"text\" id=\"getname\" />\n</td>\n</tr>\n";
-   print "<tr>\n<td class=\"noline_sh\">Datum:\n<input type=\"date\" name=\"datum\" class=\"htext\" />\n</td>\n";
+   print "<tr>\n<td class=\"noline_sh\">Datum:\n<input type=\"date\" name=\"datum\" class=\"htext\" id=\"getdate\" />\n</td>\n";
    print "<td colspan=\"2\" class=\"noline\">Uhrzeit:\n<input type=\"text\" name=\"uhrzeit\" class=\"htext\" />\n</td>\n</tr>\n";
 
 

@@ -373,6 +373,22 @@ function set_modal () {
    var modal = document.getElementById('neuradix');
    var btn = document.getElementById("new");
    var span = document.getElementsByClassName("close")[0];
+   var ort = get_cookie("ort");
+   var rxval = document.getElementById('dst').innerHTML.split(' ');
+   var x = rxval[0].split('.');
+   if(x[0] < 10) { x[0] = "0"+ x[0]; }
+   if(x[1] < 10) { x[1] = "0"+ x[1]; }
+   var engdate = x[2] + "-" + x[1] + "-" + x[0];
+
+   if (radix == 1) {
+      document.nf.name.value = get_cookie("name");
+      console.log ("DEBUG: engdate: " + engdate);
+      document.nf.datum.value = engdate;
+      document.nf.uhrzeit.value = rxval[1];
+      document.nf.ort.value = ort;
+      document.nf.long.value = rxval[3];
+      document.nf.lat.value = rxval[4];
+   }
 
    // Wenn der N Button gedrückt wird - Dialogfenster öffnen
      btn.onclick = function() {
@@ -484,6 +500,7 @@ function submitform () {
 function searchlocation() {
    var ortsname = document.getElementById('ortstr').value;
    if (ortsname == "") { return; }
+   document.cookie = "ort=" + ortsname;
    xmlhttp=new XMLHttpRequest();
    xmlhttp.onreadystatechange=function() {
       if (xmlhttp.readyState==4 && xmlhttp.status==200) {
