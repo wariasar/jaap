@@ -403,6 +403,7 @@ function set_modal () {
 // auf dem Server eingelesen und in den Modal eingeblendet.
 //------------------------------------------------------------------------------
 function show_tb (asp) {
+   var transit = get_cookie("transit");   
    //Textbox (Modal)
    var modal_tb = document.getElementById('tebo');
    var span = document.getElementsByClassName("close_tb")[0];
@@ -430,7 +431,8 @@ function show_tb (asp) {
          //set_modal();
       }
    }
-   xmlhttp.open("GET", 'texte/' + txtfile, true);
+   //xmlhttp.open("GET", 'texte/' + txtfile, true);
+   xmlhttp.open("GET", 'jaap.pl?transit=' + transit + '&hinweis=' + asp);
    xmlhttp.send();
 }
 

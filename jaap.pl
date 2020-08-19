@@ -32,19 +32,7 @@ my $js = "jaap.js";
 my $ephedir = "/var/www/html/jaap/ephe";
 my $swetest = "/var/www/html/jaap/src/swetest";
 
-
-#------------------------------------------------------------------------------
-# Html 
-#------------------------------------------------------------------------------
 print "Content-type: text/html\n\n";
-print "<!DOCTYPE html>\n";
-print "<html>\n";
-print "<head>\n<title>jaap ($version)</title>\n";
-print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n";
-print "<meta name=\"author\" content=\"Armin Warias\" />\n";
-print "<link rel=\"stylesheet\" href=\"$css\" />\n";
-print "</head>\n";
-print "<body id=\"Seite\">\n";
 
 #------------------------------------------------------------------------------
 # Einlesen und verarbeiten der CGI Parameter
@@ -65,7 +53,7 @@ my $hlpl = "";
 my $hlh = "";
 my (%planets, %planets_tr, %houses, %planets_rel, %pl_h, @aspects, %rueckl, %rueckl_tr, %speed, %speed_tr);
 my @pl = ("Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Chiron", "Uranus", "Neptune", "Pluto", "true Node", "mean Apogee");
-my %psym = ("Sun" => "☉", "Moon" => "☽", "Mercury" => "☿", "Ascendant" => "AC", "MC" => "MC",
+my %psym = ("Sun" => "☉", "Moon" => "☽", "Mercury" => "☿", "Ascendant" => "AS", "MC" => "MC",
             "Venus" => "♀", "Mars" => "♂", "Jupiter" => "♃",
             "Saturn" => "♄", "Uranus" => "⛢", "Neptune" => "♆" , "Pluto" => "♇", "true Node" => "☊", "Chiron" => "⚷", "mean Apogee" => "⚸");
 my %hflag = ("Placidus" => "P", "Topozentrisch" => "T", "Koch" => "K", "Äqual" => "A", "Krusinsky" => "U", "Porphyrius" => "O", "Regiomontanus" => "R", "Campanus" => "C");
@@ -93,7 +81,20 @@ foreach my $Feld (@Feldnamen) {
   if ($Feld eq "ortsname") { $ort = $string; }
   if ($Feld eq "hlo") { $home_long = $string; $hlo_set = 1;}
   if ($Feld eq "hla") { $home_lat = $string; $hla_set = 1;}
+  if ($Feld eq "hinweis") { hinweis ($string);}
 }
+
+#------------------------------------------------------------------------------
+# Html 
+#------------------------------------------------------------------------------
+print "<!DOCTYPE html>\n";
+print "<html>\n";
+print "<head>\n<title>jaap ($version)</title>\n";
+print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n";
+print "<meta name=\"author\" content=\"Armin Warias\" />\n";
+print "<link rel=\"stylesheet\" href=\"$css\" />\n";
+print "</head>\n";
+print "<body id=\"Seite\">\n";
 
 if ($transit) { $radix = 0; }
 if ($hlo_set && $hla_set) { print "<div id=\"homecgi\" style=\"display: none\">$home_long $home_lat</div>\n"; }
@@ -365,14 +366,14 @@ if ($transit) { $template = "transit.svg"; }
 draw_zodiac();
 
 my $aspstr;
-my %asp_l = ("☌" => "K", "□" => "Q", "△" => "T", "☍" => "O");
+my %asp_l = ("☌" => "KON", "□" => "QUA", "△" => "TRI", "☍" => "OPP", "⚹" => "SEX");
 print "<div class=\"asp\">\n";
 if ($filter) { $transpl = translate($filter); print "<h4>$heading ($transpl)</h4>\n<table id=\"tabasp\">\n"; }
 else { print "<h4>$heading</h4>\n<table id=\"tabasp\">\n"; }
 foreach (@aspects) {
    @p = split (/;/, $_);
    $p[2] =~ s/[+-]//g;
-   $aspstr = join('_', translate($p[0]), $asp_l{$p[3]}, translate($p[1])); 
+   $aspstr = join(':', $p[0], $asp_l{$p[3]}, $p[1]); 
    print "<tr>\n<td nowrap><a href=\"javascript:show_tb('$aspstr')\" class=\"ainfo\">\n";
    print "<span class=\"as\">$psym{$p[0]}</span>\n";
    print "<span class=\"as\"> $p[3]</span>\n";
@@ -535,7 +536,7 @@ sub draw_zodiac {
    if ($transit) { $pos{"hline"} = 225; }
    else { $pos{"hline"} = 270; }
 
-   # rotation zum AC
+   # rotation zum AS
    my $ang = get_ang($houses{"house  1"});
    my $rot;
    if ($rx{"uhrzeit"} ne "" && $hsys ne "Keine") {
@@ -1516,6 +1517,29 @@ sub get_style {
          return "<div style=\"color:#007000\">+ ";
       }
    }
+}
+
+#------------------------------------------------------------------------------
+# Funktion Hinweis
+# Bledet einen Hinweistext zu einem Transit ein
+#------------------------------------------------------------------------------
+sub hinweis {
+   my %abk = ("Sun" => "SO", "Moon" => "MO", "Mercury" => "ME", "Venus" => "VE", "Mars" => "MA", "Jupiter" => "JU", 
+              "Saturn" => "SA", "Uranus" => "UR", "Neptune" => "NE", "Pluto" => "PL", "true Node" => "KN", "Ascendant" => "AS", "MC" => "MC");
+   my $cmd;
+   my @p = split (/\:/, $_[0]);
+   if ($abk{$p[0]} eq "" || $p[1] eq "" || $abk{$p[2]} eq "") {
+      print " - Kein Eintrag - "; exit;
+   }
+   my $aspstr = join (' ', $abk{$p[0]}, $p[1], $abk{$p[2]});
+
+   #print "DEBUG: Funktion hinweis aufgerufen\nAspect $aspstr wird angezeigt\n";
+   if ($transit) { print "Transit: "; $cmd = `grep "$aspstr" transit.txt | cut -d ";" -f2`; }
+   else { $cmd = `grep "$aspstr" radix.txt | cut -d ";" -f2`; }
+   print "$aspstr\n\n";
+   print "$cmd";
+
+   exit;
 }
 
 #------------------------------------------------------------------------------
