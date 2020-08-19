@@ -79,6 +79,7 @@ if (radix == 0) {
    document.cookie = "transit=0";
    document.cookie = "rxstr=";
    document.cookie = "name=";
+   document.cookie = "ort=";
 }
 
 // Es gibt kein entkommen du musst auf ok klicken (wegen den bösen cookies)
@@ -699,6 +700,7 @@ function cookie_agree() {
 //------------------------------------------------------------------------------
 function reset () {
    document.cookie = "radix=0";
+   document.cookie = "ort=";
    radix = 0;
    var hsys = get_cookie("hsys");
    var trmode = get_cookie("transit");
