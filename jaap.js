@@ -371,6 +371,7 @@ function restore_radix() {
 //------------------------------------------------------------------------------
 function set_modal () {
    //Dialog Fenster (Modal)
+   var modflag = get_cookie("modal");
    var modal = document.getElementById('neuradix');
    var btn = document.getElementById("new");
    var span = document.getElementsByClassName("close")[0];
@@ -381,7 +382,7 @@ function set_modal () {
    if(x[1] < 10) { x[1] = "0"+ x[1]; }
    var engdate = x[2] + "-" + x[1] + "-" + x[0];
 
-   if (radix == 1) {
+   if (radix == 1 && modflag == 0) {
       document.nf.name.value = get_cookie("name");
       console.log ("DEBUG: engdate: " + engdate);
       document.nf.datum.value = engdate;
