@@ -1430,7 +1430,7 @@ sub wuerden {
       }
       
       $speed{$planet_w} =~ s/\.\d\d\d\d//g;
-      print "&nbsp;&nbsp;&nbsp;Beschl: $speed{$planet_w}/Tag\n";
+      print "&nbsp;&nbsp;&nbsp;Geschw.: $speed{$planet_w}/Tag\n";
    }
 
 
@@ -1449,7 +1449,7 @@ sub wuerden {
          print "$sty $spstat</div>\n";
       }
       $speed_tr{$planet_w} =~ s/\.\d\d\d\d//g;
-      print "&nbsp;&nbsp;&nbsp;Beschl.: $speed_tr{$planet_w}/Tag\n";
+      print "&nbsp;&nbsp;&nbsp;Geschw.: $speed_tr{$planet_w}/Tag\n";
    }
 
    print "</div>\n";
