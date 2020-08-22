@@ -347,8 +347,8 @@ if ($hsys ne "Keine" && $rx{"uhrzeit"} ne "") {
       $hlh = "";
       $fhouse = $hnr;
       $fhouse =~ s/^\s+|\s+$//g;
-      if ($pl_h{$filter} eq $fhouse) { $hlh = " style=\"background-color:#ff9900;\"";}
-      print "<tr$hlh>\n<td>$hnr</td>\n<td class=\"diff\">$reldeg[0]</td>\n<td class=\"diff\">$reldeg[1]</td>\n</tr>\n";
+      #if ($pl_h{$filter} eq $fhouse) { $hlh = " style=\"background-color:#ff9900;\"";}
+      print "<tr>\n<td>$hnr</td>\n<td class=\"diff\">$reldeg[0]</td>\n<td class=\"diff\">$reldeg[1]</td>\n</tr>\n";
    }
 }
 else { print "<tr><td></td></tr>\n"; }
@@ -1382,7 +1382,7 @@ sub wuerden {
 
    foreach (@mainpl) { if ($_ eq $planet_w) { $skip = 0; }}
 
-   print "<div class=\"wuerden\">\n<h4>Würden ($transpl)</h4>\n";
+   print "<div class=\"wuerden\">\n<h4>$transpl ($pl_h{$planet_w}. Haus)</h4>\n";
    if (!$skip) {
       foreach $ew (keys $EssWue{$planet_w}) {
          if ($EssWue{$planet_w}{$ew} =~ /:/) {
@@ -1508,7 +1508,7 @@ sub get_style {
       }
    }
 
-   #Akzident
+   # Akzident
    if ($_[0] eq "akz") {
       if ($_[1] eq "rueck" || $_[1] eq "langsam" || $_[1] eq "stationär") {
          return "<div style=\"color:#ff0000\">– ";
