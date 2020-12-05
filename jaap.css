@@ -382,6 +382,7 @@ table.out {
 #olist {
         font-size: 9pt;
         width: 580px; 
+        height: 79px;
         /*overflow: hidden;*/
         /*text-overflow: ellipsis;*/
         white-space: nowrap;
