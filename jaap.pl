@@ -1384,7 +1384,7 @@ sub wuerden {
 
    print "<div class=\"wuerden\">\n<h4>$transpl ($pl_h{$planet_w}. Haus)</h4>\n";
    if (!$skip) {
-      foreach $ew (keys $EssWue{$planet_w}) {
+      foreach $ew (keys %{$EssWue{$planet_w}}) {
          if ($EssWue{$planet_w}{$ew} =~ /:/) {
             @multi = split (/:/, $EssWue{$planet_w}{$ew});
             foreach $mu (@multi) { 
