@@ -89,7 +89,7 @@ body {
 }
 
 table.head {
-   width: 1200px;
+   width: 1230px;
    table-layout:fixed;
    /*background-color: #F8E0E0;*/
    /*background-color: #E0F8F7;*/
@@ -119,7 +119,7 @@ td {
 }
 
 td.datestr {
-   width: 300px;
+   width: 330px;
    padding-left: 20px;
 } 
 
