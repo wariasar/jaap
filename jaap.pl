@@ -92,6 +92,7 @@ print "<html>\n";
 print "<head>\n<title>jaap ($version)</title>\n";
 print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n";
 print "<meta name=\"author\" content=\"Armin Warias\" />\n";
+print "<link rel=\"icon\" href=\"favicon.ico\" type=\"image/x-icon\">";
 print "<link rel=\"stylesheet\" href=\"$css\" />\n";
 print "</head>\n";
 print "<body id=\"Seite\">\n";
