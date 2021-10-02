@@ -14,6 +14,11 @@ body {
    src: url('DejaVuSerif.woff2');
 }
 
+h4 {
+   margin-bottom: 5px;
+   margin-top: 20px;
+}
+
 .links {
   float: left;
   /*background-color: #eeeeee;*/
@@ -28,7 +33,7 @@ body {
 
 .wuerden {
    position: absolute;
-   top: 380px;
+   top: 362px;
    left: 950px;
 }
 
@@ -106,6 +111,11 @@ table.head {
 }
 
 #tabhouses {
+   border-collapse: collapse;
+   width: 160px;
+}
+
+#tabelement {
    border-collapse: collapse;
    width: 160px;
 }

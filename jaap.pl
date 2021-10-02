@@ -53,11 +53,11 @@ my $hlpl = "";
 my $hlh = "";
 my (%planets, %planets_tr, %houses, %planets_rel, %pl_h, @aspects, %rueckl, %rueckl_tr, %speed, %speed_tr);
 my @pl = ("Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Chiron", "Uranus", "Neptune", "Pluto", "true Node", "mean Apogee");
-my %psym = ("Sun" => "☉", "Moon" => "☽", "Mercury" => "☿", "Ascendant" => "AS", "MC" => "MC",
+my %psym = ("Sun" => "☉", "Moon" => "☽", "Mercury" => "☿", "Ascendant" => "AC", "MC" => "MC",
             "Venus" => "♀", "Mars" => "♂", "Jupiter" => "♃",
             "Saturn" => "♄", "Uranus" => "⛢", "Neptune" => "♆" , "Pluto" => "♇", "true Node" => "☊", "Chiron" => "⚷", "mean Apogee" => "⚸");
 my %hflag = ("Placidus" => "P", "Topozentrisch" => "T", "Koch" => "K", "Äqual" => "A", "Krusinsky" => "U", "Porphyrius" => "O", "Regiomontanus" => "R", "Campanus" => "C");
-
+my %elements;
 
 foreach my $Feld (@Feldnamen) {
   $string=$cgi->param($Feld);
@@ -335,6 +335,9 @@ if ($hsys ne "") {
       @p = split (/°/, $reldeg[0]);
       #$planets_rel{$reldeg[1]} .= $p[0].",".$psym{$_}.":";
       $planets_rel{$_} = $reldeg[0]." ".$reldeg[1];
+
+      calc_elements($psym{$_}, $reldeg[1]);
+
       if (!$transit) {
          print "<tr$hlpl>\n<td class=\"diff1\">$psym{$_}</td>\n<td class=\"diff2\">$reldeg[0]</td>\n<td class=\"diff3\">$reldeg[1]</td>\n<td class=\"diff4\"><div class =\"grey\">$rueckl{$_}</div></td>\n</tr>\n"; }
       else {
@@ -358,12 +361,27 @@ if ($hsys ne "") {
          $fhouse = $hnr;
          $fhouse =~ s/^\s+|\s+$//g;
          #if ($pl_h{$filter} eq $fhouse) { $hlh = " style=\"background-color:#ff9900;\"";}
-         print "<tr>\n<td>$hnr</td>\n<td class=\"diff\">$reldeg[0]</td>\n<td class=\"diff\">$reldeg[1]</td>\n</tr>\n";
+
+         calc_elements($hnr, $reldeg[1]);
+
+         print "<tr>\n<td class=\"diff1\">$hnr</td>\n<td class=\"diff2\">$reldeg[0]</td>\n<td class=\"diff\">$reldeg[1]</td>\n</tr>\n";
       }
    }
    else { print "<tr><td></td></tr>\n"; }
    print "</table>\n";
+
+
+   #------------------------------------------------------------------------------
+   # Elemente
+
+   print "<h4>Elemente</h4>\n";
+   print "<div style=\"display: inline; color: red\">F$elements{'F'}</div>\n"; 
+   print "<div style=\"display: inline; color: green\">E$elements{'E'}</div>\n"; 
+   print "<div style=\"display: inline; color: #9c8800\">L$elements{'L'}</div>\n"; 
+   print "<div style=\"display: inline; color: blue\">W$elements{'W'}</div>\n"; 
+
    print "</div>\n";
+
 
    #------------------------------------------------------------------------------
    # Aspekte
@@ -547,7 +565,7 @@ sub draw_zodiac {
    if ($transit) { $pos{"hline"} = 225; }
    else { $pos{"hline"} = 270; }
 
-   # rotation zum AS
+   # rotation zum AC
    my $ang = get_ang($houses{"house  1"});
    my $rot;
    if ($rx{"uhrzeit"} ne "" && $hsys ne "Keine") {
@@ -645,6 +663,30 @@ sub draw_zodiac {
    }
    print "</div>\n\n";
    #close (SVG);
+}
+
+
+#------------------------------------------------------------------------------
+# Funktion calc_elements
+# Berechnet die Verteilung der Planeten und Achsen auf die Elemente
+#------------------------------------------------------------------------------
+sub calc_elements {
+   #print "DEBUG: $_[0] $_[1]\n";
+   my $el;
+   my $factor;
+   if ( $_[1] eq "♈︎" || $_[1] eq "♌︎" || $_[1] eq "♐︎") { $el = "F"; }
+   elsif ( $_[1] eq "♉︎" || $_[1] eq "♍︎" || $_[1] eq "♑︎") { $el = "E"; }
+   elsif ( $_[1] eq "♊︎" || $_[1] eq "♎︎" || $_[1] eq "♒︎") { $el = "L"; }
+   elsif ( $_[1] eq "♋︎" || $_[1] eq "♏︎" || $_[1] eq "♓︎") { $el = "W"; }
+   else { return ; }
+
+   if ($_[0] eq "☉" || $_[0] eq "☽" || $_[0] == 1 || $_[0] == 10) { $factor = 3; }
+   elsif ($_[0] eq "☿" || $_[0] eq "♀" || $_[0] eq "♂") { $factor = 2; }
+   elsif ($_[0] eq "♃" || $_[0] eq "♄" || $_[0] eq "⛢" || $_[0] eq "♆" || $_[0] eq "♇") { $factor = 1; }
+   else { return; }
+
+   $elements{$el} += $factor;
+
 }
 
 
@@ -1536,7 +1578,7 @@ sub get_style {
 #------------------------------------------------------------------------------
 sub hinweis {
    my %abk = ("Sun" => "SO", "Moon" => "MO", "Mercury" => "ME", "Venus" => "VE", "Mars" => "MA", "Jupiter" => "JU", 
-              "Saturn" => "SA", "Uranus" => "UR", "Neptune" => "NE", "Pluto" => "PL", "true Node" => "KN", "Ascendant" => "AS", "MC" => "MC");
+              "Saturn" => "SA", "Uranus" => "UR", "Neptune" => "NE", "Pluto" => "PL", "true Node" => "KN", "Ascendant" => "AC", "MC" => "MC");
    my $cmd;
    my @p = split (/\:/, $_[0]);
    if ($abk{$p[0]} eq "" || $p[1] eq "" || $abk{$p[2]} eq "") {
