@@ -25,21 +25,27 @@
 var test_modus = document.getElementById("info").innerHTML;
 var radix = 0;
 var transit = 0;
-document.cookie = "modal=0";
+var hcgi;
+sessionStorage.setItem('modal', 0);
 
 if (test_modus == "radix") {
    radix = 1;
-   document.cookie = "radix=1";
+   sessionStorage.setItem('radix', 1);	
    var rname = document.getElementById("rmode").innerHTML;
-   document.cookie = "name=" + rname;
+   sessionStorage.setItem('name', rname);
 } 
 
-//prüfen ob ein home long und lat gesetzt ist, wenn ja cookie setzen
+//prüfen ob ein home long und lat gesetzt ist, wenn ja im localStorage speichern
 if (radix == 0) {
-   document.cookie = "home=11.08 49.45";
    if (document.getElementById("homecgi").innerHTML) { 
-      var hcgi = document.getElementById("homecgi").innerHTML;
-      document.cookie = "home=" + hcgi;
+      hcgi = document.getElementById("homecgi").innerHTML;
+      localStorage.setItem('home', hcgi);
+   }
+   else if (localStorage.getItem('home')) {
+      hcgi = localStorage.getItem('home');
+   }
+   else {
+      localStorage.setItem('home', '11.08 49.45');
    }
 }
 
@@ -64,35 +70,36 @@ set_modal();
 //------------------------------------------------------------------------------
 //values der listboxen manipulieren
 //------------------------------------------------------------------------------
-function setval(id, value, cookie) {    
+function setval(id, value, key) {    
     let element = document.getElementById(id);
     element.value = value;
-    document.cookie = cookie +"="+ value;
+    sessionStorage.setItem(key, value);
 }
 
 if (radix == 0) {
    //default Werte setzen
-   document.cookie = "planet=Alle";
-   document.cookie = "offset=Stunde";
-   document.cookie = "multi=1";
-   document.cookie = "radix=0";
-   document.cookie = "transit=0";
-   document.cookie = "rxstr=";
-   document.cookie = "name=";
-   document.cookie = "ort=";
+   sessionStorage.setItem('planet', 'Alle');
+   sessionStorage.setItem('offset', 'Stunde');
+   sessionStorage.setItem('multi', 1);
+   sessionStorage.setItem('radix', 0);
+   sessionStorage.setItem('transit', 0);
+   sessionStorage.setItem('rxstr', '');
+   sessionStorage.setItem('name', '');
+   sessionStorage.setItem('ort', '');
 }
-
-// Es gibt kein entkommen du musst auf ok klicken (wegen den bösen cookies)
-var irrenhaus = get_cookie("irrenhaus");
-if (irrenhaus == 0) { show_about(); }
 
 //Häuser auswahl disable wenn keine Uhrzeit
 var dstr = document.getElementById("dst").innerHTML.split(" ");
 if (dstr[1] == "") {
-   document.getElementById('hsys').diable = true;
+   document.getElementById('hsys').disable = true;
 }
 
-
+//restore hsys
+if (radix == 0 && transit == 0) {
+   document.getElementById('hsys').value = localStorage.getItem('hsys');
+   reset();
+   console.log("hsys restored!");
+}
 
 //------------------------------------------------------------------------------
 // Funktion set_home_loc()
@@ -123,13 +130,13 @@ function load_listener (){
    //Häuser Listbox
    var hsys = document.getElementById('hsys');
    hsys.onchange = function() {
-      document.cookie = "hsys=" + hsys.value;
+      localStorage.setItem('hsys', hsys.value);
       set (planets.value);
    }
 
    //Debug
-   var dbg = document.getElementById("dbg").innerHTML;
-   console.log (dbg);
+   //var dbg = document.getElementById("dbg").innerHTML;
+   //console.log (dbg);
 
    document.getElementById("txtform").reset();
 
@@ -138,16 +145,22 @@ function load_listener (){
       var change_offset = document.getElementById('offset'); 
       change_offset.onchange = function() {
          document.getElementById("info").innerHTML = "set " + change_offset.value;
-         document.cookie = "offset=" + change_offset.value;
+	 sessionStorage.setItem('offset', change_offset.value);
       }
+   }
+   if (radix == 0) {
+      document.getElementById('offset').value = sessionStorage.getItem('offset');
    }
 
    //Multiplikator Listbox
    if (document.getElementById('mult') !== null) {
       var multi = document.getElementById('mult');
       multi.onchange = function() {
-         document.cookie = "multi=" + multi.value;
+	 sessionStorage.setItem('multi', multi.value);
       }
+   }
+   if (radix == 0) {
+      document.getElementById('mult').value = sessionStorage.getItem('multi');
    }
 }
 
@@ -167,12 +180,12 @@ function TasteGedrueckt (evt) {
    if (evt.keyCode == 35) { set("Alle"); } //ende
    if (evt.keyCode == 27) { set("Alle"); } //esc
    if (evt.keyCode == 84) { //t
-     if (get_cookie("radix") == 1 && get_cookie("transit") == 0 && get_cookie("modal") == 0) { set_transit(); } 
+     if (sessionStorage.getItem('radix') == 1 && sessionStorage.getItem('transit') == 0 && sessionStorage.getItem('modal') == 0) { set_transit(); } 
    }
    if (evt.keyCode == 82) { //r
-     if (get_cookie("transit") == 1 && get_cookie("modal") == 0) { restore_radix() } 
+     if (sessionStorage.getItem('transit') == 1 && sessionStorage.getItem('modal') == 0) { restore_radix() } 
    }
-   if (get_cookie("modal") == 0) {
+   if (sessionStorage.getItem('modal') == 0) {
       if (evt.keyCode == 49) { setval('offset', 'Minute', 'offset'); setval('mult', 1, 'multi'); }
       if (evt.keyCode == 52) { setval('offset', 'Minute', 'offset'); setval('mult', 10, 'multi');}
       if (evt.keyCode == 50) { setval('offset', 'Stunde', 'offset'); setval('mult', 1, 'multi'); }
@@ -207,15 +220,15 @@ function set(planet) {
    if (planet == "Alle") { planet = ""; }
    //var elements = document.getElementById("dst").innerHTML.split(" ");
    var datestr = document.getElementById("dst").innerHTML;
-   var multi = get_cookie("multi");
-   var hsys = get_cookie("hsys");
-   var radix = get_cookie("radix");
-   var name = get_cookie("name");
-   var trmode = get_cookie("transit");
-   if (get_cookie("transit") == 1) {
+   var multi = sessionStorage.getItem('multi');
+   var hsys = localStorage.getItem('hsys');
+   var radix = sessionStorage.getItem('radix');
+   var name = sessionStorage.getItem('name');
+   var trmode = sessionStorage.getItem('transit');
+   if (sessionStorage.getItem('transit') == 1) {
       var datestr_tr = document.getElementById('dst').innerHTML;
-      var datestr = get_cookie("rxstr");
-      document.cookie = "radix=0";  
+      var datestr = sessionStorage.getItem('rxstr');
+      sessionStorage.setItem('radix', 0);  
    }
    else {
       var datestr = document.getElementById('dst').innerHTML;
@@ -225,7 +238,7 @@ function set(planet) {
    xmlhttp.onreadystatechange=function() {
       if (xmlhttp.readyState==4 && xmlhttp.status==200) {
          document.getElementById("Seite").innerHTML=xmlhttp.responseText;
-         document.cookie = "planet=" + planets.value;
+	 sessionStorage.setItem('planet', planets.value);
          load_listener ();
          set_modal();
       }
@@ -249,7 +262,7 @@ function set_now() {
 //------------------------------------------------------------------------------
 function print_offs(op) {
    //alert(datestr + offs);
-   var multi = get_cookie("multi");
+   var multi = sessionStorage.getItem('multi');
    var x;
    if (multi > 1) { x = "n"; }
    else { x = ""; }
@@ -263,16 +276,16 @@ function print_offs(op) {
 // Werten durchgefhrt
 //------------------------------------------------------------------------------
 function set_offs(op) {
-   var offs = get_cookie("offset");
-   var planet = get_cookie("planet");
-   var multi = get_cookie("multi");
-   var hsys = get_cookie("hsys");
-   var trmode = get_cookie("transit");
-   var dst = get_cookie("home").split(" ");
-   if (get_cookie("transit") == 1) { 
+   var offs = sessionStorage.getItem('offset');
+   var planet = sessionStorage.getItem('planet');
+   var multi = sessionStorage.getItem('multi');
+   var hsys = localStorage.getItem('hsys');
+   var trmode = sessionStorage.getItem('transit');
+   var dst = localStorage.getItem('home').split(" ");
+   if (sessionStorage.getItem('transit') == 1) { 
       var datestr_tr = document.getElementById('dst').innerHTML;
-      var datestr = get_cookie("rxstr");
-      document.cookie = "radix=0";
+      var datestr = sessionStorage.getItem('rxstr');
+      sessionStorage.setItem('radix', 0);
    }
    else {
       var datestr = document.getElementById('dst').innerHTML;
@@ -292,34 +305,18 @@ function set_offs(op) {
 
 
 //------------------------------------------------------------------------------
-// Funktion get_cookie
-// Liest den Wert eines gesetzten cookie
-//------------------------------------------------------------------------------
-function get_cookie (parameter) {
-   var x = document.cookie.split(";");
-   var i;
-   for (i = 0; i < x.length; i++) {
-      y = x[i].split("=");
-      var par = y[0].trim();
-      var val = y[1].trim();
-      if (par == parameter) { return (val); }
-   }
-   return ("");
-}
-
-
-//------------------------------------------------------------------------------
 // Funktion set_transit
-// Wenn die Transit Funktion gewählt wird, wird das Aktuelle radix in ein cookie
+// Wenn die Transit Funktion gewählt wird, wird das Aktuelle radix im sessionStorage
 // gespeichert. Anschliessend wird ein neuer XHR mit dem Aktuellen Datum und dem
 // Radix durchgeführt. Als Ergebnis kommt das Transit Horoskop.
 //------------------------------------------------------------------------------
 function set_transit () {
    var rxstr = document.getElementById('dst').innerHTML;
-   var dst = get_cookie("home").split(" ");
-   document.cookie = "rxstr="+ rxstr; 
-   document.cookie = "transit=1"; 
-   document.cookie = "radix=0"; 
+   var dst = localStorage.getItem('home').split(" ");
+   var hsys = localStorage.getItem('hsys');
+   sessionStorage.setItem('rxstr', rxstr);
+   sessionStorage.setItem('transit', 1);
+   sessionStorage.setItem('radix', 0);
    transit = 1;
    radix = 0;
 
@@ -331,7 +328,7 @@ function set_transit () {
          set_modal();
       }
    }
-   xmlhttp.open("GET", 'jaap.pl?transit=1' + '&dstr=' + rxstr + '&hlo=' + dst[0] + '&hla=' + dst[1]);
+   xmlhttp.open("GET", 'jaap.pl?transit=1' + '&dstr=' + rxstr + '&hlo=' + dst[0] + '&hla=' + dst[1] + '&hsys=' + hsys);
    xmlhttp.send();
 
 }
@@ -340,16 +337,16 @@ function set_transit () {
 //------------------------------------------------------------------------------
 // Funktion restore_radix
 // Wenn vom Transit Horoskop wieder auf das Radix Horoskop gewechselt wird,
-// lese ich das radix horoskop aus dem cookie ein und führe mit diesem einen
+// lese ich das radix horoskop aus dem sessionStorage ein und führe mit diesem einen
 // XHR durch. Als Ergebnis kommt wieder das Radix Horoskop.
 //------------------------------------------------------------------------------
 function restore_radix() {
-   document.cookie = "transit=0";
-   var datestr = get_cookie("rxstr");
-   var hsys = get_cookie("hsys");
-   document.cookie = "radix=1";
+   sessionStorage.setItem('transit', 0);
+   var datestr = sessionStorage.getItem('rxstr');
+   var hsys = localStorage.getItem('hsys');
+   sessionStorage.setItem('radix', 1);
    radix =1;
-   var name = get_cookie("name");
+   var name = sessionStorage.getItem('name');
 
    xmlhttp=new XMLHttpRequest();
    xmlhttp.onreadystatechange=function() {
@@ -371,11 +368,11 @@ function restore_radix() {
 //------------------------------------------------------------------------------
 function set_modal () {
    //Dialog Fenster (Modal)
-   var modflag = get_cookie("modal");
+   var modflag = sessionStorage.getItem('modal');
    var modal = document.getElementById('neuradix');
    var btn = document.getElementById("new");
    var span = document.getElementsByClassName("close")[0];
-   var ort = get_cookie("ort");
+   var ort = sessionStorage.getItem('ort');
    var rxval = document.getElementById('dst').innerHTML.split(' ');
    var x = rxval[0].split('.');
    if(x[0] < 10) { x[0] = "0"+ x[0]; }
@@ -383,7 +380,7 @@ function set_modal () {
    var engdate = x[2] + "-" + x[1] + "-" + x[0];
 
    if (radix == 1 && modflag == 0) {
-      document.nf.name.value = get_cookie("name");
+      document.nf.name.value = sessionStorage.getItem('name');
       console.log ("DEBUG: engdate: " + engdate);
       document.nf.datum.value = engdate;
       document.nf.uhrzeit.value = rxval[1];
@@ -395,20 +392,20 @@ function set_modal () {
    // Wenn der N Button gedrückt wird - Dialogfenster öffnen
      btn.onclick = function() {
      modal.style.display = "block";
-     document.cookie = "modal=1";
+     sessionStorage.setItem('modal', 1);
    }
 
    // X - Dialog schliessen
    span.onclick = function() {
      modal.style.display = "none";
-     document.cookie = "modal=0";
+     sessionStorage.setItem('modal', 0);
    }
 
    // Dialog schliessen, wenn ausserhalb des Dialogfensters geklickt wird
    window.onclick = function(event) {
       if (event.target == modal) {
       modal.style.display = "none";
-      document.cookie = "modal=0"; 
+      sessionStorage.setItem('modal', 0); 
       } 
    }
 }
@@ -421,7 +418,7 @@ function set_modal () {
 // auf dem Server eingelesen und in den Modal eingeblendet.
 //------------------------------------------------------------------------------
 function show_tb (asp) {
-   var transit = get_cookie("transit");   
+   var transit = sessionStorage.getItem('transit');   
    //Textbox (Modal)
    var modal_tb = document.getElementById('tebo');
    var span = document.getElementsByClassName("close_tb")[0];
@@ -481,13 +478,13 @@ function show_about() {
 //------------------------------------------------------------------------------
 function submitform () {
    var getname = document.getElementById('getname').value;
-   var hsys = get_cookie("hsys");
+   var hsys = localStorage.getItem('hsys');
    var nForm = document.forms.nf;
    nForm.elements[8].value = hsys;
-   document.cookie = "radix=1";
-   document.cookie = "name=" + getname;
-   document.cookie = "transit=0";
-   document.cookie = "rxstr=";
+   sessionStorage.setItem('radix', 1);
+   sessionStorage.setItem('name', getname);
+   sessionStorage.setItem('transit', 0);
+   sessionStorage.setItem('rxstr', '');
    //document.getElementById("newform").submit();
    nForm.submit();
 }
@@ -502,7 +499,7 @@ function submitform () {
 function searchlocation() {
    var ortsname = document.getElementById('ortstr').value;
    if (ortsname == "") { return; }
-   document.cookie = "ort=" + ortsname;
+   sessionStorage.setItem('ort', ortsname);
    xmlhttp=new XMLHttpRequest();
    xmlhttp.onreadystatechange=function() {
       if (xmlhttp.readyState==4 && xmlhttp.status==200) {
@@ -659,17 +656,17 @@ function set_load (){
    var sel = list[index].innerHTML;
    var part = sel.split(";");
    var name = part[0].replace(" ","%20");
-   var hsys = get_cookie("hsys");
-   document.cookie = "ort=" + part[5];
+   var hsys = localStorage.getItem('hsys');
+   sessionStorage.setItem('ort', part[5]);
 
    xmlhttp=new XMLHttpRequest();
    xmlhttp.onreadystatechange=function() {
       if (xmlhttp.readyState==4 && xmlhttp.status==200) {
          document.getElementById("Seite").innerHTML=xmlhttp.responseText;
          radix = 1;
-         document.cookie = "radix=1";
+         sessionStorage.setItem('radix', 1);
          var rname = document.getElementById("rmode").innerHTML;
-         document.cookie = "name=" + rname;
+         sessionStorage.setItem('name', rname);
          load_listener ();
          set_modal();
       }
@@ -680,16 +677,12 @@ function set_load (){
    console.log (sel);
 }
 
+
 //------------------------------------------------------------------------------
-// Funktion cookie_agree
-// Wenn der Browser neu gestartet wird, wird das cookie Dialogfenster eingeblendet,
-// welches bestätigt werden muss (weil cookies so böse sind). Dann wird die
-// Variable "irrenhaus" gesetzt und das Dialogfenster erscheint nicht mehr wieder
-// bis der Browser das nächste mal beendet wird. dann werden alle meine cookies 
-// wieder entfernt.
+// Funktion close_about
+// schliesst das about Dialogfenster
 //------------------------------------------------------------------------------
-function cookie_agree() {
-   document.cookie = "irrenhaus=1";   
+function close_about() {
    var modal = document.getElementById('openabout');
    modal.style.display = "none";
 }
@@ -702,15 +695,19 @@ function cookie_agree() {
 // Im Transit Modus wird auch das Radix erneut gesendet
 //------------------------------------------------------------------------------
 function reset () {
-   document.cookie = "radix=0";
-   document.cookie = "ort=";
+   if (radix == 1) {
+      sessionStorage.setItem('rxstr', '');
+      sessionStorage.setItem('name', '');
+      sessionStorage.setItem('ort', '');
+   }
+   sessionStorage.setItem('radix', 0);
    radix = 0;
-   var hsys = get_cookie("hsys");
-   var trmode = get_cookie("transit");
-   var planet = get_cookie("planet");
-   var dst = get_cookie("home").split(" ");
+   var hsys = localStorage.getItem('hsys');
+   var trmode = sessionStorage.getItem('transit');
+   var planet = sessionStorage.getItem('planet');
+   var dst = localStorage.getItem('home').split(" ");
    var rxstr = "";
-   if (trmode == 1) { rxstr = get_cookie("rxstr"); }
+   if (trmode == 1) { rxstr = sessionStorage.getItem('rxstr'); }
  
    xmlhttp=new XMLHttpRequest();
    xmlhttp.onreadystatechange=function() {
@@ -762,6 +759,7 @@ function save_file() {
    document.body.removeChild(element);
 */
 }
+
 
 
 

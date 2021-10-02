@@ -686,11 +686,11 @@ Dropdown menue*/
 } 
 
 
-.irrenhaus {
+.note_about {
    border-top: solid 1px;
    border-color: #cccccc;
    font-size: 14px;
-   color: red;
+   color: green;
    margin-top: 20px;
 }
 

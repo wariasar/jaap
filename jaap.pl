@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 #------------------------------------------------------------------------------
 # jaap.pl
-# Copyright (C) 2019-2020  Armin Warias
+# Copyright (C) 2019-2021  Armin Warias
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ use Math::Trig;
 use Time::Local;
 #use open IO => ':utf8';
 
-my $version = "alpha 0.0.34";
+my $version = "alpha 0.0.35";
 
 my $template = "radix.svg";
 my $css = "jaap.css";
@@ -125,7 +125,7 @@ elsif ($transit == 1) { $status = "transit"; }
 else { $status = "jaap $version"; }
 
 # Standard System ist Placidus
-if ($hsys eq "") { $hsys = "Placidus"; }
+#if ($hsys eq "") { $hsys = "Placidus"; }
 if ($hsys ne "Keine") {
    push(@pl,"Ascendant");
    push(@pl,"MC");  
@@ -224,9 +224,9 @@ if ($transit) {
 #------------------------------------------------------------------------------
 # Menue und Statusanzeigen generieren
 #------------------------------------------------------------------------------
-if ($radix) { $style = "style=\"background-color: #ECF8E0;\""; }
-elsif ($transit) { $style = "style=\"background-color: #F8E0E0;\""; }
-else { $style = "style=\"background-color: #E0F8F7;\""; }
+if ($radix) { $style = "style=\"background-color: #FEFFF0;\""; }
+elsif ($transit) { $style = "style=\"background-color: #FEFFF0;\""; }
+else { $style = "style=\"background-color: #FEFFF0;\""; }
 print "<table class=\"head\" $style>\n<tr>\n";
 print "<td class=\"bsub\">\n<button id=\"sub\" class=\"submenue\" onmouseover=\"show_info('Menue')\" onclick=\"openmenue()\">☰</button></td>\n";
 print "<td class=\"bnew\">\n<button id=\"new\" onmouseover=\"show_info('Neues Horoskop')\">N</button></td>\n";
@@ -303,92 +303,102 @@ print "</tr>\n</table>\n";
 # Sandwich Menue generieren
 submenue();
 
-#------------------------------------------------------------------------------
-# Planeten und Häuser und Aspekt Tabelle
-#------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------
-# Planeten
-print "<div class=\"links\">\n";
-
-#DEBUG
-print "<div class=\"debug\" id=\"dbg\">$utc[4] $utc[0] $utc[1]</div>\n";
-print "<div class=\"debug\" id=\"tzi\">$utc[4] ($utc[2])</div>\n";
-
-print "<h4 class=\"tplanets\">Planeten</h4>\n<table id=\"tabplanets\">\n";
-foreach (@pl) {
-   $hlpl = "";
-   if ($filter eq $_) { $hlpl = " style=\"background-color:#00ff00;\""; }
-   next if ($_ eq "Ascendant" or $_ eq "MC");
-   # Hausposition des Planeten bestimmen
-   if ($transit) { if ($hsys ne "Keine") { $pl_h{$_} = planet_house (get_ang($planets_tr{$_}), $_); }}
-   else { if ($hsys ne "Keine") { $pl_h{$_} = planet_house (get_ang($planets{$_}), $_); }}
-   if ($transit) { @reldeg = split(/\s+/, relative_deg($planets_tr{$_},"sym")); }
-   else { @reldeg = split(/\s+/, relative_deg($planets{$_},"sym")); }   
-   @p = split (/°/, $reldeg[0]);
-   #$planets_rel{$reldeg[1]} .= $p[0].",".$psym{$_}.":";
-   $planets_rel{$_} = $reldeg[0]." ".$reldeg[1];
-   if (!$transit) { print "<tr$hlpl>\n<td class=\"diff1\">$psym{$_}</td>\n<td class=\"diff2\">$reldeg[0]</td>\n<td class=\"diff3\">$reldeg[1]</td>\n<td class=\"diff4\"><div class =\"grey\">$rueckl{$_}</div></td>\n</tr>\n"; }
-else { print "<tr$hlpl>\n<td class=\"diff1\">$psym{$_}</td>\n<td class=\"diff2\">$reldeg[0]</td>\n<td class=\"diff3\">$reldeg[1]</td>\n<td class=\"diff4\"><div class =\"grey\">$rueckl_tr{$_}</div></td>\n</tr>\n"; }
-
-
-}
-print "</table>\n";
-
-
+# Tabellen und Grafik nur zeichnen, wenn Häusersystem übergeben wurde
+# Dies geschieht über einen XHR vom Javascript.
 #------------------------------------------------------------------------------
-# Häuser
-my $fhouse;
-print "<h4>Häuser</h4>\n<table id=\"tabhouses\">\n";
-if ($hsys ne "Keine" && $rx{"uhrzeit"} ne "") {
-   foreach (sort keys %houses) {
-      $hnr = $_;
-      $hnr =~ s/house //g;
-      @reldeg = split(/\s+/, relative_deg($houses{$_}, "sym"));
-      $hlh = "";
-      $fhouse = $hnr;
-      $fhouse =~ s/^\s+|\s+$//g;
-      #if ($pl_h{$filter} eq $fhouse) { $hlh = " style=\"background-color:#ff9900;\"";}
-      print "<tr>\n<td>$hnr</td>\n<td class=\"diff\">$reldeg[0]</td>\n<td class=\"diff\">$reldeg[1]</td>\n</tr>\n";
+if ($hsys ne "") {
+
+   #------------------------------------------------------------------------------
+   # Planeten und Häuser und Aspekt Tabelle
+   #------------------------------------------------------------------------------
+
+   #------------------------------------------------------------------------------
+   # Planeten
+   print "<div class=\"links\">\n";
+
+   #DEBUG
+   print "<div class=\"debug\" id=\"dbg\">$utc[4] $utc[0] $utc[1]</div>\n";
+   print "<div class=\"debug\" id=\"tzi\">$utc[4] ($utc[2])</div>\n";
+
+   print "<h4 class=\"tplanets\">Planeten</h4>\n<table id=\"tabplanets\">\n";
+   foreach (@pl) {
+      $hlpl = "";
+      if ($filter eq $_) { $hlpl = " style=\"background-color:#00ff00;\""; }
+      next if ($_ eq "Ascendant" or $_ eq "MC");
+      # Hausposition des Planeten bestimmen
+      if ($transit) { if ($hsys ne "Keine") { $pl_h{$_} = planet_house (get_ang($planets_tr{$_}), $_); }}
+      else { if ($hsys ne "Keine") { $pl_h{$_} = planet_house (get_ang($planets{$_}), $_); }}
+      if ($transit) { @reldeg = split(/\s+/, relative_deg($planets_tr{$_},"sym")); }
+      else { @reldeg = split(/\s+/, relative_deg($planets{$_},"sym")); }   
+      @p = split (/°/, $reldeg[0]);
+      #$planets_rel{$reldeg[1]} .= $p[0].",".$psym{$_}.":";
+      $planets_rel{$_} = $reldeg[0]." ".$reldeg[1];
+      if (!$transit) {
+         print "<tr$hlpl>\n<td class=\"diff1\">$psym{$_}</td>\n<td class=\"diff2\">$reldeg[0]</td>\n<td class=\"diff3\">$reldeg[1]</td>\n<td class=\"diff4\"><div class =\"grey\">$rueckl{$_}</div></td>\n</tr>\n"; }
+      else {
+         print "<tr$hlpl>\n<td class=\"diff1\">$psym{$_}</td>\n<td class=\"diff2\">$reldeg[0]</td>\n<td class=\"diff3\">$reldeg[1]</td>\n<td class=\"diff4\"><div class =\"grey\">$rueckl_tr{$_}</div></td>\n</tr>\n"; }
+
+
    }
-}
-else { print "<tr><td></td></tr>\n"; }
-print "</table>\n";
-print "</div>\n";
+   print "</table>\n";
 
-#------------------------------------------------------------------------------
-# Aspekte
-my $heading;
-if ($transit) { @aspects = calc_asp(\%planets, \%planets_tr); $heading = "Transite"}
-else  { @aspects = calc_asp(\%planets, \%planets); $heading = "Aspekte";}
 
-# Den Zodiak zeichnen
-if ($transit) { $template = "transit.svg"; } 
-draw_zodiac();
+   #------------------------------------------------------------------------------
+   # Häuser
+   my $fhouse;
+   print "<h4>Häuser</h4>\n<table id=\"tabhouses\">\n";
+   if ($hsys ne "Keine" && $rx{"uhrzeit"} ne "") {
+      foreach (sort keys %houses) {
+         $hnr = $_;
+         $hnr =~ s/house //g;
+         @reldeg = split(/\s+/, relative_deg($houses{$_}, "sym"));
+         $hlh = "";
+         $fhouse = $hnr;
+         $fhouse =~ s/^\s+|\s+$//g;
+         #if ($pl_h{$filter} eq $fhouse) { $hlh = " style=\"background-color:#ff9900;\"";}
+         print "<tr>\n<td>$hnr</td>\n<td class=\"diff\">$reldeg[0]</td>\n<td class=\"diff\">$reldeg[1]</td>\n</tr>\n";
+      }
+   }
+   else { print "<tr><td></td></tr>\n"; }
+   print "</table>\n";
+   print "</div>\n";
 
-my $aspstr;
-my %asp_l = ("☌" => "KON", "□" => "QUA", "△" => "TRI", "☍" => "OPP", "⚹" => "SEX");
-print "<div class=\"asp\">\n";
-if ($filter) { $transpl = translate($filter); print "<h4>$heading ($transpl)</h4>\n<table id=\"tabasp\">\n"; }
-else { print "<h4>$heading</h4>\n<table id=\"tabasp\">\n"; }
-foreach (@aspects) {
-   @p = split (/;/, $_);
-   $p[2] =~ s/[+-]//g;
-   $aspstr = join(':', $p[0], $asp_l{$p[3]}, $p[1]); 
-   print "<tr>\n<td nowrap><a href=\"javascript:show_tb('$aspstr')\" class=\"ainfo\">\n";
-   print "<span class=\"as\">$psym{$p[0]}</span>\n";
-   print "<span class=\"as\"> $p[3]</span>\n";
-   print "<span class=\"as\">$psym{$p[1]}</span>\n</a></td>\n"; 
-   print "<td><span class=\"as2\">($p[2]°)</span></td>\n</tr>";
-   #print "<td><a href=\"javascript:show_tb()\" class=\"zinfo\">$p[3]</a></td>\n";
-   #print "<td><a href=\"javascript:show_tb()\" class=\"zinfo\">$psym{$p[1]}</a></td>\n";
-   #print "<td class=\"diff\"><a href=\"javascript:show_tb()\" class=\"zinfo\">$p[2]°</a></td>\n</tr>\n";
+   #------------------------------------------------------------------------------
+   # Aspekte
+   my $heading;
+   if ($transit) { @aspects = calc_asp(\%planets, \%planets_tr); $heading = "Transite"}
+   else  { @aspects = calc_asp(\%planets, \%planets); $heading = "Aspekte";}
 
-}
-print "</table>\n</div>\n";
+   # Den Zodiak zeichnen
+   if ($transit) { $template = "transit.svg"; } 
+   draw_zodiac();
 
-if ($filter) {
-   wuerden ($filter);
+   my $aspstr;
+   my %asp_l = ("☌" => "KON", "□" => "QUA", "△" => "TRI", "☍" => "OPP", "⚹" => "SEX");
+   print "<div class=\"asp\">\n";
+   if ($filter) { $transpl = translate($filter); print "<h4>$heading ($transpl)</h4>\n<table id=\"tabasp\">\n"; }
+   else { print "<h4>$heading</h4>\n<table id=\"tabasp\">\n"; }
+   foreach (@aspects) {
+      @p = split (/;/, $_);
+      $p[2] =~ s/[+-]//g;
+      $aspstr = join(':', $p[0], $asp_l{$p[3]}, $p[1]); 
+      print "<tr>\n<td nowrap><a href=\"javascript:show_tb('$aspstr')\" class=\"ainfo\">\n";
+      print "<span class=\"as\">$psym{$p[0]}</span>\n";
+      print "<span class=\"as\"> $p[3]</span>\n";
+      print "<span class=\"as\">$psym{$p[1]}</span>\n</a></td>\n"; 
+      print "<td><span class=\"as2\">($p[2]°)</span></td>\n</tr>";
+      #print "<td><a href=\"javascript:show_tb()\" class=\"zinfo\">$p[3]</a></td>\n";
+      #print "<td><a href=\"javascript:show_tb()\" class=\"zinfo\">$psym{$p[1]}</a></td>\n";
+      #print "<td class=\"diff\"><a href=\"javascript:show_tb()\" class=\"zinfo\">$p[2]°</a></td>\n</tr>\n";
+
+   }
+   print "</table>\n</div>\n";
+
+   if ($filter) {
+      wuerden ($filter);
+   }
 }
 
 #------------------------------------------------------------------------------
@@ -1632,13 +1642,11 @@ sub open_about {
    print "<li>Zeitzonen Umrechnung mit<a href=\"https://www.iana.org/time-zones/\"> (tzdb)</a></li>\n";
    print "</ul>";
 
-   print "<div class=\"irrenhaus\"><p>Aus technischen Gründen müssen Cookies benutzt werden, damit die Funktionen von jaap gewährleistet sind. ";
-   print "Wenn du das Programm verwenden möchtest, musst du der Cookie Nutzung zustimmen. ";
-   print "Hier bekommst du weitere Informationen:<p> <a href=\"datenschutz.html\">Datenschutz</a>&nbsp;\n";
+   print "<div class=\"note_about\"><p>Hier bekommst du weitere Informationen:<p> <a href=\"datenschutz.html\">Datenschutz</a>&nbsp;\n";
    print "<a href=\"impressum.html\">Impressum</a></div>\n";
 
    print "</td>\n</tr>\n</table>\n";
-   print "<p class=\"ih\"><button class=\"button1\" onclick=\"cookie_agree()\">OK</button>\n</p></div>\n</div>\n\n";   
+   print "<p class=\"ih\"><button class=\"button1\" onclick=\"close_about()\">OK</button>\n</p></div>\n</div>\n\n";   
 }
 
 
