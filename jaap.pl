@@ -57,7 +57,7 @@ my %psym = ("Sun" => "☉", "Moon" => "☽", "Mercury" => "☿", "Ascendant" => 
             "Venus" => "♀", "Mars" => "♂", "Jupiter" => "♃",
             "Saturn" => "♄", "Uranus" => "⛢", "Neptune" => "♆" , "Pluto" => "♇", "true Node" => "☊", "Chiron" => "⚷", "mean Apogee" => "⚸");
 my %hflag = ("Placidus" => "P", "Topozentrisch" => "T", "Koch" => "K", "Äqual" => "A", "Krusinsky" => "U", "Porphyrius" => "O", "Regiomontanus" => "R", "Campanus" => "C");
-my %elements;
+my (%elements, %quali);
 
 foreach my $Feld (@Feldnamen) {
   $string=$cgi->param($Feld);
@@ -372,13 +372,17 @@ if ($hsys ne "") {
 
 
    #------------------------------------------------------------------------------
-   # Elemente
+   # Elemente und Qualitäten
 
    print "<h4>Elemente</h4>\n";
    print "<div style=\"display: inline; color: red\">F$elements{'F'}</div>\n"; 
    print "<div style=\"display: inline; color: green\">E$elements{'E'}</div>\n"; 
    print "<div style=\"display: inline; color: #9c8800\">L$elements{'L'}</div>\n"; 
    print "<div style=\"display: inline; color: blue\">W$elements{'W'}</div>\n"; 
+   
+   print "<br />\n<div style=\"display: inline\">K$quali{'K'}</div>\n"; 
+   print "<div style=\"display: inline\">F$quali{'F'}</div>\n"; 
+   print "<div style=\"display: inline\">V$quali{'V'}</div>\n"; 
 
    print "</div>\n";
 
@@ -633,7 +637,7 @@ sub draw_zodiac {
 
            if ($parts[3] eq "□" || $parts[3] eq "☍") { $color = "#ff0000"; }
            if ($parts[3] eq "△" ) { $color = "#0000ff"; }
-           if ($parts[3] eq "⚹" ) { $color = "#00ff00"; }
+           if ($parts[3] eq "⚹" ) { $color = "#0000ff"; }
            $parts[2] =~ s/\+//;
            $parts[2] =~ s/\-//;
            if ($parts[2] >= 0) { $stroke = 3; }
@@ -672,20 +676,30 @@ sub draw_zodiac {
 #------------------------------------------------------------------------------
 sub calc_elements {
    #print "DEBUG: $_[0] $_[1]\n";
-   my $el;
+   my ($el, $qt);
    my $factor;
+
+   # Element bestimmen
    if ( $_[1] eq "♈︎" || $_[1] eq "♌︎" || $_[1] eq "♐︎") { $el = "F"; }
    elsif ( $_[1] eq "♉︎" || $_[1] eq "♍︎" || $_[1] eq "♑︎") { $el = "E"; }
    elsif ( $_[1] eq "♊︎" || $_[1] eq "♎︎" || $_[1] eq "♒︎") { $el = "L"; }
    elsif ( $_[1] eq "♋︎" || $_[1] eq "♏︎" || $_[1] eq "♓︎") { $el = "W"; }
-   else { return ; }
+   else { $el = "X"; }
 
+   # Qualität bestimmen
+   if ( $_[1] eq "♈︎" || $_[1] eq "♋︎" || $_[1] eq "♎︎" || $_[1] eq "♑︎") { $qt = "K"; }
+   elsif ( $_[1] eq "♉︎" || $_[1] eq "♌︎" || $_[1] eq "♏︎" || $_[1] eq "♒︎") { $qt = "F"; }
+   elsif ( $_[1] eq "♊︎" || $_[1] eq "♍︎" || $_[1] eq "♐︎" || $_[1] eq "♓︎") { $qt = "V"; }
+   else { $qt = "X"; }
+
+   # zusammen zählen
    if ($_[0] eq "☉" || $_[0] eq "☽" || $_[0] == 1 || $_[0] == 10) { $factor = 3; }
    elsif ($_[0] eq "☿" || $_[0] eq "♀" || $_[0] eq "♂") { $factor = 2; }
-   elsif ($_[0] eq "♃" || $_[0] eq "♄" || $_[0] eq "⛢" || $_[0] eq "♆" || $_[0] eq "♇") { $factor = 1; }
-   else { return; }
+   elsif ($_[0] eq "♃" || $_[0] eq "♄" || $_[0] eq "⛢" || $_[0] eq "♆" || $_[0] eq "♇" || $_[0] eq "☊" || $_[0] eq "⚷") { $factor = 1; }
+   else { $factor = 0; }
 
    $elements{$el} += $factor;
+   $quali{$qt} += $factor;
 
 }
 
