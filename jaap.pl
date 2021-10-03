@@ -374,13 +374,15 @@ if ($hsys ne "") {
    #------------------------------------------------------------------------------
    # Elemente und Qualitäten
 
-   print "<h4>Elemente</h4>\n";
+   #print "<h4>Elemente</h4>\n";
+   print "<div class=\"eq\">E: </div>\n"; 
    print "<div style=\"display: inline; color: red\">F$elements{'F'}</div>\n"; 
    print "<div style=\"display: inline; color: green\">E$elements{'E'}</div>\n"; 
    print "<div style=\"display: inline; color: #9c8800\">L$elements{'L'}</div>\n"; 
    print "<div style=\"display: inline; color: blue\">W$elements{'W'}</div>\n"; 
    
-   print "<br />\n<div style=\"display: inline\">K$quali{'K'}</div>\n"; 
+   print "<br />\n<div class=\"eq\">Q: </div>\n"; 
+   print "<div style=\"display: inline\">K$quali{'K'}</div>\n"; 
    print "<div style=\"display: inline\">F$quali{'F'}</div>\n"; 
    print "<div style=\"display: inline\">V$quali{'V'}</div>\n"; 
 
