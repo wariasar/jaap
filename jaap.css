@@ -118,12 +118,12 @@ table.head {
 #tabhouses {
    border-collapse: collapse;
    width: 160px;
-   margin-bottom: 25px;
 }
 
 #tabelement {
    border-collapse: collapse;
    width: 160px;
+   margin-top: 25px;
 }
 
 #tabasp {

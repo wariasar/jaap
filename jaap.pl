@@ -351,25 +351,26 @@ if ($hsys ne "") {
    #------------------------------------------------------------------------------
    # Häuser
    my $fhouse;
-   print "<h4>Häuser</h4>\n<table id=\"tabhouses\">\n";
-   if ($hsys ne "Keine" && $rx{"uhrzeit"} ne "") {
-      foreach (sort keys %houses) {
-         $hnr = $_;
-         $hnr =~ s/house //g;
-         @reldeg = split(/\s+/, relative_deg($houses{$_}, "sym"));
-         $hlh = "";
-         $fhouse = $hnr;
-         $fhouse =~ s/^\s+|\s+$//g;
-         #if ($pl_h{$filter} eq $fhouse) { $hlh = " style=\"background-color:#ff9900;\"";}
+   if ($hsys ne "Keine") {
+      print "<h4>Häuser</h4>\n<table id=\"tabhouses\">\n";
+      if ($hsys ne "Keine" && $rx{"uhrzeit"} ne "") {
+         foreach (sort keys %houses) {
+            $hnr = $_;
+            $hnr =~ s/house //g;
+            @reldeg = split(/\s+/, relative_deg($houses{$_}, "sym"));
+            $hlh = "";
+            $fhouse = $hnr;
+            $fhouse =~ s/^\s+|\s+$//g;
+            #if ($pl_h{$filter} eq $fhouse) { $hlh = " style=\"background-color:#ff9900;\"";}
 
-         calc_elements($hnr, $reldeg[1]);
+            calc_elements($hnr, $reldeg[1]);
 
-         print "<tr>\n<td class=\"diff1\">$hnr</td>\n<td class=\"diff2\">$reldeg[0]</td>\n<td class=\"diff\">$reldeg[1]</td>\n</tr>\n";
+            print "<tr>\n<td class=\"diff1\">$hnr</td>\n<td class=\"diff2\">$reldeg[0]</td>\n<td class=\"diff\">$reldeg[1]</td>\n</tr>\n";
+         }
       }
+      else { print "<tr><td></td></tr>\n"; }
+      print "</table>\n";
    }
-   else { print "<tr><td></td></tr>\n"; }
-   print "</table>\n";
-
 
    #------------------------------------------------------------------------------
    # Elemente und Qualitäten

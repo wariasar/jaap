@@ -155,8 +155,14 @@ function load_listener (){
    //Multiplikator Listbox
    if (document.getElementById('mult') !== null) {
       var multi = document.getElementById('mult');
+      multi.onfocus = function() {
+         modal = 1;
+	 sessionStorage.setItem('modal', 1);
+      }
       multi.onchange = function() {
 	 sessionStorage.setItem('multi', multi.value);
+	 modal = 0;
+	 sessionStorage.setItem('modal', 0);
       }
    }
    if (radix == 0) {
