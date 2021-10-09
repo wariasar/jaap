@@ -1738,8 +1738,9 @@ sub textbox {
 sub submenue {
 
    print "<div id=\"dropdown\" class=\"dropdown-content\">\n";
-   print "<a href=\"javascript:open_file()\"><img src=\"icons/open.png\" class=\"icon\">Laden</a>\n";
-   print "<a href=\"javascript:save_file()\"><img src=\"icons/save_gr.png\" class=\"icon\"><div class=\"inactive\">Speichern</div></a>\n";
+   print "<a href=\"javascript:set_open()\"><img src=\"icons/open.png\" class=\"icon\">Laden</a>\n";
+   print "<a href=\"javascript:save()\"><img src=\"icons/save.png\" class=\"icon\">Speichern</a>\n";
+   print "<a href=\"javascript:import_aaf()\"><img src=\"icons/open.png\" class=\"icon\">AAF Import</a>\n";
    print "<a id=\"btn_hlp\" href=\"help.html\"><img src=\"icons/help.png\" class=\"icon\">Hilfe</a>\n";
    print "<a id=\"btn_about\" href=\"javascript:show_about()\"><img src=\"icons/about.png\" class=\"icon\">Über</a>\n";
    print "</div>\n";

@@ -26,6 +26,7 @@ var test_modus = document.getElementById("info").innerHTML;
 var radix = 0;
 var transit = 0;
 var hcgi;
+var db_str = "";
 sessionStorage.setItem('modal', 0);
 
 if (test_modus == "radix") {
@@ -57,6 +58,9 @@ function show_tz() {
 function set_date() {
    set("Alle");
 }
+
+// Datenbank aufrufen
+//jaap_db("c");
 
 
 //------------------------------------------------------------------------------
@@ -199,6 +203,7 @@ function TasteGedrueckt (evt) {
       if (evt.keyCode == 53) { setval('offset', 'Woche', 'offset'); setval('mult', 1, 'multi'); }
       if (evt.keyCode == 54) { setval('offset', 'Monat', 'offset'); setval('mult', 1, 'multi'); }
       if (evt.keyCode == 55) { setval('offset', 'Monat', 'offset'); setval('mult', 12, 'multi'); }
+      if (evt.keyCode == 76) { set_open(); } //L
    }
 }
 
@@ -546,7 +551,7 @@ function set_lola() {
 // Öffnet einen Filedialog und liest eine aaf Datei ein
 // Es wird dann ein Modal Dialog mit allen Einträgen eingeblendet
 //------------------------------------------------------------------------------
-function open_file() {
+function import_aaf() {
 
    var input = document.createElement('input');
    input.type = 'file';
@@ -614,7 +619,13 @@ function open_file() {
                lines[count++] = name + ";" + dstr + ";" + tstr + ";" + xlong + ";" + xlat + ";" + ortsname;
 
             }
-            if ( i == pLen-1) { set_open(lines); }
+            //if ( i == pLen-1) { set_open(lines); }
+            if ( i == pLen-1) {
+               lines.forEach(function(linesElement) {
+		   //console.log(linesElement);
+	          jaap_db("w", linesElement);
+	       });
+	    }
          }
       }
    }
@@ -625,28 +636,36 @@ function open_file() {
 // Funktion set_open
 // Einblenden eines Modal Dialogs mit der Liste der gefunden Einträge aus dem aaf
 //------------------------------------------------------------------------------
-function set_open (lines) {
+function set_open () {
 
    var modal = document.getElementById('openradix');
    var span = document.getElementsByClassName("close_open")[0];
    var count = 0;
+   var entr = new Array();
+   db_str = "";
 
-   modal.style.display = "block";
+   jaap_db("r");
 
-   // X - Dialog schliessen
-   span.onclick = function() {
-     modal.style.display = "none";
-   }
+   setTimeout(function() {
+      console.log("receiving in set_open:\n" + entr);
+      entr = db_str.split(",");
+
+      modal.style.display = "block";
+
+      // X - Dialog schliessen
+      span.onclick = function() {
+         modal.style.display = "none";
+      }
+
+      var selectElement = document.getElementById('llist');
 
 
-   var selectElement = document.getElementById('llist');
-
-   lines.forEach(function(linesElement) { 
-      var option = new Option(linesElement);
-      selectElement.options[count] = option;
-      count++;
-   });
-
+      entr.forEach(function(entrElement) { 
+         var option = new Option(entrElement);
+         selectElement.options[count] = option;
+         count++;
+      });	   
+   }, 10);
 }
 
 
@@ -729,15 +748,28 @@ function reset () {
 
 
 //------------------------------------------------------------------------------
-// Funktion save_file
-// Speichert ein Horoskop in eine aaf Datei
-// Die Funktion ist noch nicht ausreichend getestet
-// Um zu verhindern dass evtl. eine aaf datei beschädigt wird ist die
-// Funktion derzeit inaktiv
+// Funktion save
+// Speichert ein Horoskop in die Datenbank
 //------------------------------------------------------------------------------
-function save_file() {
-/*
+function save() {
+
    var name = document.getElementById("rmode").innerHTML;
+   var dst = document.getElementById("dst").innerHTML;
+   var dt = dst.split(" ");
+    
+   var str = name + ";" + dt[0] + ";" + dt[1] + ";" + dt[3] + ";" + dt[4];
+   //console.log (str);
+   jaap_db("w", str);
+
+}
+
+//------------------------------------------------------------------------------
+// Funktion export
+// Speichert die Horoskope aus der Datenbank in eine aaf Datei
+//------------------------------------------------------------------------------
+function export_db() {
+
+/*   var name = document.getElementById("rmode").innerHTML;
    var dst = document.getElementById("dst").innerHTML;
    var tzi = document.getElementById("tzi").innerHTML;
    var dt = dst.split(" ");
@@ -763,11 +795,55 @@ function save_file() {
    element.click();
 
    document.body.removeChild(element);
+
 */
 }
 
+//------------------------------------------------------------------------------
+// Funktion jaap_db
+// Datenbank für die gespeicherten Horoskope und die Hinweistexte
+//------------------------------------------------------------------------------
+function jaap_db (rw, str) {
+   var obj = new Array();
+   var all;
+   var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
 
+   const openRequest = indexedDB.open("jaapDB", 1);
 
+   openRequest.onupgradeneeded = e => {
+      const db = e.target.result;
+      db.createObjectStore('radix', { autoIncrement: true });
+   }
 
+      openRequest.onsuccess = e => {
+      const db = e.target.result;    
+    
+      const transaction = db.transaction('radix', 'readwrite');
+      const radixStore = transaction.objectStore('radix');
+
+      if (rw == "w") {
+         radixStore.put(str);
+	 return 1;
+      }
+      else if (rw == "r") {
+         //radixStore.get(3).onsuccess = event => console.log(event.target.result);
+         //radixStore.getAll().onsuccess = event => console.log(event.target.result);
+         all = radixStore.getAll();
+	 all.onsuccess = function() {
+            obj = (all.result);
+            obj.forEach(function(obj){
+	       db_str += obj + ",";
+            });
+         };
+	 db_str = db_str.replace(/,\s*$/, "");
+      }
+
+      // Close the db when the transaction is done
+      transaction.oncomplete = function() {
+	 console.log("closing DB");
+         db.close();
+      };
+   }
+}
 
 
