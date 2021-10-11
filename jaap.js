@@ -665,7 +665,7 @@ function set_open () {
          selectElement.options[count] = option;
          count++;
       });	   
-   }, 10);
+   }, 100);
 }
 
 
