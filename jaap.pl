@@ -1654,7 +1654,7 @@ sub neu_dialog {
 
    print "<input type=\"hidden\" id=\"hsys\" name=\"hsys\">\n";
 
-   print "<tr><td colspan=\"2\" class=\"noborder\">\n<button class=\"button1\" onclick=\"submitform()\">OK</button>\n</td>\n</tr>\n";
+   print "<tr><td colspan=\"2\" class=\"noborder\">\n<button class=\"button1\" id=\"subf\" onclick=\"submitform()\">OK</button>\n</td>\n</tr>\n";
    print "</table>\n</form>\n</div>\n</div>\n";
 
 }

@@ -27,6 +27,7 @@ var radix = 0;
 var transit = 0;
 var hcgi;
 var db_str = "";
+var create_new = 0;
 sessionStorage.setItem('modal', 0);
 
 if (test_modus == "radix") {
@@ -185,10 +186,15 @@ elem.addEventListener("keyup", TasteLosgelassen);
 function TasteGedrueckt (evt) {
    if (evt.keyCode == 33 || evt.keyCode == 173) { if (radix == 0 || transit == 1) { set_offs("minus"); }} //PG up (+)
    if (evt.keyCode == 34 || evt.keyCode == 171) { if (radix == 0 || transit == 1) { set_offs("plus"); }}  //PG down (-)
-   if (evt.keyCode == 36) { if (radix == 0 || transit == 1) { reset(); }} //pos1
-   //if (evt.keyCode == 36) { if (radix == 0) { location.reload(true); }}
+   //if (evt.keyCode == 36) { if (radix == 0 || transit == 1) { reset(); }} //pos1
+   if (evt.keyCode == 36) { reset(); } //pos1
    if (evt.keyCode == 35) { set("Alle"); } //ende
-   if (evt.keyCode == 27) { set("Alle"); } //esc
+   if (evt.keyCode == 27) { //esc 
+      modal = 0;
+      sessionStorage.setItem('modal', 0);
+      document.getElementById('subf').focus(); 
+      set("Alle");
+   }
    if (evt.keyCode == 84) { //t
      if (sessionStorage.getItem('radix') == 1 && sessionStorage.getItem('transit') == 0 && sessionStorage.getItem('modal') == 0) { set_transit(); } 
    }
@@ -203,13 +209,21 @@ function TasteGedrueckt (evt) {
       if (evt.keyCode == 53) { setval('offset', 'Woche', 'offset'); setval('mult', 1, 'multi'); }
       if (evt.keyCode == 54) { setval('offset', 'Monat', 'offset'); setval('mult', 1, 'multi'); }
       if (evt.keyCode == 55) { setval('offset', 'Monat', 'offset'); setval('mult', 12, 'multi'); }
-      if (evt.keyCode == 76) { set_open(); } //L
+      if (evt.keyCode == 76) { set_open(); } //L (load radix)
    }
 }
 
-   function TasteLosgelassen(evt) {
-
+function TasteLosgelassen(evt) {
+   if (sessionStorage.getItem('modal') == 0) {
+      if (evt.keyCode == 78) { //N (new radix)
+         document.getElementById('neuradix').style.display = "block"; 
+         document.getElementById('getname').focus(); 
+	 modal = 1;
+         sessionStorage.setItem('modal', 1);
+      } 
    }
+
+}
 
 
 
@@ -384,6 +398,7 @@ function set_modal () {
    var btn = document.getElementById("new");
    var span = document.getElementsByClassName("close")[0];
    var ort = sessionStorage.getItem('ort');
+   var gname = document.getElementById('getname');
    var rxval = document.getElementById('dst').innerHTML.split(' ');
    var x = rxval[0].split('.');
    if(x[0] < 10) { x[0] = "0"+ x[0]; }
@@ -403,6 +418,7 @@ function set_modal () {
    // Wenn der N Button gedrückt wird - Dialogfenster öffnen
      btn.onclick = function() {
      modal.style.display = "block";
+     gname.focus();
      sessionStorage.setItem('modal', 1);
    }
 
