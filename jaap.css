@@ -669,8 +669,8 @@ Dropdown menue*/
 .dropdown-content {
   display: none;
   position: absolute;
-  top: 42px;
-  background-color: #eeeeee;
+  top: 38px;
+  background-color: #f7f7f7;
   border: 1px solid #aaaaaa;
   min-width: 160px;
   /*z-index: 1;*/

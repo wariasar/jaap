@@ -184,11 +184,6 @@ elem.addEventListener("keyup", TasteLosgelassen);
 
 
 function TasteGedrueckt (evt) {
-   if (evt.keyCode == 33 || evt.keyCode == 173) { if (radix == 0 || transit == 1) { set_offs("minus"); }} //PG up (+)
-   if (evt.keyCode == 34 || evt.keyCode == 171) { if (radix == 0 || transit == 1) { set_offs("plus"); }}  //PG down (-)
-   //if (evt.keyCode == 36) { if (radix == 0 || transit == 1) { reset(); }} //pos1
-   if (evt.keyCode == 36) { reset(); } //pos1
-   if (evt.keyCode == 35) { set("Alle"); } //ende
    if (evt.keyCode == 27) { //esc 
       modal = 0;
       sessionStorage.setItem('modal', 0);
@@ -209,7 +204,11 @@ function TasteGedrueckt (evt) {
       if (evt.keyCode == 53) { setval('offset', 'Woche', 'offset'); setval('mult', 1, 'multi'); }
       if (evt.keyCode == 54) { setval('offset', 'Monat', 'offset'); setval('mult', 1, 'multi'); }
       if (evt.keyCode == 55) { setval('offset', 'Monat', 'offset'); setval('mult', 12, 'multi'); }
+      if (evt.keyCode == 33 || evt.keyCode == 173) { if (radix == 0 || transit == 1) { set_offs("minus"); }} //PG up (+)
+      if (evt.keyCode == 34 || evt.keyCode == 171) { if (radix == 0 || transit == 1) { set_offs("plus"); }}  //PG down (-)
       if (evt.keyCode == 76) { set_open(); } //L (load radix)
+      if (evt.keyCode == 35) { set("Alle"); } //ende
+      if (evt.keyCode == 36) { reset(); } //pos1
    }
 }
 
@@ -484,7 +483,13 @@ function show_tb (asp) {
 // Funktion openmenue
 //------------------------------------------------------------------------------
 function openmenue () {
-    document.getElementById("dropdown").classList.toggle("show");
+    var drdo = document.getElementById("dropdown");
+    drdo.classList.toggle("show");
+
+    // Dialog schliessen
+    drdo.onclick = function() {
+       drdo.classList.toggle ("show");
+    }
 }
 
 
@@ -555,21 +560,24 @@ function set_lola() {
    var p2 =  p1[1].split("]");
    var ptr = p2[0].trim();
    var lola = ptr.split(" ");
+   var ort = p2[1].split(",");
 
-   document.getElementById('ortstr').value = "";   
+   document.getElementById('ortstr').value = ort[0].trim();   
    document.getElementById('long').value = lola[0];
    document.getElementById('lat').value = lola[1];
+
+   sessionStorage.setItem('ort', ort[0].trim());
 }
 
 
 //------------------------------------------------------------------------------
 // Funktion open_file
 // Öffnet einen Filedialog und liest eine aaf Datei ein
-// Es wird dann ein Modal Dialog mit allen Einträgen eingeblendet
 //------------------------------------------------------------------------------
 function import_aaf() {
 
    var input = document.createElement('input');
+   var dstr, tstr, xlong, xlat, ortsname, abw, tc
    input.type = 'file';
 
    input.onchange = e => { 
@@ -585,12 +593,13 @@ function import_aaf() {
       reader.onload = readerEvent => {
          var content = readerEvent.target.result; // this is the content!
          var part = content.split(/\r?\n/);
-         var part2, partA, partB, Name, zeit, line, date, time, timestr, utcd, utcdate, utctime, utcdatetime, x, tB1, tB2, xlong, xlat, ortsname;
+         var part2, partA, partB, partZ, Name, zeit, line, date, time, timestr, utcd, utcdate, utctime, utcdatetime, x, tB1, tB2;
          var lines = new Array;
          var count = 0;
          var bcount = 0;
          var pLen = part.length;
-        
+       
+
          // Einlesen der #A93 Zeile 
          for (i = 0; i < pLen; i++) {
             if (part[i].indexOf("#A93") != -1) {
@@ -611,14 +620,15 @@ function import_aaf() {
                   time[0] = x;
                }
             }
+
          // Einlesen der #B93 Zeile 
             if (part[i].indexOf("#B93") != -1 && bcount == 0) {
                bcount++;
                line = part[i].slice(5);
                partB = line.split(",");
 
-               var dstr = date[0] + "." + date[1] + "." + date[2];
-               var tstr = time[0] + "." + time[1];
+               dstr = date[0] + "." + date[1] + "." + date[2];
+               tstr = time[0] + "." + time[1];
 
                if (partB[1].indexOf(":")) { tB1 = partB[1].split(":"); }
                else { tB1[0] = $partB[1]; }
@@ -630,19 +640,26 @@ function import_aaf() {
                xlong = tB2[0].replace(/[oe]/i, ".");
                x = xlong.replace(/^(0+)/g, '');               
                xlong = x;
-               
-               //console.log (name + " " + utcdate + " " + utctime + " " + xlong + " " + xlat);
-               lines[count++] = name + ";" + dstr + ";" + tstr + ";" + xlong + ";" + xlat + ";" + ortsname;
+	       tc = partB[3];
 
+               lines[count++] = name + ";" + dstr + ";" + tstr + ";" + xlong + ";" + xlat + ";" + ortsname + ";" + tc;
             }
-            //if ( i == pLen-1) { set_open(lines); }
-            if ( i == pLen-1) {
-               lines.forEach(function(linesElement) {
-		   //console.log(linesElement);
-	          jaap_db("w", linesElement);
-	       });
-	    }
+
+         // Einlesen der #ZNAM Zeile 
+         //   if (part[i].indexOf("#ZNAM") != -1) {
+	 //      partZ = part[i].split(":");
+	 //      abw = partZ[1];
+         //   }
+
+	
          }
+         lines.forEach(function(linesElement) {
+	    jaap_db("w", linesElement);
+	 });
+
+	 var dasa = "Datensätze";
+	 if (lines.length < 2) { dasa = "Datensatz"; }
+	 alert(lines.length + " " + dasa + " importiert");
       }
    }
    input.click();
@@ -663,7 +680,6 @@ function set_open () {
    jaap_db("r");
 
    setTimeout(function() {
-      console.log("receiving in set_open:\n" + entr);
       entr = db_str.split(",");
 
       modal.style.display = "block";
@@ -768,15 +784,39 @@ function reset () {
 // Speichert ein Horoskop in die Datenbank
 //------------------------------------------------------------------------------
 function save() {
+   var ort = sessionStorage.getItem('ort');
 
-   var name = document.getElementById("rmode").innerHTML;
+   var tzi = document.getElementById("tzi").innerHTML;
+   var zz = tzi.split(" ");
+   var abwg = zz[1].replace(/\(|\)/g,"");
+   var ew;
+   if (abwg.charAt(0) == "+") { ew = "he"; }
+   if (abwg.charAt(0) == "-") { ew = "hw"; }
+   abwg = abwg.replace(/\+|\-/g,"");
+   var hours = abwg.substring(0,2);
+   var mins = abwg.substring(2);
+
    var dst = document.getElementById("dst").innerHTML;
    var dt = dst.split(" ");
+   var name = "";
+   var pr = 0;
+   if (document.getElementById("rmode") !== null) {
+      name = document.getElementById("rmode").innerHTML;
+   }
+   else {
+      name = prompt("Bitte einen Namen eingeben...", "");
+      pr = 1;
+      if (name == "") {
+	 name = dt[0] + "_" + dt[1];
+         name = name.replace(/:/g,'');
+         name = name.replace(/\./g,'');
+      }
+   }
     
-   var str = name + ";" + dt[0] + ";" + dt[1] + ";" + dt[3] + ";" + dt[4];
+   var str = name + ";" + dt[0] + ";" + dt[1] + ";" + dt[3] + ";" + dt[4] + ";" + ort + ";" + hours + ew + mins + ";" + dt[2];
    //console.log (str);
    jaap_db("w", str);
-
+   if (pr == 0) { alert ("Horoskop wurde gespeichert"); }
 }
 
 //------------------------------------------------------------------------------
@@ -785,7 +825,7 @@ function save() {
 //------------------------------------------------------------------------------
 function export_db() {
 
-/*   var name = document.getElementById("rmode").innerHTML;
+   var name = document.getElementById("rmode").innerHTML;
    var dst = document.getElementById("dst").innerHTML;
    var tzi = document.getElementById("tzi").innerHTML;
    var dt = dst.split(" ");
@@ -799,8 +839,42 @@ function export_db() {
    if (dt[3] < 0) { ew = "W"; }
    else { ew = "E"; }
    var lon = dt[3].replace(/\./,ew);
-    
+
+
+/*
+
+   var entr = new Array();
+   db_str = "";
+
+   jaap_db("r");
+
+   setTimeout(function() {
+      entr = db_str.split(",");
+
+      modal.style.display = "block";
+
+      // X - Dialog schliessen
+      span.onclick = function() {
+         modal.style.display = "none";
+      }
+
+      var selectElement = document.getElementById('llist');
+
+
+      entr.forEach(function(entrElement) { 
+         var option = new Option(entrElement);
+         selectElement.options[count] = option;
+         count++;
+      });	   
+   }, 100);
+
+
+
+
+*/
+
    var text = "#A93:" + name + ",*,*," + dt[0] + "," + dt[1] + ",*,*\n#B93:*," + lat + "," + lon + "," + offs + ",*";
+/*
    var element = document.createElement('a');
    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
    element.setAttribute('download', "jaap.aaf");
@@ -811,8 +885,8 @@ function export_db() {
    element.click();
 
    document.body.removeChild(element);
-
 */
+
 }
 
 //------------------------------------------------------------------------------
@@ -842,8 +916,6 @@ function jaap_db (rw, str) {
 	 return 1;
       }
       else if (rw == "r") {
-         //radixStore.get(3).onsuccess = event => console.log(event.target.result);
-         //radixStore.getAll().onsuccess = event => console.log(event.target.result);
          all = radixStore.getAll();
 	 all.onsuccess = function() {
             obj = (all.result);
