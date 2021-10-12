@@ -28,6 +28,7 @@ var transit = 0;
 var hcgi;
 var db_str = "";
 var create_new = 0;
+var version = "alpha 0.0.35";
 sessionStorage.setItem('modal', 0);
 
 if (test_modus == "radix") {
@@ -824,69 +825,54 @@ function save() {
 // Speichert die Horoskope aus der Datenbank in eine aaf Datei
 //------------------------------------------------------------------------------
 function export_db() {
-
-   var name = document.getElementById("rmode").innerHTML;
-   var dst = document.getElementById("dst").innerHTML;
-   var tzi = document.getElementById("tzi").innerHTML;
-   var dt = dst.split(" ");
-   var p = tzi.split(" ");
-   var offs = p[1].replace(/[()]/g,"");
-   var ns;
-   var ew;
-   if (dt[4] < 0) { ns = "S"; }
-   else { ns = "N"; }
-   var lat = dt[4].replace(/\./,ns);
-   if (dt[3] < 0) { ew = "W"; }
-   else { ew = "E"; }
-   var lon = dt[3].replace(/\./,ew);
-
-
-/*
-
-   var entr = new Array();
    db_str = "";
+   var ns, ew, lon, lat;
+   var dt = new Date();
+   let month = "" + (dt.getMonth() + 1);
+   let day = "" + dt.getDate();
+   let year = dt.getFullYear();
+   if (month.length < 2) month = "0" + month;
+   if (day.length < 2) day = "0" + day;
+   let dateF = [day, month, year].join(".");
+   let hour = dt.getHours();
+   let minute = dt.getMinutes();
+   let timeF = [hour, minute].join(":");
+   var text = "Jaap " + version + " - AAF Export vom " + dateF + " " + timeF + "\n\n";
+
 
    jaap_db("r");
-
    setTimeout(function() {
       entr = db_str.split(",");
-
-      modal.style.display = "block";
-
-      // X - Dialog schliessen
-      span.onclick = function() {
-         modal.style.display = "none";
-      }
-
-      var selectElement = document.getElementById('llist');
-
-
       entr.forEach(function(entrElement) { 
-         var option = new Option(entrElement);
-         selectElement.options[count] = option;
-         count++;
+	 if (entrElement != "") {
+            p = entrElement.split(";");
+            if (p[4] < 0) { ns = "S"; }
+            else { ns = "N"; }
+            lat = p[4].replace(/\./,ns);
+            if (p[3] < 0) { ew = "W"; }
+            else { ew = "E"; }
+            lon = p[3].replace(/\./,ew);
+
+            text += "#A93:" + p[0] + ",*,*," + p[1] + "," + p[2] + "," + p[5] + ",*\n";
+	    text += "#B93:*," + lat + "," + lon + "," + p[6] + ",*\n";
+	    text += "#ZNAM:" + p[7] + "\n";
+	    text += "#COM:\n";
+         }
       });	   
+
+      //console.log(text);
+      var element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('download', "jaap.aaf");
+
+      element.style.display = 'none';
+      document.body.appendChild(element);
+
+      element.click();
+
+      document.body.removeChild(element);
+
    }, 100);
-
-
-
-
-*/
-
-   var text = "#A93:" + name + ",*,*," + dt[0] + "," + dt[1] + ",*,*\n#B93:*," + lat + "," + lon + "," + offs + ",*";
-/*
-   var element = document.createElement('a');
-   element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-   element.setAttribute('download', "jaap.aaf");
-
-   element.style.display = 'none';
-   document.body.appendChild(element);
-
-   element.click();
-
-   document.body.removeChild(element);
-*/
-
 }
 
 //------------------------------------------------------------------------------
