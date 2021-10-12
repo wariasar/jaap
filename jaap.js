@@ -834,10 +834,11 @@ function export_db() {
    if (month.length < 2) month = "0" + month;
    if (day.length < 2) day = "0" + day;
    let dateF = [day, month, year].join(".");
-   let hour = dt.getHours();
-   let minute = dt.getMinutes();
+   let hour = "" + dt.getHours();
+   let minute = "" + dt.getMinutes();
+   if (minute.length < 2) minute = "0" + minute;
    let timeF = [hour, minute].join(":");
-   var text = "Jaap " + version + " - AAF Export vom " + dateF + " " + timeF + "\n\n";
+   var text = "#:=== Jaap " + version + " - AAF Export vom " + dateF + " " + timeF + " ===\n\n";
 
 
    jaap_db("r");
@@ -846,11 +847,11 @@ function export_db() {
       entr.forEach(function(entrElement) { 
 	 if (entrElement != "") {
             p = entrElement.split(";");
-            if (p[4] < 0) { ns = "S"; }
-            else { ns = "N"; }
+            if (p[4] < 0) { ns = "s"; }
+            else { ns = "n"; }
             lat = p[4].replace(/\./,ns);
-            if (p[3] < 0) { ew = "W"; }
-            else { ew = "E"; }
+            if (p[3] < 0) { ew = "w"; }
+            else { ew = "e"; }
             lon = p[3].replace(/\./,ew);
 
             text += "#A93:" + p[0] + ",*,*," + p[1] + "," + p[2] + "," + p[5] + ",*\n";
