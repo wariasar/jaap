@@ -18,17 +18,18 @@
 ------------------------------------------------------------------------------
 */
 
+
 //------------------------------------------------------------------------------
 // Default Werte setzen
 //------------------------------------------------------------------------------
 
+var version = "alpha 0.0.35";
 var test_modus = document.getElementById("info").innerHTML;
 var radix = 0;
 var transit = 0;
 var hcgi;
 var db_str = "";
 var create_new = 0;
-var version = "alpha 0.0.35";
 sessionStorage.setItem('modal', 0);
 
 if (test_modus == "radix") {
@@ -71,8 +72,6 @@ function set_date() {
 load_listener();
 set_modal();
 
-
-
 //------------------------------------------------------------------------------
 //values der listboxen manipulieren
 //------------------------------------------------------------------------------
@@ -106,6 +105,7 @@ if (radix == 0 && transit == 0) {
    reset();
    console.log("hsys restored!");
 }
+
 
 //------------------------------------------------------------------------------
 // Funktion set_home_loc()
@@ -165,7 +165,7 @@ function load_listener (){
          modal = 1;
 	 sessionStorage.setItem('modal', 1);
       }
-      multi.onchange = function() {
+      multi.onblur = function() {
 	 sessionStorage.setItem('multi', multi.value);
 	 modal = 0;
 	 sessionStorage.setItem('modal', 0);
@@ -226,6 +226,19 @@ function TasteLosgelassen(evt) {
 }
 
 
+//------------------------------------------------------------------------------
+// Funktion chk_version
+// prüft ob die aktuelle Version auf dem client vorhanden ist und ob
+// ein Häusersystem gesetzt ist.
+//------------------------------------------------------------------------------
+function chk_version() {
+   var get_ver = localStorage.getItem('version');
+
+   if (get_ver != version) {
+     localStorage.setItem('version', version);
+     show_about(); 
+   }
+}
 
 //------------------------------------------------------------------------------
 // Funktion show_info
@@ -761,6 +774,10 @@ function reset () {
    sessionStorage.setItem('radix', 0);
    radix = 0;
    var hsys = localStorage.getItem('hsys');
+   if (!hsys) {
+      hsys = 'Placidus';
+      localStorage.setItem('hsys', 'Placidus');
+   }
    var trmode = sessionStorage.getItem('transit');
    var planet = sessionStorage.getItem('planet');
    var dst = localStorage.getItem('home').split(" ");
@@ -773,6 +790,7 @@ function reset () {
          document.getElementById("Seite").innerHTML=xmlhttp.responseText;
          load_listener ();
          set_modal();
+	 chk_version();
       }
    }
    xmlhttp.open("GET", 'jaap.pl?dstr=' + rxstr + '&filter=' + planet + '&hsys=' + hsys + '&transit=' + trmode + '&hlo=' + dst[0] + '&hla=' + dst[1], true);
