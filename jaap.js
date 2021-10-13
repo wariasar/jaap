@@ -698,7 +698,7 @@ function set_open () {
          selectElement.options[count] = option;
          count++;
       });	   
-   }, 100);
+   }, 200);
 }
 
 
@@ -838,7 +838,7 @@ function export_db() {
    let minute = "" + dt.getMinutes();
    if (minute.length < 2) minute = "0" + minute;
    let timeF = [hour, minute].join(":");
-   var text = "#:=== Jaap " + version + " - AAF Export vom " + dateF + " " + timeF + " ===\n\n";
+   var text = "#:=== Jaap " + version + " - AAF Export vom " + dateF + " " + timeF + " ===\r\n\r\n";
 
 
    jaap_db("r");
@@ -854,10 +854,10 @@ function export_db() {
             else { ew = "e"; }
             lon = p[3].replace(/\./,ew);
 
-            text += "#A93:" + p[0] + ",*,*," + p[1] + "," + p[2] + "," + p[5] + ",*\n";
-	    text += "#B93:*," + lat + "," + lon + "," + p[6] + ",*\n";
-	    text += "#ZNAM:" + p[7] + "\n";
-	    text += "#COM:\n";
+            text += "#A93:" + p[0] + ",*,*," + p[1] + "," + p[2] + "," + p[5] + ",*\r\n";
+	    text += "#B93:*," + lat + "," + lon + "," + p[6] + ",*\r\n";
+	    text += "#ZNAM:" + p[7] + "\r\n";
+	    text += "#COM:\r\n";
          }
       });	   
 
@@ -873,7 +873,7 @@ function export_db() {
 
       document.body.removeChild(element);
 
-   }, 100);
+   }, 200);
 }
 
 //------------------------------------------------------------------------------
