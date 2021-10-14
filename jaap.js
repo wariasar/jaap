@@ -550,7 +550,9 @@ function submitform () {
    nForm.elements[8].value = hsys;
    if (nForm.elements[3].value == "") {
       sessionStorage.setItem('notime', 1);
-   }
+   } else {
+      sessionStorage.setItem('notime', 0);
+   } 
    sessionStorage.setItem('radix', 1);
    sessionStorage.setItem('name', getname);
    sessionStorage.setItem('transit', 0);

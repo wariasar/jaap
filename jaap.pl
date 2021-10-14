@@ -576,7 +576,8 @@ sub draw_zodiac {
    # rotation zum AC
    my $ang = get_ang($houses{"house  1"});
    my $rot;
-   if ($rx{"uhrzeit"} ne "" && $hsys ne "Keine") {
+   #if ($rx{"uhrzeit"} ne "" && $hsys ne "Keine") {
+   if ($rx{"uhrzeit"} ne "") {
       $rot ="     transform=\"rotate($ang, 350, 350)\">";
    }
    else { $rot = ">"; }
@@ -896,7 +897,8 @@ sub set_ang {
 #------------------------------------------------------------------------------
 sub offset {
    my $off = get_ang($houses{"house  1"});
-   if ($rx{"uhrzeit"} eq "" || $hsys eq "Keine") { $off = 0; }
+   #if ($rx{"uhrzeit"} eq "" || $hsys eq "Keine") { $off = 0; }
+   if ($rx{"uhrzeit"} eq "") { $off = 0; }
    my $ang = get_ang($_[0]);
    my $ret;
  
