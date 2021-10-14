@@ -1698,13 +1698,19 @@ sub open_about {
    print "klicke <a href=\"https://www.gnu.org/licenses/gpl-3.0#terms\"> hier </a> für Details</div>\n";
 
    print "<ul class=\"features\">";
+   print "<li>Jaap Quellcode herunterladen <a href=\"https://github.com/wariasar/jaap\">(GitHub)</a></li>\n";
    print "<li>Astrologische Daten vom Astrodienst <a href=\"https://www.astro.com/swisseph/swephinfo_e.htm\"> (Swiss Ephemeris)</a></li>\n";
-   print "<li>Ortsdaten von openstreetmap <a href=\"https://nominatim.openstreetmap.org/\"> (Nominatim)</a></li>\n";
-   print "<li>Zeitzonen Ermittlung mit<a href=\"https://github.com/BertoldVdb/ZoneDetect\"> (ZoneDetect)</a></li>\n";
-   print "<li>Zeitzonen Umrechnung mit<a href=\"https://www.iana.org/time-zones/\"> (tzdb)</a></li>\n";
+   #print "<li>Ortsdaten von openstreetmap <a href=\"https://nominatim.openstreetmap.org/\"> (Nominatim)</a></li>\n";
+   #print "<li>Zeitzonen Ermittlung mit<a href=\"https://github.com/BertoldVdb/ZoneDetect\"> (ZoneDetect)</a></li>\n";
+   #print "<li>Zeitzonen Umrechnung mit<a href=\"https://www.iana.org/time-zones/\"> (tzdb)</a></li>\n";
    print "</ul>";
 
-   print "<div class=\"note_about\"><p>Hier bekommst du weitere Informationen:<p> <a href=\"datenschutz.html\">Datenschutz</a>&nbsp;\n";
+   print "<div class=\"note_about\">";
+   print "<p><strong>Hinweis: </strong>Damit du deinen Heimatstandort nicht immer wieder neu eingeben musst, "; 
+   print "wird dieser im Local Storage deines Browsers gespeichert. Ebenso dein bevorzugtes Häusersystem. ";
+   print "Wenn du Horoskope abspeicherst oder importierst, werden diese in der Indexed DB deines Browsers gespeichert. "; 
+   print "Diese Daten kannst du jederzeit selbst wieder löschen.</p></div>"; 
+   print "<a href=\"datenschutz.html\">Datenschutz</a>&nbsp;\n";
    print "<a href=\"impressum.html\">Impressum</a></div>\n";
 
    print "</td>\n</tr>\n</table>\n";
