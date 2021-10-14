@@ -106,14 +106,8 @@ else { print "<div id=\"homecgi\" style=\"display: none\"></div>\n"; }
 #$filter = "Mercury";
 #-------------------------
 
-
 if ($ret_date ne "") { %rx = spl_datestr($ret_date); }
 if ($transit)  { %tr = spl_datestr($ret_date_tr); }
-
-my $dattest = $rx{"datum"};
-my $timetest = $rx{"uhrzeit"};
-my $longtest = $rx{"long"};
-my $lattest = $rx{"lat"};
 
 # Wenn ein Ort übergeben Wurde nur die Ortssuche durchführen
 if ($ort ne "") { ortssuche($ort); }
@@ -186,6 +180,11 @@ if (($transit && $tr{"datum"}  eq "") || (!$transit && $rx{"datum"} eq "")) {
 #      $rx{"lat"} = "$home_lat";
 #      chomp ($rx{"datum"}, $rx{"uhrzeit"}, $rx{"long"}, $rx{"lat"});
 #   }
+}
+
+if ($rx{"uhrzeit"} eq "") {
+   $rx{"uhrzeit"} = "12:00";
+   $hsys = "Keine";
 }
 
 # bc (vor Christus)

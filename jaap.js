@@ -41,6 +41,7 @@ if (test_modus == "radix") {
 
 //prüfen ob ein home long und lat gesetzt ist, wenn ja im localStorage speichern
 if (radix == 0) {
+   sessionStorage.setItem('notime', 0);
    if (document.getElementById("homecgi").innerHTML) { 
       hcgi = document.getElementById("homecgi").innerHTML;
       localStorage.setItem('home', hcgi);
@@ -259,7 +260,12 @@ function set(planet) {
    //var elements = document.getElementById("dst").innerHTML.split(" ");
    var datestr = document.getElementById("dst").innerHTML;
    var multi = sessionStorage.getItem('multi');
-   var hsys = localStorage.getItem('hsys');
+   var hsys;
+   if (sessionStorage.getItem('notime') == 0) {
+      hsys = localStorage.getItem('hsys');
+   } else {
+      hsys = 'Keine';
+   }
    var radix = sessionStorage.getItem('radix');
    var name = sessionStorage.getItem('name');
    var trmode = sessionStorage.getItem('transit');
@@ -317,7 +323,12 @@ function set_offs(op) {
    var offs = sessionStorage.getItem('offset');
    var planet = sessionStorage.getItem('planet');
    var multi = sessionStorage.getItem('multi');
-   var hsys = localStorage.getItem('hsys');
+   var hsys;
+   if (sessionStorage.getItem('notime') == 0) {
+      hsys = localStorage.getItem('hsys');
+   } else {
+      hsys = 'Keine';
+   }
    var trmode = sessionStorage.getItem('transit');
    var dst = localStorage.getItem('home').split(" ");
    if (sessionStorage.getItem('transit') == 1) { 
@@ -351,7 +362,12 @@ function set_offs(op) {
 function set_transit () {
    var rxstr = document.getElementById('dst').innerHTML;
    var dst = localStorage.getItem('home').split(" ");
-   var hsys = localStorage.getItem('hsys');
+   var hsys;
+   if (sessionStorage.getItem('notime') == 0) {
+      hsys = localStorage.getItem('hsys');
+   } else {
+      hsys = 'Keine';
+   }
    sessionStorage.setItem('rxstr', rxstr);
    sessionStorage.setItem('transit', 1);
    sessionStorage.setItem('radix', 0);
@@ -381,7 +397,12 @@ function set_transit () {
 function restore_radix() {
    sessionStorage.setItem('transit', 0);
    var datestr = sessionStorage.getItem('rxstr');
-   var hsys = localStorage.getItem('hsys');
+   var hsys;
+   if (sessionStorage.getItem('notime') == 0) {
+      hsys = localStorage.getItem('hsys');
+   } else {
+      hsys = 'Keine';
+   }
    sessionStorage.setItem('radix', 1);
    radix =1;
    var name = sessionStorage.getItem('name');
@@ -527,6 +548,9 @@ function submitform () {
    var hsys = localStorage.getItem('hsys');
    var nForm = document.forms.nf;
    nForm.elements[8].value = hsys;
+   if (nForm.elements[3].value == "") {
+      sessionStorage.setItem('notime', 1);
+   }
    sessionStorage.setItem('radix', 1);
    sessionStorage.setItem('name', getname);
    sessionStorage.setItem('transit', 0);
@@ -625,13 +649,18 @@ function import_aaf() {
                if (partA[0] == "*") { partA[0] = ""; }
                if (partA[1] == "*") { partA[1] = ""; }
                name = (partA[0] + " " + partA[1]).trim();
-               x = partA[4].split(":");
-               zeit = x[0] + ":" + x[1];
+	       if (partA[4] != "*") {
+                  x = partA[4].split(":");
+                  zeit = x[0] + ":" + x[1];
+	       }
+	       else { zeit = "*"; }
                date = partA[3].split(".");
-               time = zeit.split(":");
-               if (time[0].indexOf("h")) {
-                  x = time[0].replace("h", ":");
-                  time[0] = x;
+               if (zeit != "*") {
+	          time = zeit.split(":");
+                  if (time[0].indexOf("h")) {
+                     x = time[0].replace("h", ":");
+                    time[0] = x;
+	          }
                }
             }
 
@@ -642,7 +671,8 @@ function import_aaf() {
                partB = line.split(",");
 
                dstr = date[0] + "." + date[1] + "." + date[2];
-               tstr = time[0] + "." + time[1];
+               if (zeit != "*") { tstr = time[0] + "." + time[1]; }
+	       else { tstr = "*"; }
 
                if (partB[1].indexOf(":")) { tB1 = partB[1].split(":"); }
                else { tB1[0] = $partB[1]; }
@@ -726,8 +756,16 @@ function set_load (){
    var index = list.selectedIndex;
    var sel = list[index].innerHTML;
    var part = sel.split(";");
+   var hsys;
+   if (part[2] == "*") {
+      part[2] = "12:00";
+      sessionStorage.setItem('notime', 1);
+      hsys = 'Keine';
+   } else {
+      hsys = localStorage.getItem('hsys');
+      sessionStorage.setItem('notime', 0);
+   }
    var name = part[0].replace(" ","%20");
-   var hsys = localStorage.getItem('hsys');
    sessionStorage.setItem('ort', part[5]);
 
    xmlhttp=new XMLHttpRequest();
@@ -771,9 +809,17 @@ function reset () {
       sessionStorage.setItem('name', '');
       sessionStorage.setItem('ort', '');
    }
+   if (transit == 0 || radix == 1) {
+      sessionStorage.setItem('notime', 0);
+   }
    sessionStorage.setItem('radix', 0);
    radix = 0;
-   var hsys = localStorage.getItem('hsys');
+   var hsys;
+   if (sessionStorage.getItem('notime') == 0) {
+      hsys = localStorage.getItem('hsys');
+   } else {
+      hsys = 'Keine';
+   }
    if (!hsys) {
       hsys = 'Placidus';
       localStorage.setItem('hsys', 'Placidus');
@@ -804,6 +850,7 @@ function reset () {
 //------------------------------------------------------------------------------
 function save() {
    var ort = sessionStorage.getItem('ort');
+   var notime = sessionStorage.getItem('notime');
 
    var tzi = document.getElementById("tzi").innerHTML;
    var zz = tzi.split(" ");
@@ -831,7 +878,9 @@ function save() {
          name = name.replace(/\./g,'');
       }
    }
-    
+   
+   if (notime == 1) { dt[1] = "*"; }
+
    var str = name + ";" + dt[0] + ";" + dt[1] + ";" + dt[3] + ";" + dt[4] + ";" + ort + ";" + hours + ew + mins + ";" + dt[2];
    //console.log (str);
    jaap_db("w", str);
