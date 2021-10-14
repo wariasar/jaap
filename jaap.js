@@ -433,15 +433,21 @@ function set_modal () {
    var span = document.getElementsByClassName("close")[0];
    var ort = sessionStorage.getItem('ort');
    var gname = document.getElementById('getname');
-   var rxval = document.getElementById('dst').innerHTML.split(' ');
+   var rxval;
+   if (transit == 0) {
+      rxval = document.getElementById('dst').innerHTML.split(' ');
+   }
+   if (transit == 1) {
+      rxval = sessionStorage.getItem('rxstr').split(' ');
+   }
+
    var x = rxval[0].split('.');
    if(x[0] < 10) { x[0] = "0"+ x[0]; }
    if(x[1] < 10) { x[1] = "0"+ x[1]; }
    var engdate = x[2] + "-" + x[1] + "-" + x[0];
 
-   if (radix == 1 && modflag == 0) {
+   if ((radix == 1 || transit == 1) && modflag == 0) {
       document.nf.name.value = sessionStorage.getItem('name');
-      console.log ("DEBUG: engdate: " + engdate);
       document.nf.datum.value = engdate;
       document.nf.uhrzeit.value = rxval[1];
       document.nf.ort.value = ort;
@@ -547,6 +553,7 @@ function submitform () {
    var getname = document.getElementById('getname').value;
    var hsys = localStorage.getItem('hsys');
    var nForm = document.forms.nf;
+
    nForm.elements[8].value = hsys;
    if (nForm.elements[3].value == "") {
       sessionStorage.setItem('notime', 1);
@@ -557,7 +564,6 @@ function submitform () {
    sessionStorage.setItem('name', getname);
    sessionStorage.setItem('transit', 0);
    sessionStorage.setItem('rxstr', '');
-   //document.getElementById("newform").submit();
    nForm.submit();
 }
 
