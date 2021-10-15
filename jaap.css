@@ -198,7 +198,7 @@ td.bmin {
 } 
 
 td.bmult {
-   width: 40px;
+   width: 48px;
    padding-left: 20px;
    /*overflow: hidden;
    text-overflow: ellipsis;
@@ -285,7 +285,7 @@ select {
   height: 23px;
   line-height: 18px;
   padding: 2px;
-  width: 40px;
+  width: 48px;
 }
 
 #hsys {

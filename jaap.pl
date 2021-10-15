@@ -240,7 +240,7 @@ if (!$radix) {
    print "<td class=\"bmult\">\n<input type=\"number\" id=\"mult\" min=\"1\" max=\"99\" value=\"$multi\" onmouseover=\"show_info('Multiplikator')\"></td>\n";
    #print "<td class=\"bmult\">\n<input type=\"text\" name=\"mul\" id=\"mult\" value=\"$multi\" onmouseover=\"show_info('Multiplikator')\">\n</td>\n";
    print "<td class=\"offstr\">\n<select id=\"offset\">\n";
-   my @offsel = ("Minute", "Stunde", "Tag", "Woche", "Monat");
+   my @offsel = ("Minute", "Stunde", "Tag", "Woche", "Monat", "Jahr");
    foreach (@offsel) {
       chomp ($_);
       if ($_ eq "Stunde") {
@@ -533,7 +533,7 @@ sub date_format {
 #------------------------------------------------------------------------------
 sub calc_offset {
 
-    my %secs = ("Minute" => 60, "Stunde" => 3600, "Tag" => 86400, "Woche" => 604800, "Monat" => 2419200);
+    my %secs = ("Minute" => 60, "Stunde" => 3600, "Tag" => 86400, "Woche" => 604800, "Monat" => 2592000, "Jahr" => 31536000);
     my @p1 = split (/\s+/, $_[0]);
     my @dstr = split (/\./, $p1[0]);
     my @tstr = split (/:/, $p1[1]);

@@ -199,13 +199,16 @@ function TasteGedrueckt (evt) {
      if (sessionStorage.getItem('transit') == 1 && sessionStorage.getItem('modal') == 0) { restore_radix() } 
    }
    if (sessionStorage.getItem('modal') == 0) {
-      if (evt.keyCode == 49) { setval('offset', 'Minute', 'offset'); setval('mult', 1, 'multi'); }
-      if (evt.keyCode == 52) { setval('offset', 'Minute', 'offset'); setval('mult', 10, 'multi');}
-      if (evt.keyCode == 50) { setval('offset', 'Stunde', 'offset'); setval('mult', 1, 'multi'); }
-      if (evt.keyCode == 51) { setval('offset', 'Tag', 'offset'); setval('mult', 1, 'multi'); }
-      if (evt.keyCode == 53) { setval('offset', 'Woche', 'offset'); setval('mult', 1, 'multi'); }
-      if (evt.keyCode == 54) { setval('offset', 'Monat', 'offset'); setval('mult', 1, 'multi'); }
-      if (evt.keyCode == 55) { setval('offset', 'Monat', 'offset'); setval('mult', 12, 'multi'); }
+      if (evt.keyCode == 48) { setval('offset', 'Jahr', 'offset'); setval('mult', 100, 'multi'); } //0
+      if (evt.keyCode == 49) { setval('offset', 'Minute', 'offset'); setval('mult', 1, 'multi'); } //1
+      if (evt.keyCode == 50) { setval('offset', 'Minute', 'offset'); setval('mult', 10, 'multi'); } //2
+      if (evt.keyCode == 51) { setval('offset', 'Stunde', 'offset'); setval('mult', 1, 'multi'); } //3
+      if (evt.keyCode == 52) { setval('offset', 'Tag', 'offset'); setval('mult', 1, 'multi');} //4
+      if (evt.keyCode == 53) { setval('offset', 'Woche', 'offset'); setval('mult', 1, 'multi'); } //5
+      if (evt.keyCode == 54) { setval('offset', 'Monat', 'offset'); setval('mult', 1, 'multi'); } //6
+      if (evt.keyCode == 55) { setval('offset', 'Jahr', 'offset'); setval('mult', 1, 'multi'); } //7
+      if (evt.keyCode == 56) { setval('offset', 'Jahr', 'offset'); setval('mult', 5, 'multi'); } //8
+      if (evt.keyCode == 57) { setval('offset', 'Jahr', 'offset'); setval('mult', 10, 'multi'); } //9
       if (evt.keyCode == 33 || evt.keyCode == 173) { if (radix == 0 || transit == 1) { set_offs("minus"); }} //PG up (+)
       if (evt.keyCode == 34 || evt.keyCode == 171) { if (radix == 0 || transit == 1) { set_offs("plus"); }}  //PG down (-)
       if (evt.keyCode == 76) { set_open(); } //L (load radix)
