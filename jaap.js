@@ -209,8 +209,8 @@ function TasteGedrueckt (evt) {
       if (evt.keyCode == 55) { setval('offset', 'Jahr', 'offset'); setval('mult', 1, 'multi'); } //7
       if (evt.keyCode == 56) { setval('offset', 'Jahr', 'offset'); setval('mult', 5, 'multi'); } //8
       if (evt.keyCode == 57) { setval('offset', 'Jahr', 'offset'); setval('mult', 10, 'multi'); } //9
-      if (evt.keyCode == 33 || evt.keyCode == 173) { if (radix == 0 || transit == 1) { set_offs("plus"); }} //PG up (+)
-      if (evt.keyCode == 34 || evt.keyCode == 171) { if (radix == 0 || transit == 1) { set_offs("minus"); }}  //PG down (-)
+      if (evt.keyCode == 33 || evt.keyCode == 173) { if (radix == 0 || transit == 1) { set_offs("minus"); }} //PG up (-)
+      if (evt.keyCode == 34 || evt.keyCode == 171) { if (radix == 0 || transit == 1) { set_offs("plus"); }}  //PG down (+)
       if (evt.keyCode == 76) { set_open(); } //L (load radix)
       if (evt.keyCode == 35) { set("Alle"); } //ende
       if (evt.keyCode == 36) { reset(); } //pos1
@@ -893,11 +893,12 @@ function save() {
    }
    
    if (notime == 1) { dt[1] = "*"; }
-
-   var str = name + ";" + dt[0] + ";" + dt[1] + ";" + dt[3] + ";" + dt[4] + ";" + ort + ";" + hours + ew + mins + ";" + dt[2];
-   //console.log (str);
-   jaap_db("w", str);
-   if (pr == 0) { alert ("Horoskop wurde gespeichert"); }
+   if (name != null) {
+      var str = name + ";" + dt[0] + ";" + dt[1] + ";" + dt[3] + ";" + dt[4] + ";" + ort + ";" + hours + ew + mins + ";" + dt[2];
+      //console.log (str);
+      jaap_db("w", str);
+      if (pr == 0) { alert ("Horoskop wurde gespeichert"); }
+   }
 }
 
 //------------------------------------------------------------------------------
