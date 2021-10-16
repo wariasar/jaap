@@ -209,8 +209,8 @@ function TasteGedrueckt (evt) {
       if (evt.keyCode == 55) { setval('offset', 'Jahr', 'offset'); setval('mult', 1, 'multi'); } //7
       if (evt.keyCode == 56) { setval('offset', 'Jahr', 'offset'); setval('mult', 5, 'multi'); } //8
       if (evt.keyCode == 57) { setval('offset', 'Jahr', 'offset'); setval('mult', 10, 'multi'); } //9
-      if (evt.keyCode == 33 || evt.keyCode == 173) { if (radix == 0 || transit == 1) { set_offs("minus"); }} //PG up (+)
-      if (evt.keyCode == 34 || evt.keyCode == 171) { if (radix == 0 || transit == 1) { set_offs("plus"); }}  //PG down (-)
+      if (evt.keyCode == 33 || evt.keyCode == 173) { if (radix == 0 || transit == 1) { set_offs("plus"); }} //PG up (+)
+      if (evt.keyCode == 34 || evt.keyCode == 171) { if (radix == 0 || transit == 1) { set_offs("minus"); }}  //PG down (-)
       if (evt.keyCode == 76) { set_open(); } //L (load radix)
       if (evt.keyCode == 35) { set("Alle"); } //ende
       if (evt.keyCode == 36) { reset(); } //pos1
@@ -644,14 +644,15 @@ function import_aaf() {
          var part = content.split(/\r?\n/);
          var part2, partA, partB, partZ, Name, zeit, line, date, time, timestr, utcd, utcdate, utctime, utcdatetime, x, tB1, tB2;
          var lines = new Array;
-         var count = 0;
+         var count = -1;
          var bcount = 0;
          var pLen = part.length;
        
 
-         // Einlesen der #A93 Zeile 
          for (i = 0; i < pLen; i++) {
+            // Einlesen der #A93 Zeile 
             if (part[i].indexOf("#A93") != -1) {
+	       count++;
                bcount = 0;
                part[i] = part[i].replace(/(\r\n|\n|\r)/gm," ");
                line = part[i].slice(5);
@@ -675,14 +676,14 @@ function import_aaf() {
                }
             }
 
-         // Einlesen der #B93 Zeile 
+            // Einlesen der #B93 Zeile 
             if (part[i].indexOf("#B93") != -1 && bcount == 0) {
                bcount++;
                line = part[i].slice(5);
                partB = line.split(",");
 
                dstr = date[0] + "." + date[1] + "." + date[2];
-               if (zeit != "*") { tstr = time[0] + "." + time[1]; }
+               if (zeit != "*") { tstr = time[0] + ":" + time[1]; }
 	       else { tstr = "*"; }
 
                if (partB[1].indexOf(":")) { tB1 = partB[1].split(":"); }
@@ -697,17 +698,18 @@ function import_aaf() {
                xlong = x;
 	       tc = partB[3];
 
-               lines[count++] = name + ";" + dstr + ";" + tstr + ";" + xlong + ";" + xlat + ";" + ortsname + ";" + tc;
+               lines[count] = name + ";" + dstr + ";" + tstr + ";" + xlong + ";" + xlat + ";" + ortsname + ";" + tc;
             }
 
-         // Einlesen der #ZNAM Zeile 
-         //   if (part[i].indexOf("#ZNAM") != -1) {
-	 //      partZ = part[i].split(":");
-	 //      abw = partZ[1];
-         //   }
-
-	
+            // Einlesen der #ZNAM Zeile 
+            if (part[i].indexOf("#ZNAM") != -1) {
+	       partZ = part[i].split(":");
+	       abw = partZ[1];
+	       
+	       lines[count] += ";" + abw;
+            }
          }
+
          lines.forEach(function(linesElement) {
 	    jaap_db("w", linesElement);
 	 });
