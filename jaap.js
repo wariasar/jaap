@@ -739,20 +739,25 @@ function set_open () {
       entr = db_str.split(",");
 
       modal.style.display = "block";
+      sessionStorage.setItem('modal', 1);
 
       // X - Dialog schliessen
       span.onclick = function() {
          modal.style.display = "none";
+         sessionStorage.setItem('modal', 0);
       }
 
       var selectElement = document.getElementById('llist');
 
 
       entr.forEach(function(entrElement) { 
-         var option = new Option(entrElement);
-         selectElement.options[count] = option;
-         count++;
+	 if (entrElement != "") {
+            var option = new Option(entrElement);
+            selectElement.options[count] = option;
+            count++;
+         }
       });	   
+      document.getElementById('llist').focus();
    })
 }
 
@@ -779,6 +784,7 @@ function set_load (){
    }
    var name = part[0].replace(" ","%20");
    sessionStorage.setItem('ort', part[5]);
+   sessionStorage.setItem('modal', 0);
 
    xmlhttp=new XMLHttpRequest();
    xmlhttp.onreadystatechange=function() {
