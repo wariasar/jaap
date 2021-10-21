@@ -413,6 +413,10 @@ table.out {
         white-space: nowrap;
 }
 
+#llist option:hover {
+   background: #ccc;
+}
+
 .message {
 	display:block;
 	font-family: Verdana, Arial, Helvetica, sans-serif;

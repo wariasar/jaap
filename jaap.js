@@ -734,9 +734,8 @@ function set_open () {
    var entr = new Array();
    db_str = "";
 
-   jaap_db("r");
-
-   setTimeout(function() {
+   jaap_db("r")
+   .then(() => {
       entr = db_str.split(",");
 
       modal.style.display = "block";
@@ -754,7 +753,7 @@ function set_open () {
          selectElement.options[count] = option;
          count++;
       });	   
-   }, 200);
+   })
 }
 
 
@@ -962,44 +961,47 @@ function export_db() {
 // Datenbank für die gespeicherten Horoskope und die Hinweistexte
 //------------------------------------------------------------------------------
 function jaap_db (rw, str) {
-   var obj = new Array();
-   var all;
-   var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
+   return new Promise((resolve, reject) => {
+      var obj = new Array();
+      var all;
+      var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
 
-   const openRequest = indexedDB.open("jaapDB", 1);
+      const openRequest = indexedDB.open("jaapDB", 1);
 
-   openRequest.onupgradeneeded = e => {
-      const db = e.target.result;
-      db.createObjectStore('radix', { autoIncrement: true });
-   }
+      openRequest.onupgradeneeded = e => {
+         const db = e.target.result;
+         db.createObjectStore('radix', { autoIncrement: true });
+      }
 
-      openRequest.onsuccess = e => {
-      const db = e.target.result;    
+         openRequest.onsuccess = e => {
+         const db = e.target.result;    
     
-      const transaction = db.transaction('radix', 'readwrite');
-      const radixStore = transaction.objectStore('radix');
+         const transaction = db.transaction('radix', 'readwrite');
+         const radixStore = transaction.objectStore('radix');
 
-      if (rw == "w") {
-         radixStore.put(str);
-	 return 1;
-      }
-      else if (rw == "r") {
-         all = radixStore.getAll();
-	 all.onsuccess = function() {
-            obj = (all.result);
-            obj.forEach(function(obj){
-	       db_str += obj + ",";
-            });
+         if (rw == "w") {
+            radixStore.put(str);
+	    return 1;
+         }
+         else if (rw == "r") {
+            all = radixStore.getAll();
+	    all.onsuccess = function() {
+               obj = (all.result);
+               obj.forEach(function(obj){
+	          db_str += obj + ",";
+               });
+            };
+	    db_str = db_str.replace(/,\s*$/, "");
+         }
+
+         // Close the db when the transaction is done
+         transaction.oncomplete = function() {
+	    console.log("closing DB");
+            db.close();
+            resolve();
          };
-	 db_str = db_str.replace(/,\s*$/, "");
       }
-
-      // Close the db when the transaction is done
-      transaction.oncomplete = function() {
-	 console.log("closing DB");
-         db.close();
-      };
-   }
+   })
 }
 
 
