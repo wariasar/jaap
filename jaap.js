@@ -27,6 +27,7 @@ var version = "alpha 0.0.35";
 var test_modus = document.getElementById("info").innerHTML;
 var radix = 0;
 var transit = 0;
+var load = 0;
 var hcgi;
 var db_str = "";
 var create_new = 0;
@@ -104,7 +105,6 @@ if (dstr[1] == "") {
 if (radix == 0 && transit == 0) {
    document.getElementById('hsys').value = localStorage.getItem('hsys');
    reset();
-   console.log("hsys restored!");
 }
 
 
@@ -188,6 +188,7 @@ elem.addEventListener("keyup", TasteLosgelassen);
 function TasteGedrueckt (evt) {
    if (evt.keyCode == 27) { //esc 
       modal = 0;
+      load = 0;
       sessionStorage.setItem('modal', 0);
       document.getElementById('subf').focus(); 
       set("Alle");
@@ -198,6 +199,9 @@ function TasteGedrueckt (evt) {
    if (evt.keyCode == 82) { //r
      if (sessionStorage.getItem('transit') == 1 && sessionStorage.getItem('modal') == 0) { restore_radix() } 
    }
+
+   if (load == 1 && evt.keyCode == 13) { set_load(); }
+
    if (sessionStorage.getItem('modal') == 0) {
       if (evt.keyCode == 48) { setval('offset', 'Jahr', 'offset'); setval('mult', 100, 'multi'); } //0
       if (evt.keyCode == 49) { setval('offset', 'Minute', 'offset'); setval('mult', 1, 'multi'); } //1
@@ -740,11 +744,13 @@ function set_open () {
 
       modal.style.display = "block";
       sessionStorage.setItem('modal', 1);
+      load = 1;
 
       // X - Dialog schliessen
       span.onclick = function() {
          modal.style.display = "none";
          sessionStorage.setItem('modal', 0);
+	 load = 0;
       }
 
       var selectElement = document.getElementById('llist');
@@ -785,6 +791,7 @@ function set_load (){
    var name = part[0].replace(" ","%20");
    sessionStorage.setItem('ort', part[5]);
    sessionStorage.setItem('modal', 0);
+   load = 0;
 
    xmlhttp=new XMLHttpRequest();
    xmlhttp.onreadystatechange=function() {
@@ -1002,7 +1009,7 @@ function jaap_db (rw, str) {
 
          // Close the db when the transaction is done
          transaction.oncomplete = function() {
-	    console.log("closing DB");
+	    //console.log("closing DB");
             db.close();
             resolve();
          };
