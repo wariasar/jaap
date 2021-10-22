@@ -1755,7 +1755,7 @@ sub submenue {
    print "<a href=\"javascript:save()\">📥 Speichern</a>\n";
    print "<a href=\"javascript:import_aaf()\">📂 AAF Import</a>\n";
    print "<a href=\"javascript:export_db()\">💾 AAF Export</a>\n";
-   print "<a id=\"btn_hlp\" href=\"help.html\" target=\"_blank\">❓ Hilfe</a>\n";
+   print "<a id=\"btn_hlp\" href=\"help.html\" target=\"_blank\">🔎 Hilfe</a>\n";
    print "<a id=\"btn_about\" href=\"javascript:show_about()\">💬 Über</a>\n";
    print "</div>\n";
 
