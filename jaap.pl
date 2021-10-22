@@ -1651,7 +1651,7 @@ sub neu_dialog {
    print "<tr>\n<td class=\"noline_sh\">Long:\n<input type=\"text\" name=\"long\" id=\"long\" class=\"htext\" />\n</td>\n";
    #print "<td class=\"noline\">Lat:\n<input type=\"text\" name=\"lat\" id=\"lat\" class=\"htext\" />\n</td>\n</tr>\n";
    print "<td class=\"noline\">Lat:\n<input type=\"text\" name=\"lat\" id=\"lat\" class=\"htext\" />\n</td>\n";
-   print "<td class=\"noline_c\"><a href=\"javascript:set_home_loc()\" class=\"sethome\">⌂</a></td></tr>\n";
+   print "<td class=\"noline_c\"><a href=\"javascript:set_home_loc()\" class=\"sethome\">🏡</a></td></tr>\n";
 
    print "<input type=\"hidden\" id=\"hsys\" name=\"hsys\">\n";
 
