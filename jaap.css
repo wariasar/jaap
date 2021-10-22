@@ -1,5 +1,5 @@
 body {
-   font-family: 'DejaVu Serif', 'dejavuserifweb';
+   font-family: 'DejaVu Serif', 'dejavuserifweb', 'freeserifweb';
    width: 1200px;
 }
 
@@ -12,6 +12,11 @@ body {
 @font-face {
    font-family: 'dejavuserifweb'; 
    src: url('DejaVuSerif.woff2');
+}
+
+@font-face {
+   font-family: 'freeserifweb'; 
+   src: url('FreeSerif.woff2');
 }
 
 h4 {
