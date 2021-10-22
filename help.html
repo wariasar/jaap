@@ -7,7 +7,36 @@
 <link rel="stylesheet" href="jaap.css" />
 </head>
 <body id="Seite">
-<h3>Neu in der Version 0.0.34</h3>
+
+<h3 id="doc_start">Inhaltsverzeichnis</h2>
+
+<p>
+<a href="#doc_0035 ">Neu in der Version 0.0.35</a><br />
+<a href="#doc_0034 ">Neu in der Version 0.0.34</a><br />
+<a href="#doc_0033 ">Neu in der Version 0.0.33</a><br />
+<a href="#doc_bedanl">Anleitung zur Benutzung</a><br />
+<a href="#doc_sethome">Heimatstandort setzen</a><br />
+<a href="#doc_sp">Horoskop Speichern/Laden – AAF Import/Export<br />
+<a href="#doc_del">Daten löschen</a><br />
+<a href="#doc_sc">Tastatur Kürzel (shortcuts)</a>
+</p>
+
+<hr>
+
+<h3 id="doc_0035">Neu in der Version 0.0.35</h3>
+<ul>
+  <li>Anzeige der Elemente und Qualitäten</li>
+  <li>Es werden keine Cookies mehr verwendet, sondern Local - und Session Storage</li>
+  <li>Horoskope können in der Indexed DB gespeichert und daraus geladen werden</li>
+  <li>AAF Import und Export</li>
+  <li>Wenn keine Uhrzeit angegeben, wird das Horoskop ohne Häuser dargestellt</li>
+  <li>Tastatur eingabe für »Neu« und »Laden« verbessert</li>
+  <li>Bugfix: Multi und Intervall Eingabe</li>
+</ul>
+<a href="#doc_start">Inhaltsverzeichnis</a>
+
+
+<h3 id="doc_0034">Neu in der Version 0.0.34</h3>
 <ul>
   <li>Weitere Häusersysteme hinzugefügt</li>
   <li>Impressum</li>
@@ -17,19 +46,24 @@
   <li>Radixeingabe ist editierbar</li>
   <li>Bugfix – Ortssuche überschreibt Werte in Neu Dialog</li>
 </ul>
-<h3>Neu in der Version 0.0.33</h3>
+<a href="#doc_start">Inhaltsverzeichnis</a>
+
+<h3 id="doc_0033">Neu in der Version 0.0.33</h3>
 <ul>
   <li>Bugfix - nicht alle Aspekte wurden angezeigt</li>
   <li>Sextilaspekte hinzugefügt</li>
   <li>Transit Horoskop</li>
   <li>Standort des Astrologen kann gesetzt werden</li>
 </ul>
-<h3>Beschreibung</h3>
+<a href="#doc_start">Inhaltsverzeichnis</a>
+
+<h3 id="doc_bedanl">Anleitung zur Benutzung</h3>
 Jaap ist eine freie Astrologie Software. Jaap ist eine Abkürzung und steht für »just another astrology program«
 Jaap ist eine Webanwendung. D.h. du benötigst nur einen aktuellen Browser um die Software zu benutzen.
 <p>
 Beim starten des Programms wird das aktuelle Horoskop angezeigt. Oben ist die Menue und Statusleiste, 
-links sind die Tabellen für die Planeten und die Häuser, in der Mitte ist die Horoskop Grafik und rechts die
+links sind die Tabellen für die Planeten und die Häuser, darunter die Elemente (F)euer, (E)rde, (L)uft, (W)asser und
+die Qualitäten (K)ardinal, (F)ix, (V)eränderlich. In der Mitte ist die Horoskop Grafik und rechts die
 Tabelle mit den Aspekten.
 </p><p>
 Wenn du mit der Maus auf einen Planeten in der Grafik zeigst, wird rechts oben in der Menue und Statusleiste der Name
@@ -39,36 +73,66 @@ wieder alle Aspekte angezeigt.
 </p><p>
 In Menue und Statusleiste kannst du einen Offset einstellen z.B. 1 Tag. Mit den »+« und »–« Buttons kannst du in diesem
 Schritt in der Zeit vor oder zurück springen. Das Gleiche geht auch mit den Tasten [Bild auf] und [Bild ab] oder [+] und [–]
-Auf den Tasten [1] - [7] sind bereits gängige Zeiträume hinterlegt, welche mit einem Tastendruck einstellbar sind.
-Mit einem Klick auf den »!« Button wird die Zeit wieder auf die aktuelle zurückgesetzt.
+Auf den Tasten [1] - [0] sind bereits gängige Zeiträume hinterlegt, welche mit einem Tastendruck einstellbar sind.
+Mit einem Klick auf den »!« Button oder mit der taste [pos1] wird die Zeit wieder auf die aktuelle zurückgesetzt.
 </p><p>
 Jaap ist auf eine möglichst effiziente Bedienung ausgelegt. Ich habe darauf geachtet, dass für alle wichtigen Funktionen
-nur ein Mausklick bzw. Tastendruck erforderlich ist. Weiter unten gibt es eine Beschreibung aller Tastatur shortcuts.
+nur ein Mausklick bzw. Tastendruck erforderlich ist. Weiter unten gibt es eine Beschreibung aller Tastatur <a href="#doc_sc">shortcuts</a>.
 </p><p>
 Mit einem Klick auf den Button »N« öffnet sich eine Eingabe Maske für ein neues Radix. Bitte hier einen Namen, das Datum,
 die Uhrzeit im Format Stunde:Minute und den Ort eintragen. Ein Klick auf »suchen« liefert eine Ergebnis liste. Durch anklicken des
-gewünschten Ortes werden dessen Koordinaten übernommen. Mit »OK« abschließen und das Radix wird angezeigt. Im Radix kannst du auch
+gewünschten Ortes werden dessen Koordinaten übernommen.
+Um ein Datum vor Christus einzugeben, einfach hinter die Uhrzeit "bc" mit einem Leerzeichen getrennt
+schreiben oder wenn keine Uhrzeit, einfach nur "bc" in das Feld schreiben. Z.B. 12:00 bc<br />
+Wenn die Urzeit nicht bekannt ist, das Feld leer lassen, dann wird die Grafik ohne Häuser dargestellt.
+Mit »OK« abschließen und das Radix wird angezeigt. Im Radix kannst du auch
 Filter durch anklicken eines Planeten setzen.
 </p><p>
 Ein Klick auf den Button »T« blendet das Transit Horoskop ein. Hier ist innen das Radix und aussen das aktuelle Horoskop zu sehen.
 Jetzt ist auch die Zeit Navigation wieder verfügbar und du kannst im aktuellen Horoskop in der Zeit vor oder zurück springen um
-den Verlauf eines Transiten zu beobachten. Im Transit Modus werden nicht mehr die Radix Aspekte, sondern die Transit Aspekte angezeigt.
+den Verlauf eines Transits zu beobachten. Im Transit Modus werden nicht mehr die Radix Aspekte, sondern die Transit Aspekte angezeigt.
 Mit einem Klick auf »R« wechselst du wieder zu dem radix Horoskop zurück. Dies geht auch mit den Tasten [T] und [R].
+<p><a href="#doc_start">Inhaltsverzeichnis</a></p>
 </p><p>
 
-<h3>Heimat Standort setzen</h3>
+<h3 id="doc_sp">Horoskop Speichern/Laden – AAF Import/Export</h3>
+Du kannst das aktuell angezeigte Horoskop in der Datenbank abspeichern. Klicke hierzu auf das Menue ☰ und dann auf 📥 Speichern.
+Wenn das Horoskop keinen Namen hat, wird dieser abgefragt. Zum Anzeigen der gespeicherten Horoskope oder zum Laden auf das Menue ☰ 
+klicken und dann 📤 Laden, oder einfach die Taste [L] drücken. Durch das Anklicken eines Horoskopes aus der Liste, wird dieses geöffnet.
+Du kannst auch mit den Cursortasten, mit [bild auf] oder [bild ab] oder durch drücken des Anfangsbuchstabens in der Liste navigieren. Mit der
+[Enter] Taste wird das ausgewälte Horoskop geöffnet.<br />
+Die Einträge in der Datenbank können durch eine <a href="#doc_del">Datenlöschung </a> verloren gehen. Du kannst die Datenbank deshalb in einer
+Datei sichern um sie dann später wieder neu importieren zu können. Klicke dazu auf das Menue ☰ und dann auf 💾 AAF Export. Es öffnet sich ein
+Download Dialog über welchen du die Datei auf deiner Festplatte speichern kannst. Jenachdem wie dein Browser eingestellt ist, kann es auch sein
+dass die Datei direkt nach »Downloads« gespeichert wird.</br />
+Um die Liste wieder aus der Datei in die Datenbank zu importieren auf das Menue ☰ klicken und dann auf 📂 AAF Import. Es wird ein Datei öffnen
+Dialog eingeblendet und du kannst zu deiner gespeicherten Datei navigieren. Durch einen Klick auf öffnen werden die Daten imortiert.
+<p class=doc_note>
+<b><u>Hinweis:</u></b> Derzeit wird noch keine Überprüfung der Daten durchgeführt. D.h. Horoskope, welche doppelt abgespeichert
+oder importiert werden, sind dann auch doppelt in der Datenbank. Fehlerhaft abgespeicherte Horoskope können aber wieder
+<a href="#doc_del">gelöscht</a> werden.
+</p/>
+Das AAF Format wird auch von vielen anderen Astrologie Programmen unterstützt. Deshalb kannst du die exportierten Horoskope auch in
+andere Programme importieren oder von dort exportierte Horoskope in Jaap importieren.
+
+<p><a href="#doc_start">Inhaltsverzeichnis</a></p>
+
+<h3 id="doc_sethome">Heimat Standort setzen</h3>
 Auf meinem Server ist der Standort des Astrologen (Der Standort des aktuellen Horoskopes) auf Nürnberg gestellt. (Standort des Entwicklers).
 Um den Heimatstandort auf deine Koordinaten zu setzen musst du wie folgt vorgehen:<br />
 <ul>
-  <li>Auf den Button »N« klicken, es öffnet sich der Dialog für ein neues Radix.</li>
+  <li>Auf den Button »N« klicken oder [N] Taste drücken, es öffnet sich der Dialog für ein neues Radix.</li>
   <li>Im Feld »Ort« den gewünschten Ort eingeben und auf »suchen» klicken.</li>
   <li>Den richtigen Ort aus der Ergebnis liste anklicken, die Koordinaten werden übernommen</li>
   <li>Wenn die Koordinaten in den Feldern »Long« und »Lat« stehen rechts daneben auf das Haus Symbol klicken.</li>
 </ul>
-Die Seite wird jetzt mit deinen Koordinaten neu geladen und die Koordinaten erscheinen auch in der Adresszeile des Browsers.
+Die Seite wird jetzt mit deinen Koordinaten neu geladen und im Local Storage gespeichert. Die Seite wird ab jetzt immer mit deinen Koordinaten
+gestartet. Wenn du eine <a href="#doc_del">Löschung der Daten</a> vornimmst geht die Information verloren.
+Die Koordinaten erscheinen auch in der Adresszeile des Browsers.
 Wenn du hier einen Bookmark (Lesezeichen) setzt, dann kannst du über diesen in Zukunft jaap immer gleich mit deinen Heimat Koordinaten starten.
+<p><a href="#doc_start">Inhaltsverzeichnis</a></p>
 
-<h3>Tastatur Kürzel (shortcuts)</h3>
+<h3 id="doc_sc">Tastatur Kürzel (shortcuts)</h3>
 <table>
 <tr>
 <th>Taste</th>
@@ -77,17 +141,23 @@ Wenn du hier einen Bookmark (Lesezeichen) setzt, dann kannst du über diesen in 
 <td>[esc]</td>
 <td>Alle Aspekte anzeigen (Filter löschen)</td>
 </tr><tr>
+<td>[N]</td>
+<td>Neues Horoskop eingeben</td>
+</tr><tr>
+<td>[L]</td>
+<td>Horoskop aus der Datenbank laden</td>
+</tr><tr>
 <td>[1]</td>
 <td>Zeitintervall auf 1 Minute stellen</td>
 </tr><tr>
 <td>[2]</td>
-<td>Zeitintervall auf 1 Stunde stellen</td>
+<td>Zeitintervall auf 10 Minuten stellen</td>
 </tr><tr>
 <td>[3]</td>
-<td>Zeitintervall auf 1 Tag stellen</td>
+<td>Zeitintervall auf 1 Stunde stellen</td>
 </tr><tr>
 <td>[4]</td>
-<td>Zeitintervall auf 10 Minuten stellen</td>
+<td>Zeitintervall auf 1 Tag stellen</td>
 </tr><tr>
 <td>[5]</td>
 <td>Zeitintervall auf 1 Woche stellen</td>
@@ -96,7 +166,16 @@ Wenn du hier einen Bookmark (Lesezeichen) setzt, dann kannst du über diesen in 
 <td>Zeitintervall auf 1 Monat stellen</td>
 </tr><tr>
 <td>[7]</td>
-<td>Zeitintervall auf 12 Monate stellen</td>
+<td>Zeitintervall auf 1 Jahr stellen</td>
+</tr><tr>
+<td>[8]</td>
+<td>Zeitintervall auf 5 Jahre stellen</td>
+</tr><tr>
+<td>[9]</td>
+<td>Zeitintervall auf 10 Jahre stellen</td>
+</tr><tr>
+<td>[0]</td>
+<td>Zeitintervall auf 100 Jahre stellen</td>
 </tr><tr>
 <td>[T]</td>
 <td>Das Transit Horoskop anzeigen (geht nur im Radix Modus)</td>
@@ -115,9 +194,46 @@ Wenn du hier einen Bookmark (Lesezeichen) setzt, dann kannst du über diesen in 
 </tr><tr>
 <td>[–]</td>
 <td>In der Zeit zurück springen</td>
+</tr><tr>
+<td>[pos1]</td>
+<td>Aktuelles Horoskop anzeigen</td>
 </tr>
 </table>
+<a href="#doc_start">Inhaltsverzeichnis</a>
 
 
+<h3 id="doc_del">Daten löschen</h3>
+<b>Jaap speichert folgende Daten im Local Storage deines Browsers:</b>
+<ul>
+<li>Wenn du einen <a href="#doc_sethome">Heimatstandort</a> eingegeben hast, werden dessen Koordinaten gespeichert.</li>
+<li>Wenn du ein Häusersystem ausgewählt hast, wir dieses gespeichert</li>
+<li>Die aktuell verwendete Versions Nummer.</li>
+</ul>
+Der Heimatstandort und das Häusersystem werden gespeichert, damit du diese nicht jedes mal neu einstellen musst.
+Die Versionsnummer wird gespeichert, damit wenn sich die Version auf dem Server ändert der Startdialog mit den Hinweisen
+neu eingeblendet wird. Anschliessend wird die Versionsnummer in deinem Local Storage aktualisiert und der Dialog wird nicht
+mehr eingeblendet.
+<p></p>
+<b>Jaap speichert folgende Informationen in der Indexed DB deines Browsers:</b>
+<ul>
+<li>Wenn du ein Horoskop über das menue ☰ und 📥 Speichern abspeicherst, werden die Horoskopdaten gespeichert.</li>
+<li>Wenn du einen Import über das menue ☰ und 📂 AAF Import durchführst, werden die Horoskopdaten aus der Datei gespeichert.</li>
+</ul>
+<b>Wenn du die Daten wieder löschen möchtest, kannst du dies folgendermassen tun:</b>
+<p>Wenn die Webseite von Jaap der aktive Tab ist, dann drücke gleichzeitig die Tasten [shift][strg][I]</br >
+Bei manchen Browsern funktioniert auch [F12]. Es öffnen sich die Entwicklertools. Wenn du Chrome, Chromium oder einen auf Chromium
+basierenden Browser hast (z.B. Edge, Opera, Vivaldi, Brave) dann heisst der Tab »Application« oder »App« oder »Anwendung«. Im Firefox heisst der
+Tab »Web-Speicher«. Diesen Tab auswählen (wenn er nicht sichtbar ist dann rechts auf den "≫" Button klicken um noch weitere
+Tabs einzublenden). Dann ist es links die Kategorie »Storage« oder »Speicher«. Dann »Local Storage« bzw. »Lokaler Speicher«
+aufklappen. Mit rechtsklick auf die Domain und dann »clear« bzw. »löschen« oder »alles löschen«.</p>
+<img src="img/del_01.png" alt="Abbildung: Chrome delete Local Storage">
+<p>Das gleiche kannst du auch mit den Einträgen der IndexedDB machen. Aufklappen bis zum Folder »radix« und dann rechte Maustaste
+»clear« bzw. »löschen« oder »alles löschen«. Du kannst auch einzelne Einträge löschen, indem du einen rechtsklick auf den
+entsprechenden Eintrag machst.</p>
+<img src="img/del_02.png" alt="Abbildung: Chrome delete Local Storage">
+
+
+
+<p><a href="#doc_start">Inhaltsverzeichnis</a></p>
 
 </body>

@@ -1693,13 +1693,13 @@ sub open_about {
    print "<tr>\n<td colspan=\"2\" class=\"noline\">\n";
 
    print "<div class=\"gnu\">Copyright (C) 2019 Armin Warias.<br />\nFür jaap besteht KEINERLEI GARANTIE. ";
-   print "klicke <a href=\"https://www.gnu.org/licenses/gpl-3.0\"> hier</a> für Details.<br />"; 
+   print "klicke <a href=\"https://www.gnu.org/licenses/gpl-3.0\" target=\"_blank\"> hier</a> für Details.<br />"; 
    print "jaap ist freie Software, die du unter bestimmten Bedingungen weitergeben darfst. ";
-   print "klicke <a href=\"https://www.gnu.org/licenses/gpl-3.0#terms\"> hier </a> für Details</div>\n";
+   print "klicke <a href=\"https://www.gnu.org/licenses/gpl-3.0#terms\" target=\"_blank\"> hier </a> für Details</div>\n";
 
    print "<ul class=\"features\">";
-   print "<li>Jaap Quellcode herunterladen <a href=\"https://github.com/wariasar/jaap\">(GitHub)</a></li>\n";
-   print "<li>Astrologische Daten vom Astrodienst <a href=\"https://www.astro.com/swisseph/swephinfo_e.htm\"> (Swiss Ephemeris)</a></li>\n";
+   print "<li>Jaap Quellcode herunterladen <a href=\"https://github.com/wariasar/jaap\" target=\"_blank\">(GitHub)</a></li>\n";
+   print "<li>Astrologische Daten vom Astrodienst <a href=\"https://www.astro.com/swisseph/swephinfo_e.htm\" target=\"_blank\"> (Swiss Ephemeris)</a></li>\n";
    #print "<li>Ortsdaten von openstreetmap <a href=\"https://nominatim.openstreetmap.org/\"> (Nominatim)</a></li>\n";
    #print "<li>Zeitzonen Ermittlung mit<a href=\"https://github.com/BertoldVdb/ZoneDetect\"> (ZoneDetect)</a></li>\n";
    #print "<li>Zeitzonen Umrechnung mit<a href=\"https://www.iana.org/time-zones/\"> (tzdb)</a></li>\n";
@@ -1709,9 +1709,9 @@ sub open_about {
    print "<p><strong>Hinweis: </strong>Damit du deinen Heimatstandort nicht immer wieder neu eingeben musst, "; 
    print "wird dieser im Local Storage deines Browsers gespeichert. Ebenso dein bevorzugtes Häusersystem. ";
    print "Wenn du Horoskope abspeicherst oder importierst, werden diese in der Indexed DB deines Browsers gespeichert. "; 
-   print "Diese Daten kannst du jederzeit selbst wieder löschen.</p></div>"; 
-   print "<a href=\"datenschutz.html\">Datenschutz</a>&nbsp;\n";
-   print "<a href=\"impressum.html\">Impressum</a></div>\n";
+   print "Diese Daten kannst du jederzeit selbst wieder löschen. <a href=\"help.html#doc_del\" target=\"_blank\">(Dokumentation)</a></p></div>"; 
+   print "<a href=\"datenschutz.html\" target=\"_blank\">Datenschutz</a>&nbsp;\n";
+   print "<a href=\"impressum.html\" target=\"_blank\">Impressum</a></div>\n";
 
    print "</td>\n</tr>\n</table>\n";
    print "<p class=\"ih\"><button class=\"button1\" onclick=\"close_about()\">OK</button>\n</p></div>\n</div>\n\n";   
@@ -1755,7 +1755,7 @@ sub submenue {
    print "<a href=\"javascript:save()\">📥 Speichern</a>\n";
    print "<a href=\"javascript:import_aaf()\">📂 AAF Import</a>\n";
    print "<a href=\"javascript:export_db()\">💾 AAF Export</a>\n";
-   print "<a id=\"btn_hlp\" href=\"help.html\">❓ Hilfe</a>\n";
+   print "<a id=\"btn_hlp\" href=\"help.html\" target=\"_blank\">❓ Hilfe</a>\n";
    print "<a id=\"btn_about\" href=\"javascript:show_about()\">💬 Über</a>\n";
    print "</div>\n";
 
