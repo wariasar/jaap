@@ -364,7 +364,7 @@ if ($hsys ne "") {
 
             calc_elements($hnr, $reldeg[1]);
 
-            print "<tr>\n<td class=\"diff1\">$hnr</td>\n<td class=\"diff2\">$reldeg[0]</td>\n<td class=\"diff\">$reldeg[1]</td>\n</tr>\n";
+            print "<tr>\n<td class=\"diff1\">$hnr</td>\n<td class=\"diff2\">$reldeg[0]</td>\n<td class=\"diff3\">$reldeg[1]</td>\n<td class=\"diff4\"></td></tr>\n";
          }
       }
       else { print "<tr><td></td></tr>\n"; }
@@ -780,8 +780,8 @@ sub draw_planets {
 
        #print SVG "<text x=\"".$chx."\" y=\"".$chy."\" style=\"font-size:$fontsize; font-weight: $fontweight; fill:$color\">".$psym{$p}."</text>\n";
        $transpl = translate($p);
-       if ($transit && $run == 1)  { print "<text x=\"".$chx."\" y=\"".$chy."\" style=\"font-size:$fontsize; font-family:'DejaVu Serif','dejavuserifweb', 'freeserifweb'; font-weight: $fontweight; font-style: normal; fill:$color\">".$psym{$p}."</text>\n"; }
-       else {  print "<text x=\"".$chx."\" y=\"".$chy."\" onmouseover=\"show_info('$transpl [$pl_h{$p}]')\" onclick=\"set('$p')\" style=\"font-size:$fontsize; font-family:'DejaVu Serif','dejavuserifweb', 'freeserifweb'; cursor:pointer; font-weight: $fontweight; font-style: normal; fill:$color\">".$psym{$p}."</text>\n"; }
+       if ($transit && $run == 1)  { print "<text x=\"".$chx."\" y=\"".$chy."\" style=\"font-size:$fontsize; font-family:'DejaVu Serif','dejavuserifweb', 'freeserifweb' 'DejaVu Sans', dejavusansweb'; font-weight: $fontweight; font-style: normal; fill:$color\">".$psym{$p}."</text>\n"; }
+       else {  print "<text x=\"".$chx."\" y=\"".$chy."\" onmouseover=\"show_info('$transpl [$pl_h{$p}]')\" onclick=\"set('$p')\" style=\"font-size:$fontsize; font-family:'DejaVu Serif','dejavuserifweb', 'freeserifweb', 'DejaVu Sans', 'dejavusansweb'; cursor:pointer; font-weight: $fontweight; font-style: normal; fill:$color\">".$psym{$p}."</text>\n"; }
    }
 }
 
