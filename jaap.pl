@@ -84,6 +84,9 @@ foreach my $Feld (@Feldnamen) {
   if ($Feld eq "hinweis") { hinweis ($string);}
 }
 
+#DEBUG:
+my $smart = 0;
+
 #------------------------------------------------------------------------------
 # Html 
 #------------------------------------------------------------------------------
@@ -426,6 +429,10 @@ if ($hsys ne "") {
       wuerden ($filter);
    }
 }
+
+#------------------------------------------------------------------------------
+# smart controls
+if ($smart) { draw_smart(); }
 
 #------------------------------------------------------------------------------
 # Modal Dialog Fenster
@@ -1614,6 +1621,42 @@ sub hinweis {
 
    exit;
 }
+
+
+#------------------------------------------------------------------------------
+# Funktion draw_smart
+# Erzeugt die Kontrollen für den Smartmode
+#------------------------------------------------------------------------------
+sub draw_smart {
+   print "<div id=\"smart\">\n";
+
+   if (!$transit) {
+      print "<button class=\"sm\" id=\"sm_load\" onclick=\"set_open()\">L</button><br />\n";
+      print "<button class=\"sm\" id=\"sm_new\">N</button><br />\n";
+   }
+
+   if (!$radix) {
+      print "<button class=\"sm\" id=\"sm_st\" onclick=\"setval('offset','Stunde', 'offset');setval('mult', 1, 'multi')\">1S</button><br />\n";
+      print "<button class=\"sm\" id=\"sm_tag\" onclick=\"setval('offset','Tag', 'offset');setval('mult', 1, 'multi')\">1T</button><br />\n";
+      print "<button class=\"sm\" id=\"sm_mon\" onclick=\"setval('offset','Monat', 'offset');setval('mult', 1, 'multi')\">1M</button><br />\n";
+      print "<button class=\"sm\" id=\"sm_j\" onclick=\"setval('offset','Jahr', 'offset');setval('mult', 1, 'multi')\">1J</button><br />\n";
+      print "<button class=\"sm\" id=\"sm_plus\" onclick=\"set_offs('plus')\">+</button><br />\n";
+      print "<button class=\"sm\" id=\"sm_minus\" onclick=\"set_offs('minus')\">–</button><br />\n";
+   }
+
+   if ($radix) {
+      print "<button class=\"sm\" id=\"sm_t\" onclick=\"set_transit()\">T</button><br />\n";
+   }
+
+   print "<button class=\"sm\" id=\"sm_home\" onclick=\"reset()\">!</button><br />\n";
+
+   if ($transit) {
+      print "<button class=\"sm\" id=\"sm_r\" onclick=\"restore_radix()\">R</button><br />\n";
+   }
+
+   print "</div>\n";
+
+}	
 
 #------------------------------------------------------------------------------
 # Funktion neu_dialog
