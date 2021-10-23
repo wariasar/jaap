@@ -934,8 +934,8 @@ function export_db() {
    var text = "#:=== Jaap " + version + " - AAF Export vom " + dateF + " " + timeF + " ===\r\n\r\n";
 
 
-   jaap_db("r");
-   setTimeout(function() {
+   jaap_db("r")
+   .then(() => {
       entr = db_str.split(",");
       entr.forEach(function(entrElement) { 
 	 if (entrElement != "") {
@@ -966,7 +966,7 @@ function export_db() {
 
       document.body.removeChild(element);
 
-   }, 200);
+   });
 }
 
 //------------------------------------------------------------------------------
