@@ -780,8 +780,8 @@ sub draw_planets {
 
        #print SVG "<text x=\"".$chx."\" y=\"".$chy."\" style=\"font-size:$fontsize; font-weight: $fontweight; fill:$color\">".$psym{$p}."</text>\n";
        $transpl = translate($p);
-       if ($transit && $run == 1)  { print "<text x=\"".$chx."\" y=\"".$chy."\" style=\"font-size:$fontsize; font-family:'DejaVu Serif','dejavuserifweb', 'freeserifweb' 'DejaVu Sans', dejavusansweb'; font-weight: $fontweight; font-style: normal; fill:$color\">".$psym{$p}."</text>\n"; }
-       else {  print "<text x=\"".$chx."\" y=\"".$chy."\" onmouseover=\"show_info('$transpl [$pl_h{$p}]')\" onclick=\"set('$p')\" style=\"font-size:$fontsize; font-family:'DejaVu Serif','dejavuserifweb', 'freeserifweb', 'DejaVu Sans', 'dejavusansweb'; cursor:pointer; font-weight: $fontweight; font-style: normal; fill:$color\">".$psym{$p}."</text>\n"; }
+       if ($transit && $run == 1)  { print "<text x=\"".$chx."\" y=\"".$chy."\" style=\"font-size:$fontsize; font-weight: $fontweight; font-style: normal; fill:$color\">".$psym{$p}."</text>\n"; }
+       else {  print "<text x=\"".$chx."\" y=\"".$chy."\" onmouseover=\"show_info('$transpl [$pl_h{$p}]')\" onclick=\"set('$p')\" style=\"font-size:$fontsize; cursor:pointer; font-weight: $fontweight; font-style: normal; fill:$color\">".$psym{$p}."</text>\n"; }
    }
 }
 
