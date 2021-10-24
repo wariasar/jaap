@@ -25,14 +25,26 @@
 
 var version = "alpha 0.0.35";
 var test_modus = document.getElementById("info").innerHTML;
+const isMobile = check_mobile();
 var radix = 0;
 var transit = 0;
 var load = 0;
+var smart = 0;
 var hcgi;
 var db_str = "";
 var create_new = 0;
 sessionStorage.setItem('modal', 0);
 
+// prüfen ob mobil device
+if (isMobile) {	
+   localStorage.setItem('smart', 1);
+   smart = 1;
+} else {
+   localStorage.setItem('smart', 0);
+   smart = 0;
+}
+
+// prüfen ob radix
 if (test_modus == "radix") {
    radix = 1;
    sessionStorage.setItem('radix', 1);	
@@ -233,6 +245,14 @@ function TasteLosgelassen(evt) {
 
 }
 
+function smart_n () {
+   if (sessionStorage.getItem('modal') == 0) {
+      document.getElementById('neuradix').style.display = "block"; 
+      document.getElementById('getname').focus(); 
+      modal = 1;
+      sessionStorage.setItem('modal', 1);
+   } 
+}
 
 //------------------------------------------------------------------------------
 // Funktion chk_version
@@ -265,6 +285,7 @@ function show_info (infostr) {
 function set(planet) {
    if (planet == "Alle") { planet = ""; }
    //var elements = document.getElementById("dst").innerHTML.split(" ");
+   smart = localStorage.getItem('smart');
    var datestr = document.getElementById("dst").innerHTML;
    var multi = sessionStorage.getItem('multi');
    var hsys;
@@ -294,7 +315,7 @@ function set(planet) {
          set_modal();
       }
    }
-   xmlhttp.open("GET", 'jaap.pl?dstr=' + datestr + '&dstr_tr=' + datestr_tr + '&filter=' + planet + '&multi=' + multi + '&hsys=' + hsys + '&radix=' + radix + '&name=' + name + '&transit=' + trmode, true);
+   xmlhttp.open("GET", 'jaap.pl?dstr=' + datestr + '&dstr_tr=' + datestr_tr + '&filter=' + planet + '&multi=' + multi + '&hsys=' + hsys + '&radix=' + radix + '&name=' + name + '&transit=' + trmode + '&smart=' + smart, true);
    xmlhttp.send();        
 }
 
@@ -327,6 +348,7 @@ function print_offs(op) {
 // Werten durchgefhrt
 //------------------------------------------------------------------------------
 function set_offs(op) {
+   smart = localStorage.getItem('smart');
    var offs = sessionStorage.getItem('offset');
    var planet = sessionStorage.getItem('planet');
    var multi = sessionStorage.getItem('multi');
@@ -355,7 +377,7 @@ function set_offs(op) {
          set_modal();
       }
    }
-   xmlhttp.open("GET", 'jaap.pl?dstr=' + datestr + '&dstr_tr=' + datestr_tr + '&offset=' + offs + '&op=' + op + '&filter=' + planet + '&multi=' + multi + '&hsys=' + hsys + '&transit=' + trmode  + '&hlo=' + dst[0] + '&hla=' + dst[1], true);
+   xmlhttp.open("GET", 'jaap.pl?dstr=' + datestr + '&dstr_tr=' + datestr_tr + '&offset=' + offs + '&op=' + op + '&filter=' + planet + '&multi=' + multi + '&hsys=' + hsys + '&transit=' + trmode  + '&hlo=' + dst[0] + '&hla=' + dst[1] + '&smart=' + smart, true);
    xmlhttp.send();
 }
 
@@ -367,6 +389,7 @@ function set_offs(op) {
 // Radix durchgeführt. Als Ergebnis kommt das Transit Horoskop.
 //------------------------------------------------------------------------------
 function set_transit () {
+   smart = localStorage.getItem('smart');
    var rxstr = document.getElementById('dst').innerHTML;
    var dst = localStorage.getItem('home').split(" ");
    var hsys;
@@ -389,7 +412,7 @@ function set_transit () {
          set_modal();
       }
    }
-   xmlhttp.open("GET", 'jaap.pl?transit=1' + '&dstr=' + rxstr + '&hlo=' + dst[0] + '&hla=' + dst[1] + '&hsys=' + hsys);
+   xmlhttp.open("GET", 'jaap.pl?transit=1' + '&dstr=' + rxstr + '&hlo=' + dst[0] + '&hla=' + dst[1] + '&hsys=' + hsys + '&smart=' + smart);
    xmlhttp.send();
 
 }
@@ -403,6 +426,7 @@ function set_transit () {
 //------------------------------------------------------------------------------
 function restore_radix() {
    sessionStorage.setItem('transit', 0);
+   smart = localStorage.getItem('smart');
    var datestr = sessionStorage.getItem('rxstr');
    var hsys;
    if (sessionStorage.getItem('notime') == 0) {
@@ -422,7 +446,7 @@ function restore_radix() {
          set_modal();
       }
    }
-   xmlhttp.open("GET", 'jaap.pl?dstr=' + datestr + '&hsys=' + hsys + '&radix=' + radix + '&name=' + name, true);
+   xmlhttp.open("GET", 'jaap.pl?dstr=' + datestr + '&hsys=' + hsys + '&radix=' + radix + '&name=' + name + '&smart=' + smart, true);
    xmlhttp.send();
   
 }
@@ -492,6 +516,7 @@ function set_modal () {
 // auf dem Server eingelesen und in den Modal eingeblendet.
 //------------------------------------------------------------------------------
 function show_tb (asp) {
+   smart = localStorage.getItem('smart');
    var transit = sessionStorage.getItem('transit');   
    //Textbox (Modal)
    var modal_tb = document.getElementById('tebo');
@@ -521,7 +546,7 @@ function show_tb (asp) {
       }
    }
    //xmlhttp.open("GET", 'texte/' + txtfile, true);
-   xmlhttp.open("GET", 'jaap.pl?transit=' + transit + '&hinweis=' + asp);
+   xmlhttp.open("GET", 'jaap.pl?transit=' + transit + '&hinweis=' + asp, + '&smart=' + smart);
    xmlhttp.send();
 }
 
@@ -775,6 +800,7 @@ function set_open () {
 //------------------------------------------------------------------------------
 function set_load (){
 
+   smart = localStorage.getItem('smart');
    var list = document.getElementById('llist');
    var index = list.selectedIndex;
    var sel = list[index].innerHTML;
@@ -805,7 +831,7 @@ function set_load (){
          set_modal();
       }
    }
-   xmlhttp.open("GET", 'jaap.pl?radix=1&name=' + name + '&datum=' + part[1] + '&uhrzeit=' + part[2] + '&long=' + part[3] + '&lat=' + part[4] + '&hsys=' + hsys, true);
+   xmlhttp.open("GET", 'jaap.pl?radix=1&name=' + name + '&datum=' + part[1] + '&uhrzeit=' + part[2] + '&long=' + part[3] + '&lat=' + part[4] + '&hsys=' + hsys + '&smart=' + smart, true);
    xmlhttp.send();
 
    console.log (sel);
@@ -829,6 +855,7 @@ function close_about() {
 // Im Transit Modus wird auch das Radix erneut gesendet
 //------------------------------------------------------------------------------
 function reset () {
+   smart = localStorage.getItem('smart');
    if (radix == 1) {
       sessionStorage.setItem('rxstr', '');
       sessionStorage.setItem('name', '');
@@ -864,7 +891,7 @@ function reset () {
 	 chk_version();
       }
    }
-   xmlhttp.open("GET", 'jaap.pl?dstr=' + rxstr + '&filter=' + planet + '&hsys=' + hsys + '&transit=' + trmode + '&hlo=' + dst[0] + '&hla=' + dst[1], true);
+   xmlhttp.open("GET", 'jaap.pl?dstr=' + rxstr + '&filter=' + planet + '&hsys=' + hsys + '&transit=' + trmode + '&hlo=' + dst[0] + '&hla=' + dst[1] + '&smart=' + smart, true);
    xmlhttp.send();
 } 
 
@@ -1017,4 +1044,47 @@ function jaap_db (rw, str) {
    })
 }
 
+
+
+//------------------------------------------------------------------------------
+// Funktion delete_all_data
+// löscht alle von jaap gespeicherten Daten 
+//------------------------------------------------------------------------------
+function delete_all_data () {
+
+   var check = confirm('Sollen alle von Jaap gespeicherten Daten gelöscht werden?'); 
+   if (check == true) {
+      var req = indexedDB.deleteDatabase("jaapDB");
+      req.onsuccess = function () {
+         console.log("Datenbank erfolgreich gelöscht");
+	 alert("Daten wurden gelöscht.");
+      };
+      req.onerror = function () {
+         console.log("Datenbank konnte nicht gelöscht werden");
+         alert("Datenbank konnte nicht gelöscht werden");
+      };
+      req.onblocked = function () {
+         console.log("Datenbank konnte nicht gelöscht werden, weil der Vorgang geblockt wurde");
+         alert("Datenbank konnte nicht gelöscht werden, weil der Vorgang geblockt wurde");
+      };
+
+      localStorage.clear();
+      sessionStorage.clear();
+   }
+}
+
+
+
+//------------------------------------------------------------------------------
+// Funktion check_mobile
+// Prüft ob ein mobile device verwendet wird
+//------------------------------------------------------------------------------
+function check_mobile() {
+
+  let check = false;
+
+(function(a){if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4))) check = true;})(navigator.userAgent||navigator.vendor||window.opera);
+
+   return check;
+}	
 

@@ -46,6 +46,7 @@ my (%rx, %tr);
 my ($filter);
 my $radix = 0;
 my $transit = 0;
+my $smart = 0;
 my $ort = "";
 my $hlo_set = 0;
 my $hla_set = 0;
@@ -78,6 +79,7 @@ foreach my $Feld (@Feldnamen) {
   if ($Feld eq "hsys") { $hsys = $string; }
   if ($Feld eq "radix") { $radix = $string; }
   if ($Feld eq "transit") { $transit = $string; }
+  if ($Feld eq "smart") { $smart = $string; }
   if ($Feld eq "ortsname") { $ort = $string; }
   if ($Feld eq "hlo") { $home_long = $string; $hlo_set = 1;}
   if ($Feld eq "hla") { $home_lat = $string; $hla_set = 1;}
@@ -85,7 +87,7 @@ foreach my $Feld (@Feldnamen) {
 }
 
 #DEBUG:
-my $smart = 0;
+#$smart = 1;
 
 #------------------------------------------------------------------------------
 # Html 
@@ -1630,9 +1632,17 @@ sub hinweis {
 sub draw_smart {
    print "<div id=\"smart\">\n";
 
+   if ($transit) {
+      print "<button class=\"sm\" id=\"sm_r\" onclick=\"restore_radix()\">R</button><br />\n";
+   }
+
+   if ($radix) {
+      print "<button class=\"sm\" id=\"sm_t\" onclick=\"set_transit()\">T</button><br />\n";
+   }
+
    if (!$transit) {
       print "<button class=\"sm\" id=\"sm_load\" onclick=\"set_open()\">L</button><br />\n";
-      print "<button class=\"sm\" id=\"sm_new\">N</button><br />\n";
+      print "<button class=\"sm\" id=\"sm_new\" onclick=\"smart_n()\">N</button><br />\n";
    }
 
    if (!$radix) {
@@ -1644,15 +1654,7 @@ sub draw_smart {
       print "<button class=\"sm\" id=\"sm_minus\" onclick=\"set_offs('minus')\">–</button><br />\n";
    }
 
-   if ($radix) {
-      print "<button class=\"sm\" id=\"sm_t\" onclick=\"set_transit()\">T</button><br />\n";
-   }
-
    print "<button class=\"sm\" id=\"sm_home\" onclick=\"reset()\">!</button><br />\n";
-
-   if ($transit) {
-      print "<button class=\"sm\" id=\"sm_r\" onclick=\"restore_radix()\">R</button><br />\n";
-   }
 
    print "</div>\n";
 
@@ -1798,8 +1800,8 @@ sub submenue {
    print "<a href=\"javascript:save()\">📥 Speichern</a>\n";
    print "<a href=\"javascript:import_aaf()\">📂 AAF Import</a>\n";
    print "<a href=\"javascript:export_db()\">💾 AAF Export</a>\n";
+   print "<a id=\"btn_delete\" href=\"javascript:delete_all_data()\">💣 Löschen…</a>\n";
    print "<a id=\"btn_hlp\" href=\"help.html\" target=\"_blank\">🔎 Hilfe</a>\n";
    print "<a id=\"btn_about\" href=\"javascript:show_about()\">💬 Über</a>\n";
    print "</div>\n";
-
 }
