@@ -1668,40 +1668,34 @@ sub neu_dialog {
 
    print "<!-- Neu Dialog -->\n<div id=\"neuradix\" class=\"dialog\">\n";
    print "<!-- Neu Dialog content -->\n<div class=\"dialog-content\">\n<span class=\"close\">&times;</span>\n";
-   print "<form action=\"jaap.pl\" method=\"post\" id=\"newform\" name=\"nf\">\n";
-   print "<input type=\"hidden\" id=\"rdx\" name=\"radix\" value=\"1\">\n";
-   #print "<input type=\"hidden\" id=\"hlong\" name=\"hlo\" value=\"$home_long\">\n";
-   #print "<input type=\"hidden\" id=\"hlat\" name=\"hla\" value=\"$home_lat\">\n";
+   #print "<input type=\"hidden\" id=\"rdx\" name=\"radix\" value=\"1\">\n";
    print "<table class=\"out\">\n";
    print "<tr>\n<td colspan=\"3\" class=\"noborder\">\n<b>Neues Radix berechnen</b>\n</td>\n</tr>\n";
    print "<tr>\n<td colspan=\"3\" class=\"noline\">Name:\n";
    print "<input type=\"text\" name=\"name\" class=\"text\" id=\"getname\" />\n</td>\n</tr>\n";
    print "<tr>\n<td class=\"noline_sh\">Datum:\n<input type=\"date\" name=\"datum\" class=\"htext\" id=\"getdate\" />\n</td>\n";
-   print "<td colspan=\"2\" class=\"noline\">Uhrzeit:\n<input type=\"text\" name=\"uhrzeit\" class=\"htext\" />\n</td>\n</tr>\n";
+   print "<td colspan=\"2\" class=\"noline\">Uhrzeit:\n<input type=\"text\" name=\"uhrzeit\" class=\"htext\" id=\"gettime\"/>\n</td>\n</tr>\n";
 
 
    print "<tr>\n<td class=\"noline_sh\">\nOrt:\n<input type=\"text\" name=\"ort\" class=\"otext\" id=\"ortstr\" />\n";
-   #print "<td class=\"noline\">\n<button class=\"sbtn\" onklick=\"searchlocation()\" />suchen</button>\n</td>\n</tr>\n";
    print "<td colspan=\"2\" class=\"noline\">\n<a class=\"sbtn\" href=\"javascript:searchlocation()\" />suchen</a>\n</td>\n</tr>\n";
 
 
 
    print "<tr>\n<td colspan=\"3\" class=\"noline\">\n";
-   #print "<select name=\"ortlist\" size=\"5\" id=\"olist\" onclick=\"set_lola()\" multiple>\n";
    print "<select name=\"ortlist\" size=\"5\" id=\"olist\" onchange=\"set_lola()\" multiple>\n";
    print "</select>\n</td>\n</tr>\n";
 
 
 
    print "<tr>\n<td class=\"noline_sh\">Long:\n<input type=\"text\" name=\"long\" id=\"long\" class=\"htext\" />\n</td>\n";
-   #print "<td class=\"noline\">Lat:\n<input type=\"text\" name=\"lat\" id=\"lat\" class=\"htext\" />\n</td>\n</tr>\n";
    print "<td class=\"noline\">Lat:\n<input type=\"text\" name=\"lat\" id=\"lat\" class=\"htext\" />\n</td>\n";
    print "<td class=\"noline_c\"><a href=\"javascript:set_home_loc()\" class=\"sethome\">🏡</a></td></tr>\n";
 
-   print "<input type=\"hidden\" id=\"hsys\" name=\"hsys\">\n";
+   #print "<input type=\"hidden\" id=\"hsys\" name=\"hsys\">\n";
 
-   print "<tr><td colspan=\"2\" class=\"noborder\">\n<button class=\"button1\" id=\"subf\" onclick=\"submitform()\">OK</button>\n</td>\n</tr>\n";
-   print "</table>\n</form>\n</div>\n</div>\n";
+   print "<tr><td colspan=\"2\" class=\"noborder\">\n<button class=\"button1\" id=\"subf\" onclick=\"newradix()\">OK</button>\n</td>\n</tr>\n";
+   print "</table>\n</div>\n</div>\n";
 
 }
 

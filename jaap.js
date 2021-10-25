@@ -478,12 +478,12 @@ function set_modal () {
    var engdate = x[2] + "-" + x[1] + "-" + x[0];
 
    if ((radix == 1 || transit == 1) && modflag == 0) {
-      document.nf.name.value = sessionStorage.getItem('name');
-      document.nf.datum.value = engdate;
-      document.nf.uhrzeit.value = rxval[1];
-      document.nf.ort.value = ort;
-      document.nf.long.value = rxval[3];
-      document.nf.lat.value = rxval[4];
+      document.getElementById('getname').value = sessionStorage.getItem('name');
+      document.getElementById('getdate').value = engdate;
+      document.getElementById('gettime').value = rxval[1];
+      document.getElementById('ortstr').value = ort;
+      document.getElementById('long').value = rxval[3];
+      document.getElementById('lat').value = rxval[4];
    }
 
    // Wenn der N Button gedrückt wird - Dialogfenster öffnen
@@ -794,6 +794,46 @@ function set_open () {
 
 
 //------------------------------------------------------------------------------
+// Funktion newradix
+// Führt einen XHR mit den Werten des Eingabeformulars für ein neues Radix durch
+//------------------------------------------------------------------------------
+function newradix() {
+   smart = localStorage.getItem('smart');
+   var name = document.getElementById('getname').value;
+   var date = document.getElementById('getdate').value;
+   var time = document.getElementById('gettime').value;
+   var ort = document.getElementById('ortstr').value;
+   var lon = document.getElementById('long').value;
+   var lat = document.getElementById('lat').value;
+   var hsys = localStorage.getItem('hsys');
+
+   if (time == "") { sessionStorage.setItem('notime', 1); }
+   else { sessionStorage.setItem('notime', 0); }
+
+   xmlhttp=new XMLHttpRequest();
+   xmlhttp.onreadystatechange=function() {
+      if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+         document.getElementById("Seite").innerHTML=xmlhttp.responseText;
+         radix = 1;
+         sessionStorage.setItem('radix', 1);
+         transit = 0;
+         sessionStorage.setItem('transit', 0);
+	 modal = 0;
+         sessionStorage.setItem('modal', 0);
+         var rname = document.getElementById("rmode").innerHTML;
+         sessionStorage.setItem('name', rname);
+         load_listener ();
+         set_modal();
+      }
+   }
+   xmlhttp.open("GET", 'jaap.pl?radix=1&name=' + name + '&datum=' + date + '&uhrzeit=' + time + '&long=' + lon + '&lat=' + lat + '&hsys=' + hsys + '&smart=' + smart, true);
+   xmlhttp.send();
+
+
+}
+
+
+//------------------------------------------------------------------------------
 // Funktion set_load
 // Wird ein Eintrag aus der "open File" Ergebnisliste angeklickt, wird mit
 // diesen Werten ein XHR durchgeführt. Als Ergebnis kommt das entsprechende Radix
@@ -1054,6 +1094,7 @@ function delete_all_data () {
 
    var check = confirm('Sollen alle von Jaap gespeicherten Daten gelöscht werden?'); 
    if (check == true) {
+      reset();
       var req = indexedDB.deleteDatabase("jaapDB");
       req.onsuccess = function () {
          console.log("Datenbank erfolgreich gelöscht");
