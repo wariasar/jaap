@@ -29,6 +29,7 @@ const isMobile = check_mobile();
 var radix = 0;
 var transit = 0;
 var load = 0;
+var radixn = 0;
 var smart = 0;
 var hcgi;
 var db_str = "";
@@ -201,6 +202,7 @@ function TasteGedrueckt (evt) {
    if (evt.keyCode == 27) { //esc 
       modal = 0;
       load = 0;
+      radixn = 0;
       sessionStorage.setItem('modal', 0);
       document.getElementById('subf').focus(); 
       set("Alle");
@@ -213,6 +215,12 @@ function TasteGedrueckt (evt) {
    }
 
    if (load == 1 && evt.keyCode == 13) { set_load(); }
+   if (radixn == 1 && evt.keyCode == 13) {
+      var dummyEl = document.getElementById('olist');
+      if (document.activeElement === dummyEl) {
+         newradix();
+      }
+   }
 
    if (sessionStorage.getItem('modal') == 0) {
       if (evt.keyCode == 48) { setval('offset', 'Jahr', 'offset'); setval('mult', 100, 'multi'); } //0
@@ -239,6 +247,7 @@ function TasteLosgelassen(evt) {
          document.getElementById('neuradix').style.display = "block"; 
          document.getElementById('getname').focus(); 
 	 modal = 1;
+         radixn = 1;
          sessionStorage.setItem('modal', 1);
       } 
    }
@@ -250,6 +259,7 @@ function smart_n () {
       document.getElementById('neuradix').style.display = "block"; 
       document.getElementById('getname').focus(); 
       modal = 1;
+      radixn = 1;
       sessionStorage.setItem('modal', 1);
    } 
 }
@@ -491,12 +501,14 @@ function set_modal () {
      modal.style.display = "block";
      gname.focus();
      sessionStorage.setItem('modal', 1);
+     radixn = 1;
    }
 
    // X - Dialog schliessen
    span.onclick = function() {
-     modal.style.display = "none";
-     sessionStorage.setItem('modal', 0);
+      modal.style.display = "none";
+      sessionStorage.setItem('modal', 0);
+      radixn = 0;
    }
 
    // Dialog schliessen, wenn ausserhalb des Dialogfensters geklickt wird
@@ -504,6 +516,7 @@ function set_modal () {
       if (event.target == modal) {
       modal.style.display = "none";
       sessionStorage.setItem('modal', 0); 
+      radixn = 0;
       } 
    }
 }
