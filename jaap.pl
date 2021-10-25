@@ -1280,11 +1280,17 @@ sub translate {
 #------------------------------------------------------------------------------
 sub ortssuche {
    my $location = $_[0];
+   my $jstr;
+   my $count = 0;
    #foreach (@ARGV) { $location .= "%20".$_; }
    $location =~ s/^\%20//g;
    $location =~ s/\s/\%20/g;
 
-   my $jstr = `curl -H 'Accept-Language: de,en-US' https://nominatim.openstreetmap.org/search/$location?format=json 2> /dev/null`;
+   do {
+      $jstr = `curl -H 'Accept-Language: de,en-US' https://nominatim.openstreetmap.org/search/$location?format=json 2> /dev/null`;
+   } while ($jstr =~ /\<html\>/ && $count++ <= 3);
+   #DEBUG:
+   system ("echo $count >> /tmp/debug");
    my (@part1, @part2, @part3, $p1, $p2, $p3, %vals, $name);
    my $count = 0;
 
