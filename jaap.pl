@@ -192,7 +192,9 @@ if ($rx{"uhrzeit"} =~ /bc/) {
    $rx{"uhrzeit"} =~ s/bc//g;
    $rx{"uhrzeit"} =~ s/^\s+|\s+$//g;
    @p = split(/\./, $rx{"datum"});
-   $p[2] = "-".$p[2];
+   $p[2] -= 1;
+   $p[2] = sprintf("%04d", $p[2]);
+   if ($p[2] != 0) { $p[2] = "-".$p[2]; }
    $rx{"datum"} = join(".",@p);
 }
 
@@ -531,7 +533,9 @@ sub get_ephe {
 sub date_format {
   if ($_[0] !~ /\-/) { return ($_[0]); }
   my @p = split(/-/,$_[0]);
-  foreach (@p) { $_ =~ s/^0//g; }
+  #foreach (@p) { $_ =~ s/^0//g; }
+  $p[1] =~ s/^0//g; 
+  $p[2] =~ s/^0//g; 
   return (join('.', $p[2], $p[1], $p[0]));
 }
 

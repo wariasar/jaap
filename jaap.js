@@ -483,8 +483,9 @@ function set_modal () {
    }
 
    var x = rxval[0].split('.');
-   if (x[2].match(/-/)) {
+   if (x[2] <= 0) {
       x[2] = x[2].replace(/-/,"");
+      x[2] = parseInt(x[2]) + 1;
       document.getElementById('vchr').checked = true;
    }	   
    x[2] = ("0000" + x[2]).slice(-4);
