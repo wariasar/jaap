@@ -187,11 +187,6 @@ if (($transit && $tr{"datum"}  eq "") || (!$transit && $rx{"datum"} eq "")) {
 #   }
 }
 
-if ($rx{"uhrzeit"} eq "") {
-   $rx{"uhrzeit"} = "12:00";
-   $hsys = "Keine";
-}
-
 # bc (vor Christus)
 if ($rx{"uhrzeit"} =~ /bc/) {
    $rx{"uhrzeit"} =~ s/bc//g;
@@ -199,6 +194,11 @@ if ($rx{"uhrzeit"} =~ /bc/) {
    @p = split(/\./, $rx{"datum"});
    $p[2] = "-".$p[2];
    $rx{"datum"} = join(".",@p);
+}
+
+if ($rx{"uhrzeit"} eq "") {
+   $rx{"uhrzeit"} = "12:00";
+   $hsys = "Keine";
 }
 
 # default Häuser Placidus
@@ -1676,19 +1676,19 @@ sub neu_dialog {
    print "<!-- Neu Dialog content -->\n<div class=\"dialog-content\">\n<span class=\"close\">&times;</span>\n";
    #print "<input type=\"hidden\" id=\"rdx\" name=\"radix\" value=\"1\">\n";
    print "<table class=\"out\">\n";
-   print "<tr>\n<td colspan=\"3\" class=\"noborder\">\n<b>Neues Radix berechnen</b>\n</td>\n</tr>\n";
-   print "<tr>\n<td colspan=\"3\" class=\"noline\">Name:\n";
+   print "<tr>\n<td colspan=\"4\" class=\"noborder\">\n<b>Neues Radix berechnen</b>\n</td>\n</tr>\n";
+   print "<tr>\n<td colspan=\"4\" class=\"noline\">Name:\n";
    print "<input type=\"text\" name=\"name\" class=\"text\" id=\"getname\" />\n</td>\n</tr>\n";
    print "<tr>\n<td class=\"noline_sh\">Datum:\n<input type=\"date\" name=\"datum\" class=\"htext\" id=\"getdate\" />\n</td>\n";
-   print "<td colspan=\"2\" class=\"noline\">Uhrzeit:\n<input type=\"text\" name=\"uhrzeit\" class=\"htext\" id=\"gettime\"/>\n</td>\n</tr>\n";
+   print "<td colspan=\"3\" class=\"noline\">Uhrzeit:\n<input type=\"time\" name=\"uhrzeit\" class=\"htext\" id=\"gettime\"/>\n</td>\n</tr>\n";
 
 
    print "<tr>\n<td class=\"noline_sh\">\nOrt:\n<input type=\"text\" name=\"ort\" class=\"otext\" id=\"ortstr\" />\n";
-   print "<td colspan=\"2\" class=\"noline\">\n<a class=\"sbtn\" href=\"javascript:searchlocation()\" />suchen</a>\n</td>\n</tr>\n";
+   print "<td colspan=\"3\" class=\"noline\">\n<a class=\"sbtn\" href=\"javascript:searchlocation()\" />suchen</a>\n</td>\n</tr>\n";
 
 
 
-   print "<tr>\n<td colspan=\"3\" class=\"noline\">\n";
+   print "<tr>\n<td colspan=\"4\" class=\"noline\">\n";
    print "<select name=\"ortlist\" size=\"5\" id=\"olist\" onchange=\"set_lola()\" multiple>\n";
    print "</select>\n</td>\n</tr>\n";
 
@@ -1696,6 +1696,8 @@ sub neu_dialog {
 
    print "<tr>\n<td class=\"noline_sh\">Long:\n<input type=\"text\" name=\"long\" id=\"long\" class=\"htext\" />\n</td>\n";
    print "<td class=\"noline\">Lat:\n<input type=\"text\" name=\"lat\" id=\"lat\" class=\"htext\" />\n</td>\n";
+   print "<td class=\"noline_c\"><input type=\"checkbox\" name=\"bc\" id=\"vchr\" class=\"bc\" value=\"bc\"/</td>\n";
+   print "<label for=\"vchr\">bc</label>\n";
    print "<td class=\"noline_c\"><a href=\"javascript:set_home_loc()\" class=\"sethome\">🏡</a></td></tr>\n";
 
    #print "<input type=\"hidden\" id=\"hsys\" name=\"hsys\">\n";

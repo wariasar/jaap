@@ -483,6 +483,11 @@ function set_modal () {
    }
 
    var x = rxval[0].split('.');
+   if (x[2].match(/-/)) {
+      x[2] = x[2].replace(/-/,"");
+      document.getElementById('vchr').checked = true;
+   }	   
+   x[2] = ("0000" + x[2]).slice(-4);
    if(x[0] < 10) { x[0] = "0"+ x[0]; }
    if(x[1] < 10) { x[1] = "0"+ x[1]; }
    var engdate = x[2] + "-" + x[1] + "-" + x[0];
@@ -819,9 +824,15 @@ function newradix() {
    var lon = document.getElementById('long').value;
    var lat = document.getElementById('lat').value;
    var hsys = localStorage.getItem('hsys');
+   var bc = document.getElementById('vchr');
 
    if (time == "") { sessionStorage.setItem('notime', 1); }
    else { sessionStorage.setItem('notime', 0); }
+
+   if (bc.checked) {
+      if (time == "") { time = "bc"; }
+      else { time += " bc"; }
+   }
 
    xmlhttp=new XMLHttpRequest();
    xmlhttp.onreadystatechange=function() {
