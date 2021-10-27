@@ -84,10 +84,16 @@ Mit einem Klick auf den Button »N« öffnet sich eine Eingabe Maske für ein ne
 die Uhrzeit im Format Stunde:Minute und den Ort eintragen. Ein Klick auf »suchen« liefert eine Ergebnis liste. Durch anklicken des
 gewünschten Ortes werden dessen Koordinaten übernommen.
 Wenn die Urzeit nicht bekannt ist, das Feld leer lassen, dann wird die Grafik ohne Häuser dargestellt. Wenn das Datum v. Chr sein soll,
-die Checkbox »bc« auswählen.
-Mit »OK« abschließen und das Radix wird angezeigt. Im Radix kannst du auch
-Filter durch anklicken eines Planeten setzen.
+die Checkbox »bc« auswählen. Mit »OK« abschließen und das Radix wird angezeigt.
+<p class=doc_note>
+<b><u>Hinweis:</u></b> In der Eingabemaske wird ein Datum v. Chr. im historischen Format eingegeben. Jaap rechnet das Datum intern in
+das astronomische Datum um, da die Swiss Ephemeris auch das astronomische Datum brauchen. Jaap zeigt das Datum dann im Horoskop astronomisch an.
+D.h. das Jahr 1 bc entspricht dem Jahr 0 und das Jahr 2 bc entspricht dem Jahr -1 usw. Der Grund dafür ist, dass das html Datumsfeld nur
+das historische Datum akzeptiert und du ohnehin häufig ein historisches Ereignis berechnest. Wenn du aber bsw. nach einem astronomischen Ereignis
+im Jahr -500 suchst, dann musst du das Jahr 501 bc eingeben.
+</p>
 </p><p>
+Im Radix kannst du auch Filter durch anklicken eines Planeten setzen.<br />
 Ein Klick auf den Button »T« blendet das Transit Horoskop ein. Hier ist innen das Radix und aussen das aktuelle Horoskop zu sehen.
 Jetzt ist auch die Zeit Navigation wieder verfügbar und du kannst im aktuellen Horoskop in der Zeit vor oder zurück springen um
 den Verlauf eines Transits zu beobachten. Im Transit Modus werden nicht mehr die Radix Aspekte, sondern die Transit Aspekte angezeigt.

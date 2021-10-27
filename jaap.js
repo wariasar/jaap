@@ -1119,7 +1119,7 @@ function delete_all_data () {
 
    var check = confirm('Sollen alle von Jaap gespeicherten Daten gelöscht werden?'); 
    if (check == true) {
-      reset();
+      //reset();
       var req = indexedDB.deleteDatabase("jaapDB");
       req.onsuccess = function () {
          console.log("Datenbank erfolgreich gelöscht");
