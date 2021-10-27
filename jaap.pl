@@ -1101,6 +1101,10 @@ sub layout_planets {
    my $iset = 0;
    my @lock;
    my $lc = 0;
+   my $plaa = 0;
+   my $aec = 0;
+   my $aef = 0;
+   my $aep;
 
    # Planeten ihrem Dezimalwinkel zuordnen
    foreach (@pl) {
@@ -1116,9 +1120,7 @@ sub layout_planets {
    foreach  (sort { $test{$a} <=> $test{$b} } keys %test) {
       if ($count > 0) {
          $diff = $test{$_} - $save;
-         #$diff = int(100 * $diff + 0.5) / 100;
          $diff = sprintf("%.1f", $diff);
-         #print "$diff  ";
          if ($diff <= 10) {
             $found = 1;
             $match_all .= join(',', $savepl, $_).",";
@@ -1135,6 +1137,14 @@ sub layout_planets {
       }
       $save = $test{$_};
       $savepl = $_;
+      if ($save < 7) {
+         $plaa = 1;
+	 $aep .= $savepl.",";
+      }
+      if ($save > 353 && $plaa == 1) {
+	 $aef = 1;
+	 $aep .= $savepl.",";
+      }
       $count++;
    }
    if ($found) { 
@@ -1142,7 +1152,10 @@ sub layout_planets {
       $matches[$matchcount] = uniq($match_all);
    }
 
-
+   if ($aef) {
+      chop($aep);
+      push @matches, $aep;
+   }
    $count = 0;
    
 
