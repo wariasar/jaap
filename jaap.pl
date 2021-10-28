@@ -88,6 +88,13 @@ foreach my $Feld (@Feldnamen) {
 
 #DEBUG:
 #$smart = 1;
+#$name = "Test";
+#$rx{"datum"} = "24.12.2024";
+#$rx{"uhrzeit"} = "16:09";
+#$rx{"long"} = "11.08";
+#$rx{"lat"} = "49.46";
+#$rx{"hsys"} = "Placidus";
+#$rx{"radix"} = "1";
 
 #------------------------------------------------------------------------------
 # Html 
@@ -96,7 +103,6 @@ print "<!DOCTYPE html>\n";
 print "<html>\n";
 print "<head>\n<title>jaap ($version)</title>\n";
 print "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n";
-print "<meta name=\"author\" content=\"Armin Warias\" />\n";
 print "<link rel=\"icon\" href=\"favicon.ico\" type=\"image/x-icon\">";
 print "<link rel=\"stylesheet\" href=\"$css\" />\n";
 print "</head>\n";
@@ -1092,7 +1098,7 @@ sub planet_house {
 #------------------------------------------------------------------------------
 sub layout_planets {
    my ($pref) = @_;
-   my (%test, @p, @part, $x, $save, $test, $fastest, $savepl, @matches, $diff, %four, %change, $match_all, @uniq, $ma, $pa, $ca, $as, $do, $ord, $konst);
+   my (%test, @p, @part, $x, $save, $test, $fastest, $savepl, @matches, $diff, %four, %change, $match_all, @uniq, $ma, $gr,$pa, $ca, $as, $do, $ord, $konst);
    my @order = ("Moon", "Mercury", "Venus", "Sun", "Mars", "mean Apogee", "Jupiter", "Saturn", "Chiron", "Uranus", "Neptune", "Pluto", "true Node");
    my $count = 0;
    my $matchcount = 0;
@@ -1104,7 +1110,7 @@ sub layout_planets {
    my $plaa = 0;
    my $aec = 0;
    my $aef = 0;
-   my $aep;
+   my (@aep, %aeg, $aes, @x);
 
    # Planeten ihrem Dezimalwinkel zuordnen
    foreach (@pl) {
@@ -1121,7 +1127,7 @@ sub layout_planets {
       if ($count > 0) {
          $diff = $test{$_} - $save;
          $diff = sprintf("%.1f", $diff);
-         if ($diff <= 10) {
+         if ($diff <= 8) {
             $found = 1;
             $match_all .= join(',', $savepl, $_).",";
          }
@@ -1137,13 +1143,15 @@ sub layout_planets {
       }
       $save = $test{$_};
       $savepl = $_;
-      if ($save < 7) {
+      # Planet(en) an der Anfangsgrenze (Widder)?
+      if ($save <= 5) {
          $plaa = 1;
-	 $aep .= $savepl.",";
+	      $aep[$aec++] = $savepl;
       }
-      if ($save > 353 && $plaa == 1) {
-	 $aef = 1;
-	 $aep .= $savepl.",";
+      # Planet(en) an der Endgrenze (Fische)?
+      if ($save >= 355 && $plaa == 1) {
+	      $aef = 1;
+	      $aep[$aec++] = $savepl;
       }
       $count++;
    }
@@ -1152,10 +1160,44 @@ sub layout_planets {
       $matches[$matchcount] = uniq($match_all);
    }
 
+   # Grenzplaneten auswerten
    if ($aef) {
-      chop($aep);
-      push @matches, $aep;
+      $aec = 0;
+      foreach $gr (@aep) {
+         $aec = 0;
+         foreach $ma (@matches) {
+            if ($ma =~ /$gr/) {
+               $aeg{$aec} .= $gr.",";               
+            }
+            $aec++;
+         }
+      }
+      $aec = keys %aeg;
+      foreach $gr (@aep){
+         $aes .= $gr.",";
+      }
+      # Keiner ist in einer Gruppe
+      if ($aec == 0) {
+         chop ($aes);
+         push @matches, $aes;
+      }
+      # einer ist in einer Gruppe
+      elsif ($aec == 1) {
+         @x = keys %aeg;
+         foreach $gr (@aep) {
+            if ($matches[$x[0]] !~ $gr) {
+               $matches[$x[0]] .= ",".$gr;
+            }
+         }
+      }
+      # beide sind in einer Gruppe 
+      elsif ($aec == 2) {
+         @x = keys %aeg;
+         $matches[$x[0]] .= ",".$matches[$x[1]];
+         splice @matches, $x[1], 1;
+      }
    }
+
    $count = 0;
    
 
