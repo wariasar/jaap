@@ -52,7 +52,7 @@ my $hlo_set = 0;
 my $hla_set = 0;
 my $hlpl = "";
 my $hlh = "";
-my (%planets, %planets_tr, %houses, %planets_rel, %pl_h, @aspects, %rueckl, %rueckl_tr, %speed, %speed_tr);
+my (%planets, %planets_tr, %houses, %planets_rel, %pl_h, @aspects, %rueckl, %rueckl_tr, %speed, %speed_tr, %force);
 my @pl = ("Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Chiron", "Uranus", "Neptune", "Pluto", "true Node", "mean Apogee");
 my %psym = ("Sun" => "☉", "Moon" => "☽", "Mercury" => "☿", "Ascendant" => "AC", "MC" => "MC",
             "Venus" => "♀", "Mars" => "♂", "Jupiter" => "♃",
@@ -89,8 +89,8 @@ foreach my $Feld (@Feldnamen) {
 #DEBUG:
 #$smart = 1;
 #$name = "Test";
-#$rx{"datum"} = "24.12.2024";
-#$rx{"uhrzeit"} = "16:09";
+#$rx{"datum"} = "24.05.2022";
+#$rx{"uhrzeit"} = "12:00";
 #$rx{"long"} = "11.08";
 #$rx{"lat"} = "49.46";
 #$rx{"hsys"} = "Placidus";
@@ -787,11 +787,13 @@ sub draw_planets {
           if ($p eq $switch) {
              $match = 1;
              #print "treffer: $switch: $inner{$switch}\n";
-             if ($inner{$switch} eq "I") { %xy = get_xy(offset($pref->{$p}), $pos{"pl_i"}); }
-             if ($inner{$switch} eq "M") { %xy = get_xy(offset($pref->{$p}), $pos{"pl_m"}); }
+             if ($inner{$switch} eq "I") { %xy = get_xy(offset($pref->{$p}), $pos{"pl_i"}), $force{$p}; }
+             if ($inner{$switch} eq "M") { %xy = get_xy(offset($pref->{$p}), $pos{"pl_m"}), $force{$p}; }
           }
        }
-       if ($match == 0) { %xy = get_xy(offset($pref->{$p}), $pos{"pl_a"}); }
+       if ($match == 0) {
+          %xy = get_xy(offset($pref->{$p}), $pos{"pl_a"}, $force{$p});
+       }
 
 
        $chx = $xy{"xstart"} - $pos{"chx"}; #-20
@@ -845,7 +847,16 @@ sub draw_marker {
 sub get_xy {
    my $ang = get_ang($_[0]);
    my $radius = $_[1];
+   my $fflag = $_[2];
    my %result;
+
+   # zwei Planeten auf der gleichen bahn -> offset plus oder minus
+   if ($fflag eq "xm") {
+      $ang -= 3;
+   }
+   if ($fflag eq "xp") {
+      $ang += 3;
+   }
 
    # winkel umrechnen
    my $deg_start;
@@ -1298,7 +1309,10 @@ sub advanced_set {
    }
    $count = 0;
    foreach (sort { $ang{$b} <=> $ang{$a} } keys %ang) {  
-      if ($count == 0 && $anz < 4) {  @lock = split(/_/, $_); }
+      if ($count == 0 && $anz < 4) {
+         @lock = split(/_/, $_);
+         set_force(@lock);
+      }
       if ($count == 1) {
          if ($anz >= 4) { @lock = split(/_/, $_); }
          if ($anz < 4) {
@@ -1311,10 +1325,55 @@ sub advanced_set {
          @part = split (/_/, $_);
          if ($anz >= 4) {
             next if ($part[0] eq $lock[0] || $part[0] eq $lock[1] || $part[1] eq $lock[0] || $part[1] eq $lock[1]); 
+            set_force(@part);
             return(join('_', $part[0], $part[1]));
          } 
       }
       $count++;
+   }
+}
+
+
+#------------------------------------------------------------------------------
+# Funktion set_force
+# Wenn bei einer Planetenanhäufung zwei Planeten auf die selbe Bahn gezwungen
+# sind, werden diese "auseinandergezogen" in dem der eine einen plus offset
+# und der andere einen minus offset bekommt
+#------------------------------------------------------------------------------
+sub set_force {
+   my @fplanets = @_;
+   my (%compare, $x, $first, $last);
+   my $count = 0;
+   my $afl = 0;
+   my $efl = 0;
+   my $deg1 = 0;
+   my $deg2 = 0;
+
+   foreach (@fplanets) {
+      $x = %planets{$_};
+      $compare{$_} = get_ang($x);
+   }
+
+   foreach  (sort { $compare{$a} <=> $compare{$b} } keys %compare) {
+      if ($count == 0) {
+         $deg1 = $compare{$_};
+         if ($compare{$_} <= 5) { $afl = 1; }
+         $first = $_;
+      }
+      if ($count == 1) {
+         $deg2 = $compare{$_};
+         if ($compare{$_} >= 355) { $efl = 1; }
+         $last = $_;
+      }
+      $count++;
+   }
+   if ($afl == 1 && $efl == 1) {
+      $force{$first} = "xp"; $force{$last} = "xm";
+   }
+   else {
+      if ($deg2 - $deg1 < 15) {
+         $force{$first} = "xm"; $force{$last} = "xp";
+      }
    }
 }
 
