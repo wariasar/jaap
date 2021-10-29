@@ -89,8 +89,8 @@ foreach my $Feld (@Feldnamen) {
 #DEBUG:
 #$smart = 1;
 #$name = "Test";
-#$rx{"datum"} = "24.05.2022";
-#$rx{"uhrzeit"} = "12:00";
+#$rx{"datum"} = "15.04.2024";
+#$rx{"uhrzeit"} = "21:57";
 #$rx{"long"} = "11.08";
 #$rx{"lat"} = "49.46";
 #$rx{"hsys"} = "Placidus";
@@ -787,8 +787,8 @@ sub draw_planets {
           if ($p eq $switch) {
              $match = 1;
              #print "treffer: $switch: $inner{$switch}\n";
-             if ($inner{$switch} eq "I") { %xy = get_xy(offset($pref->{$p}), $pos{"pl_i"}), $force{$p}; }
-             if ($inner{$switch} eq "M") { %xy = get_xy(offset($pref->{$p}), $pos{"pl_m"}), $force{$p}; }
+             if ($inner{$switch} eq "I") { %xy = get_xy(offset($pref->{$p}), $pos{"pl_i"}, $force{$p}); }
+             if ($inner{$switch} eq "M") { %xy = get_xy(offset($pref->{$p}), $pos{"pl_m"}, $force{$p}); }
           }
        }
        if ($match == 0) {
@@ -1371,7 +1371,7 @@ sub set_force {
       $force{$first} = "xp"; $force{$last} = "xm";
    }
    else {
-      if ($deg2 - $deg1 < 15) {
+      if ($deg2 - $deg1 < 8) {
          $force{$first} = "xm"; $force{$last} = "xp";
       }
    }
