@@ -89,8 +89,8 @@ foreach my $Feld (@Feldnamen) {
 #DEBUG:
 #$smart = 1;
 #$name = "Test";
-#$rx{"datum"} = "15.04.2024";
-#$rx{"uhrzeit"} = "21:57";
+#$rx{"datum"} = "26.03.2025";
+#$rx{"uhrzeit"} = "1:28";
 #$rx{"long"} = "11.08";
 #$rx{"lat"} = "49.46";
 #$rx{"hsys"} = "Placidus";
@@ -1284,7 +1284,7 @@ sub uniq {
 sub advanced_set {
 
    my ($pref, $fastest, @list) = @_;
-   my ($first, $second, $deg, %ang, @skip, $test, $found, $sk, $xi, @lock, @part);
+   my ($first, $second, $deg, %ang, @skip, $test, $found, $sk, $xi, @lock, @part, $xf, $xs);
    my $count = 0;
    my $anz = $#list;
 
@@ -1292,7 +1292,19 @@ sub advanced_set {
       foreach $second (@list) {
          next if ($first eq $second);
          next if ($first eq $fastest || $second eq $fastest);
-         $deg = get_ang($pref->{$first}) - get_ang($pref->{$second});
+
+         $xf = get_ang($pref->{$first});
+         $xs = get_ang($pref->{$second});
+
+         if ($xf <= 8 && $xs >= 352) {
+            $deg = $xf + (360 - $xs);
+         }
+         elsif ($xf >= 352 && $xs <= 8) {
+            $deg = (360 - $xf) + $xs;
+         }
+         else { 
+            $deg = $xf - $xs;
+         }
          $deg =~ s/-//g;
       
          # doppelte eliminieren
