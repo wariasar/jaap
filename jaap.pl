@@ -1242,18 +1242,20 @@ sub layout_planets {
       if ($anz > 2) {
          $found = 0;
          # Der schnellste Planet kommt alleine auf die innerste Ebene
+         # Ab einer Gruppe von 6 und mehr die beiden schnellsten auf die innere Ebene
          foreach $ord (@order) {
-            last if ($found);
+            last if ($found == 1 && $anz < 5);
+            last if ($found == 2 && $anz >= 5);
             foreach $ca (@p) {
                if ($ca eq $ord) {
                   # gefunden
                   $change{$ord} = "I";
-                  $fastest = $ord;
-                  $found = 1;
-                  last;
+                  $fastest .= $ord."_";
+                  $found ++;
                }   
             }
          }
+         chop($fastest);
          @part = split(/_/,advanced_set($pref, $fastest, @p));
          if ($part[0] ne "") { $change{$part[0]} = "M"; }
          if ($part[1] ne "") { $change{$part[1]} = "M"; }
@@ -1283,23 +1285,29 @@ sub uniq {
 #------------------------------------------------------------------------------
 sub advanced_set {
 
-   my ($pref, $fastest, @list) = @_;
-   my ($first, $second, $deg, %ang, @skip, $test, $found, $sk, $xi, @lock, @part, $xf, $xs);
+   my ($pref, $fplstr, @list) = @_;
+   my ($first, $second, $fastest, $deg, %ang, @skip, @fpl, $test, $found, $sk, $xi, @lock, @part, $xf, $xs);
    my $count = 0;
    my $anz = $#list;
+
+   @fpl = split(/_/, $fplstr);
+   my $anz_fpl = $#fpl;
+   if ($anz_fpl == 0) { $fastest = $fpl[0]; }     
+   if ($anz_fpl == 1) { set_force(@fpl); }     
 
    foreach $first (@list) {
       foreach $second (@list) {
          next if ($first eq $second);
-         next if ($first eq $fastest || $second eq $fastest);
+         next if ($anz_fpl == 0 && ($first eq $fastest || $second eq $fastest));
+         next if ($anz_fpl == 1 && ($first eq $fpl[0] || $second eq $fpl[0] || $first eq $fpl[1] || $second eq $fpl[1]));
 
          $xf = get_ang($pref->{$first});
          $xs = get_ang($pref->{$second});
 
-         if ($xf <= 8 && $xs >= 352) {
+         if ($xf <= 10 && $xs >= 350) {
             $deg = $xf + (360 - $xs);
          }
-         elsif ($xf >= 352 && $xs <= 8) {
+         elsif ($xf >= 350 && $xs <= 10) {
             $deg = (360 - $xf) + $xs;
          }
          else { 
@@ -1320,6 +1328,8 @@ sub advanced_set {
       }
    }
    $count = 0;
+
+
    foreach (sort { $ang{$b} <=> $ang{$a} } keys %ang) {  
       if ($count == 0 && $anz < 4) {
          @lock = split(/_/, $_);
