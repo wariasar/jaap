@@ -1810,6 +1810,7 @@ sub draw_smart {
    }
 
    print "<button class=\"sm\" id=\"sm_home\" onclick=\"reset()\">!</button><br />\n";
+   print "<button class=\"sm\" id=\"sm_menue\" onclick=\"openmenue()\">☰</button><br />\n";
 
    print "</div>\n";
 
@@ -1940,19 +1941,21 @@ sub textbox {
 #------------------------------------------------------------------------------
 sub submenue {
 
-   print "<div id=\"dropdown\" class=\"dropdown-content\">\n";
+   if ($smart == 0) { print "<div id=\"dropdown\" class=\"dropdown-content\">\n"; }
+   else { print "<div id=\"dropdown\" class=\"dropdown-smart\">\n"; }
    #print "<a href=\"javascript:set_open()\"><img src=\"icons/open.png\" class=\"icon\">Laden</a>\n";
    #print "<a href=\"javascript:save()\"><img src=\"icons/save.png\" class=\"icon\">Speichern</a>\n";
    #print "<a href=\"javascript:import_aaf()\"><img src=\"icons/db_in.png\" class=\"icon\">AAF Import</a>\n";
    #print "<a href=\"javascript:export_db()\"><img src=\"icons/db_out.png\" class=\"icon\">AAF Export</a>\n";
    #print "<a id=\"btn_hlp\" href=\"help.html\"><img src=\"icons/help.png\" class=\"icon\">Hilfe</a>\n";
    #print "<a id=\"btn_about\" href=\"javascript:show_about()\"><img src=\"icons/about.png\" class=\"icon\">Über</a>\n";
-   print "<a href=\"javascript:set_open()\">📤 Laden</a>\n";
-   print "<a href=\"javascript:save()\">📥 Speichern</a>\n";
-   print "<a href=\"javascript:import_aaf()\">📂 AAF Import</a>\n";
-   print "<a href=\"javascript:export_db()\">💾 AAF Export</a>\n";
+   print "<a id=\"btn_load\" href=\"javascript:set_open()\">📤 Laden</a>\n";
+   print "<a id=\"btn_save\" href=\"javascript:save()\">📥 Speichern</a>\n";
+   print "<a id=\"btn_imp\" href=\"javascript:import_aaf()\">📂 AAF Import</a>\n";
+   print "<a id=\"btn_exp\" href=\"javascript:export_db()\">💾 AAF Export</a>\n";
    print "<a id=\"btn_delete\" href=\"javascript:delete_all_data()\">💣 Löschen…</a>\n";
    print "<a id=\"btn_hlp\" href=\"help.html\" target=\"_blank\">🔎 Hilfe</a>\n";
    print "<a id=\"btn_about\" href=\"javascript:show_about()\">💬 Über</a>\n";
+   print "<a id=\"btn_smart\" href=\"javascript:smart_or()\">📱 Smart</a>\n";
    print "</div>\n";
 }

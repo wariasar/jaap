@@ -308,7 +308,7 @@ smart controls*/
 
 #smart {
    position: absolute;
-   top: 70px;
+   top: 50px;
    left: 1165px;
 }
 
@@ -717,6 +717,18 @@ Dropdown menue*/
   /*margin-top: 36px;*/
 }
 
+.dropdown-smart {
+  display: none;
+  position: absolute;
+  top: 38px;
+  background-color: #f7f7f7;
+  border: 1px solid #aaaaaa;
+  min-width: 160px;
+  font-size: 42px;
+  /*z-index: 1;*/
+  /*margin-top: 36px;*/
+}
+
 /* Links inside the dropdown */
 .dropdown-content a {
   color: black;
@@ -725,11 +737,22 @@ Dropdown menue*/
   display: block;
 }
 
+.dropdown-smart a {
+  color: black;
+  padding: 18px 18px;
+  text-decoration: none;
+  display: block;
+}
+
 /* Change color of dropdown links on hover */
 .dropdown-content a:hover {
    background-color: #0b81d0;
    color: #ffffff;
-   
+}
+
+.dropdown-smart a:hover {
+   background-color: #0b81d0;
+   color: #ffffff;
 }
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */

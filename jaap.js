@@ -37,12 +37,15 @@ var create_new = 0;
 sessionStorage.setItem('modal', 0);
 
 // prüfen ob mobil device
-if (isMobile) {	
-   localStorage.setItem('smart', 1);
-   smart = 1;
-} else {
-   localStorage.setItem('smart', 0);
-   smart = 0;
+var chkor = localStorage.getItem('override');
+if (chkor != 1) {
+   if (isMobile) {	
+      localStorage.setItem('smart', 1);
+      smart = 1;
+   } else {
+      localStorage.setItem('smart', 0);
+      smart = 0;
+   }
 }
 
 // prüfen ob radix
@@ -238,6 +241,7 @@ function TasteGedrueckt (evt) {
       if (evt.keyCode == 76) { set_open(); } //L (load radix)
       if (evt.keyCode == 35) { set("Alle"); } //ende
       if (evt.keyCode == 36) { reset(); } //pos1
+      if (evt.keyCode == 77) { openmenue(); } //M
    }
 }
 
@@ -912,6 +916,28 @@ function close_about() {
    modal.style.display = "none";
 }
 
+
+//------------------------------------------------------------------------------
+// Funktion smart_or
+// Manuelles setzten ses Smart Modus
+//------------------------------------------------------------------------------
+function smart_or() {
+   var smor;
+   if (smart == 0) {
+      smart = 1;
+      localStorage.setItem('smart', 1);
+      localStorage.setItem('override', 1);
+      reset();
+      return;
+   }  
+   if (smart == 1) {
+      smart = 0;
+      localStorage.setItem('smart', 0);
+      localStorage.setItem('override', 1);
+      reset();
+      return;
+   }  
+}
 
 //------------------------------------------------------------------------------
 // Funktion reset
