@@ -852,10 +852,10 @@ sub get_xy {
 
    # zwei Planeten auf der gleichen bahn -> offset plus oder minus
    if ($fflag eq "xm") {
-      $ang -= 3;
+      $ang -= 2;
    }
    if ($fflag eq "xp") {
-      $ang += 3;
+      $ang += 2;
    }
 
    # winkel umrechnen
@@ -1121,7 +1121,7 @@ sub layout_planets {
    my $plaa = 0;
    my $aec = 0;
    my $aef = 0;
-   my (@aep, %aeg, $aes, @x);
+   my (@aep, %aeg, $aes, @x, $fst, $snd);
 
    # Planeten ihrem Dezimalwinkel zuordnen
    foreach (@pl) {
@@ -1260,6 +1260,17 @@ sub layout_planets {
          if ($part[0] ne "") { $change{$part[0]} = "M"; }
          if ($part[1] ne "") { $change{$part[1]} = "M"; }
 
+         # force
+         if ($#part == 1) { set_force (@part); }
+         foreach $fst (@p) {
+            next if ($fst eq $part[0] || $fst eq $part[1] || $fastest =~ $fst);
+            foreach $snd (@p) {
+               next if ($snd eq $part[0] || $snd eq $part[1] || $fastest =~ $snd);
+               if ($fst ne "" && $snd ne "" && $fst ne $snd) {
+                  set_force($fst, $snd);
+               }
+            }
+         }         
       }
    }
    return (%change);
@@ -1333,7 +1344,6 @@ sub advanced_set {
    foreach (sort { $ang{$b} <=> $ang{$a} } keys %ang) {  
       if ($count == 0 && $anz < 4) {
          @lock = split(/_/, $_);
-         set_force(@lock);
       }
       if ($count == 1) {
          if ($anz >= 4) { @lock = split(/_/, $_); }
@@ -1347,7 +1357,6 @@ sub advanced_set {
          @part = split (/_/, $_);
          if ($anz >= 4) {
             next if ($part[0] eq $lock[0] || $part[0] eq $lock[1] || $part[1] eq $lock[0] || $part[1] eq $lock[1]); 
-            set_force(@part);
             return(join('_', $part[0], $part[1]));
          } 
       }
@@ -1393,7 +1402,7 @@ sub set_force {
       $force{$first} = "xp"; $force{$last} = "xm";
    }
    else {
-      if ($deg2 - $deg1 < 8) {
+      if ($deg2 - $deg1 < 6) {
          $force{$first} = "xm"; $force{$last} = "xp";
       }
    }
