@@ -1889,7 +1889,7 @@ sub open_about {
    print "<table class=\"out\">\n";
    print "<tr>\n<td colspan=\"2\" class=\"noline\">\n";
 
-   print "<div class=\"gnu\">Copyright (C) 2019 Armin Warias.<br />\nFür jaap besteht KEINERLEI GARANTIE. ";
+   print "<div class=\"gnu\">Copyright (C) 2019 - 2021 Armin Warias.<br />\nFür jaap besteht KEINERLEI GARANTIE. ";
    print "klicke <a href=\"https://www.gnu.org/licenses/gpl-3.0\" target=\"_blank\"> hier</a> für Details.<br />"; 
    print "jaap ist freie Software, die du unter bestimmten Bedingungen weitergeben darfst. ";
    print "klicke <a href=\"https://www.gnu.org/licenses/gpl-3.0#terms\" target=\"_blank\"> hier </a> für Details</div>\n";
