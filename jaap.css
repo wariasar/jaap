@@ -398,7 +398,7 @@ table.out {
 
 .text {
 	display:block;
-   font-family: 'DejaVu Sans', 'dejavusansweb';
+   /*font-family: 'DejaVu Sans', 'dejavusansweb';*/
 	border:1px solid #999999;
 	background-color: #eeeeee;
 	font-size: 12pt;
@@ -408,7 +408,7 @@ table.out {
 
 .htext {
 	display:block;
-   font-family: 'DejaVu Sans', 'dejavusansweb';
+   /*font-family: 'DejaVu Sans', 'dejavusansweb';*/
 	border:1px solid #999999;
 	background-color: #eeeeee;
 	font-size: 12pt;
@@ -418,7 +418,7 @@ table.out {
 
 .otext {
 	display:block;
-   font-family: 'DejaVu Sans', 'dejavusansweb';
+   /*font-family: 'DejaVu Sans', 'dejavusansweb';*/
 	border:1px solid #999999;
 	background-color: #eeeeee;
 	font-size: 12pt;
