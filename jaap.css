@@ -294,8 +294,13 @@ select {
   width: 48px;
 }
 
-#hsys {
+#hsys, #planets {
+   background-color: #F7F7F7;
    width: 128px;
+}
+
+#offset {
+   background-color: #F7F7F7;
 }
 
 #houses {
@@ -393,9 +398,8 @@ table.out {
 
 .text {
 	display:block;
-	/*font-family: Verdana, Arial, Helvetica, sans-serif;*/
+   font-family: 'DejaVu Sans', 'dejavusansweb';
 	border:1px solid #999999;
-	/*color: #0000ff;*/
 	background-color: #eeeeee;
 	font-size: 12pt;
 	width: 376px;
@@ -404,9 +408,8 @@ table.out {
 
 .htext {
 	display:block;
-	/*font-family: Verdana, Arial, Helvetica, sans-serif;*/
+   font-family: 'DejaVu Sans', 'dejavusansweb';
 	border:1px solid #999999;
-	/*color: #0000ff;*/
 	background-color: #eeeeee;
 	font-size: 12pt;
 	width: 170px;
@@ -415,9 +418,8 @@ table.out {
 
 .otext {
 	display:block;
-	/*font-family: Verdana, Arial, Helvetica, sans-serif;*/
+   font-family: 'DejaVu Sans', 'dejavusansweb';
 	border:1px solid #999999;
-	/*color: #0000ff;*/
 	background-color: #eeeeee;
 	font-size: 12pt;
 	width: 170px;
