@@ -180,12 +180,15 @@ function load_listener (){
       var multi = document.getElementById('mult');
       multi.onfocus = function() {
          modal = 1;
-	 sessionStorage.setItem('modal', 1);
+	      sessionStorage.setItem('modal', 1);
       }
       multi.onblur = function() {
-	 sessionStorage.setItem('multi', multi.value);
-	 modal = 0;
-	 sessionStorage.setItem('modal', 0);
+	      sessionStorage.setItem('multi', multi.value);
+	      modal = 0;
+	      sessionStorage.setItem('modal', 0);
+      }
+      multi.onchange = function() {
+	      sessionStorage.setItem('multi', multi.value);
       }
    }
    if (radix == 0) {
