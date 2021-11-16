@@ -503,6 +503,7 @@ function set_modal () {
    if ((radix == 1 || transit == 1) && modflag == 0) {
       document.getElementById('getname').value = sessionStorage.getItem('name');
       document.getElementById('getdate').value = engdate;
+      if (rxval[1].length == 4) { rxval[1] = "0" + rxval[1]; }
       document.getElementById('gettime').value = rxval[1];
       document.getElementById('ortstr').value = ort;
       document.getElementById('long').value = rxval[3];
