@@ -131,9 +131,12 @@ if (radix == 0 && transit == 0) {
 function set_home_loc() {
    var lostr = document.querySelector("#long").value;
    var lastr = document.querySelector("#lat").value;
-   var urlstr = window.location.href + "?hlo=" + lostr + "&hla=" + lastr;
-   window.open(urlstr,"_top");
-   console.log (urlstr);
+   //var urlstr = window.location.href + "?hlo=" + lostr + "&hla=" + lastr;
+   //window.open(urlstr,"_top");
+   //console.log (urlstr);
+   localStorage.setItem("home", lostr + " " + lastr);
+   sessionStorage.setItem("modal", 0);
+   reset();
 }
 
 
