@@ -446,6 +446,7 @@ function set_transit () {
 //------------------------------------------------------------------------------
 function restore_radix() {
    sessionStorage.setItem('transit', 0);
+   transit = 0;
    smart = localStorage.getItem('smart');
    var datestr = sessionStorage.getItem('rxstr');
    var hsys;
