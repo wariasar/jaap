@@ -165,7 +165,7 @@ if (($transit && $tr{"datum"}  eq "") || (!$transit && $rx{"datum"} eq "")) {
       chomp ($tr{"datum"}, $tr{"uhrzeit"}, $tr{"long"}, $tr{"lat"});
    }
    else {
-      $rx{"datum"} = `TZ="$locstr" date "+%d.%-m.%Y"`;
+      $rx{"datum"} = `TZ="$locstr" date "+%-d.%-m.%Y"`;
       $rx{"uhrzeit"} = `TZ="$locstr" date "+%-H.%M"`;
       $rx{"long"} = $home_long;
       $rx{"lat"} = "$home_lat";
