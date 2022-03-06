@@ -1,0 +1,29 @@
+
+# unzip ZoneDetect-master.zip to your document root directory
+# a subdirectory »ZoneDetect-master« will be created
+# rename it to ZoneDetect
+unzip zd/ZoneDetect-master.zip
+mv ZoneDetect-master ZoneDetect
+
+# change to database directory and unzip the db.zip there
+cd ZoneDetect/database/
+unzip ../../zd/db.zip
+
+# change to library directory, build and deploy the library
+# it will be installed at /usr/lib/libzonedetect.so
+cd ZoneDetect/library
+make
+make install
+make clean
+
+# build the demo binary in the ZoneDetect folder
+cd ZoneDetect/
+gcc -std=c11 -Wall -o demo demo.c /usr/lib/libzonedetect.so -lm
+
+# now you have the demo biary and you can test it
+cd ZoneDetect/
+./demo 
+Usage: ./demo dbname lat lon
+
+# if you get the usage information than it works
+
