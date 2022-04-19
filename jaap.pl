@@ -53,7 +53,7 @@ my $hla_set = 0;
 my $hlpl = "";
 my $hlh = "";
 my (%planets, %planets_tr, %houses, %planets_rel, %pl_h, @aspects, %rueckl, %rueckl_tr, %speed, %speed_tr, %force);
-my @pl = ("Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Chiron", "Uranus", "Neptune", "Pluto", "true Node", "mean Apogee");
+my @pl = ("Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto", "true Node", "mean Apogee");
 my %psym = ("Sun" => "☉", "Moon" => "☽", "Mercury" => "☿", "Ascendant" => "AC", "MC" => "MC",
             "Venus" => "♀", "Mars" => "♂", "Jupiter" => "♃",
             "Saturn" => "♄", "Uranus" => "⛢", "Neptune" => "♆" , "Pluto" => "♇", "true Node" => "☊", "Chiron" => "⚷", "mean Apogee" => "⚸");
