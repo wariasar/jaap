@@ -14,7 +14,7 @@ Hier kannst du dir eine Demonstration der Software ansehen:
 jaap is a web based astrology software.
 The program is written in Perl.
 
-To be able to use the software, it must be copied to a web server which
+To be able to use the software, it must be copied to a web server which has
 perl support. Both the ephemeris and ZoneDetect must be on the server
 Be compiled. More detailed instructions for setting up will follow.
 You can watch a demonstration of the software here:
