@@ -64,11 +64,11 @@ foreach my $Feld (@Feldnamen) {
   $string=$cgi->param($Feld);
   chomp ($Feld);
   chomp ($string);
-  if ($Feld eq "name") { $name = $string; }
+  if ($Feld eq "name") { $name = $string; $name =~ s|<.+?>||g;}
   if ($Feld eq "datum") { $rx{"datum"} = date_format($string); }
   if ($Feld eq "uhrzeit") { $rx{"uhrzeit"} = $string; $rx{"uhrzeit"} =~ s/:/./g; }
-  if ($Feld eq "long") { $rx{"long"} = $string; }
-  if ($Feld eq "lat") { $rx{"lat"} = $string; }
+  if ($Feld eq "long") { $rx{"long"} = $string; $rx{"long"} =~ s|<.+?>||g;}
+  if ($Feld eq "lat") { $rx{"lat"} = $string; $rx{"lat"} =~ s|<.+?>||g;}
   if ($Feld eq "dstr") { $ret_date = $string; }
   if ($Feld eq "dstr_tr") { $ret_date_tr = $string; }
   if ($Feld eq "offset") { $ret_offs = $string; }
