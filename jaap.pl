@@ -89,8 +89,8 @@ foreach my $Feld (@Feldnamen) {
 #DEBUG:
 #$smart = 1;
 #$name = "Test";
-#$rx{"datum"} = "26.03.2025";
-#$rx{"uhrzeit"} = "1:28";
+#$rx{"datum"} = "24.05.2022";
+#$rx{"uhrzeit"} = "14:43";
 #$rx{"long"} = "11.08";
 #$rx{"lat"} = "49.46";
 #$rx{"hsys"} = "Placidus";
@@ -1241,6 +1241,7 @@ sub layout_planets {
       # 4er Gruppe und mehr
       if ($anz > 2) {
          $found = 0;
+         $fastest = "";
          # Der schnellste Planet kommt alleine auf die innerste Ebene
          # Ab einer Gruppe von 6 und mehr die beiden schnellsten auf die innere Ebene
          foreach $ord (@order) {
