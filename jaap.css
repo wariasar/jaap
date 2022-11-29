@@ -1,5 +1,6 @@
 body {
-   font-family: 'DejaVu Serif', 'dejavuserifweb', 'FreeSerif', 'freeserifweb', 'DejaVu Sans', 'dejavusansweb';
+   /*font-family: 'DejaVu Serif', 'dejavuserifweb', 'FreeSerif', 'freeserifweb', 'DejaVu Sans', 'dejavusansweb';*/
+   font-family: 'DejaVu Sans', 'dejavusansweb', 'DejaVu Serif', 'dejavuserifweb', 'FreeSerif', 'freeserifweb'; 
    width: 1200px;
 }
 
@@ -81,6 +82,7 @@ h4 {
 
 .diff1 {
    width: 25px;
+   font-family: 'DejaVu Serif', 'dejavuserifweb', 'FreeSerif', 'freeserifweb', 'DejaVu Sans', 'dejavusansweb';
    /*padding-left: 8px;*/
 }
 
@@ -800,12 +802,24 @@ Dropdown menue*/
 }
 
 
-.as{
+.as1 {
+  margin-right: 5px;
+  text-align: left;
+  font-family: 'DejaVu Serif', 'dejavuserifweb', 'FreeSerif', 'freeserifweb', 'DejaVu Sans', 'dejavusansweb';
+}
+
+.as3 {
+  margin-right: 5px;
+  text-align: left;
+  font-family: 'DejaVu Serif', 'dejavuserifweb', 'FreeSerif', 'freeserifweb', 'DejaVu Sans', 'dejavusansweb';
+}
+
+.as2 {
   margin-right: 5px;
   text-align: left;
 }
 
-.as2{
+.as4{
   margin-left: 10px;
   text-align: left;
   color: #aaaaaa;

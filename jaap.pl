@@ -236,9 +236,9 @@ if ($transit) {
 #------------------------------------------------------------------------------
 # Menue und Statusanzeigen generieren
 #------------------------------------------------------------------------------
-if ($radix) { $style = "style=\"background-color: #FEFFF0;\""; }
-elsif ($transit) { $style = "style=\"background-color: #FEFFF0;\""; }
-else { $style = "style=\"background-color: #FEFFF0;\""; }
+if ($radix) { $style = "style=\"background-color: #f0fff0;\""; } #FEFFF0
+elsif ($transit) { $style = "style=\"background-color: #f0fff0;\""; }
+else { $style = "style=\"background-color: #f0fff0;\""; }
 print "<table class=\"head\" $style>\n<tr>\n";
 print "<td class=\"bsub\">\n<button id=\"sub\" class=\"submenue\" onmouseover=\"show_info('Menue')\" onclick=\"openmenue()\">☰</button></td>\n";
 print "<td class=\"bnew\">\n<button id=\"new\" onmouseover=\"show_info('Neues Horoskop')\">N</button></td>\n";
@@ -424,10 +424,10 @@ if ($hsys ne "") {
       $p[2] =~ s/[+-]//g;
       $aspstr = join(':', $p[0], $asp_l{$p[3]}, $p[1]); 
       print "<tr>\n<td nowrap><a href=\"javascript:show_tb('$aspstr')\" class=\"ainfo\">\n";
-      print "<span class=\"as\">$psym{$p[0]}</span>\n";
-      print "<span class=\"as\"> $p[3]</span>\n";
-      print "<span class=\"as\">$psym{$p[1]}</span>\n</a></td>\n"; 
-      print "<td><span class=\"as2\">($p[2]°)</span></td>\n</tr>";
+      print "<span class=\"as1\">$psym{$p[0]}</span>\n";
+      print "<span class=\"as2\"> $p[3]</span>\n";
+      print "<span class=\"as3\">$psym{$p[1]}</span>\n</a></td>\n"; 
+      print "<td><span class=\"as4\">($p[2]°)</span></td>\n</tr>";
       #print "<td><a href=\"javascript:show_tb()\" class=\"zinfo\">$p[3]</a></td>\n";
       #print "<td><a href=\"javascript:show_tb()\" class=\"zinfo\">$psym{$p[1]}</a></td>\n";
       #print "<td class=\"diff\"><a href=\"javascript:show_tb()\" class=\"zinfo\">$p[2]°</a></td>\n</tr>\n";
@@ -734,6 +734,7 @@ sub calc_elements {
 sub draw_planets {
    my ($run, $pref) = @_;
    my($p, $match, $fontsize, $color, $fontweight, %fs, %pos, %xy, $switch, $chx, $chy);
+   my $fofa = "'DejaVu Serif', 'dejavuserifweb', 'FreeSerif', 'freeserifweb', 'DejaVu Sans', 'dejavusansweb';";
 
    if ($transit && $run == 1) {
       $fs{"Sun"} = "32px"; $fs{"Moon"} = "32px"; $fs{"Venus"} = "28px"; $fs{"Mercury"} = "28px"; $fs{"Mars"} = "28px";
@@ -801,8 +802,8 @@ sub draw_planets {
 
        #print SVG "<text x=\"".$chx."\" y=\"".$chy."\" style=\"font-size:$fontsize; font-weight: $fontweight; fill:$color\">".$psym{$p}."</text>\n";
        $transpl = translate($p);
-       if ($transit && $run == 1)  { print "<text x=\"".$chx."\" y=\"".$chy."\" style=\"font-size:$fontsize; font-weight: $fontweight; font-style: normal; fill:$color\">".$psym{$p}."</text>\n"; }
-       else {  print "<text x=\"".$chx."\" y=\"".$chy."\" onmouseover=\"show_info('$transpl [$pl_h{$p}]')\" onclick=\"set('$p')\" style=\"font-size:$fontsize; cursor:pointer; font-weight: $fontweight; font-style: normal; fill:$color\">".$psym{$p}."</text>\n"; }
+       if ($transit && $run == 1)  { print "<text x=\"".$chx."\" y=\"".$chy."\" style=\"font-size:$fontsize; font-weight: $fontweight; font-style: normal; font-family: $fofa; fill:$color\">".$psym{$p}."</text>\n"; }
+       else {  print "<text x=\"".$chx."\" y=\"".$chy."\" onmouseover=\"show_info('$transpl [$pl_h{$p}]')\" onclick=\"set('$p')\" style=\"font-size:$fontsize; cursor:pointer; font-weight: $fontweight; font-style: normal; font-family: $fofa; fill:$color\">".$psym{$p}."</text>\n"; }
    }
 }
 
