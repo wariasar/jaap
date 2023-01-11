@@ -22,7 +22,7 @@
 // Default Werte setzen
 //------------------------------------------------------------------------------
 
-var version = "alpha 0.0.35";
+var version = "alpha 0.0.35.2";
 var test_modus = document.getElementById("info").innerHTML;
 const isMobile = check_mobile();
 var radix = 0;
@@ -224,8 +224,9 @@ function TasteGedrueckt (evt) {
 
    if (load == 1 && evt.keyCode == 13) { set_load(); }
    if (radixn == 1 && evt.keyCode == 13) {
-      var dummyEl = document.getElementById('olist');
-      if (document.activeElement === dummyEl) {
+      //var dummyEl = document.getElementById('olist');
+      var dummySB = document.getElementById('sb');
+      if (document.activeElement !== dummySB) {
          newradix();
       }
    }
@@ -837,7 +838,56 @@ function newradix() {
    var lat = document.getElementById('lat').value;
    var hsys = localStorage.getItem('hsys');
    var bc = document.getElementById('vchr');
+   var miss = 0;
+   var message1 = "Bitte die markierten Felder Ausfüllen";
+   var message2 = "Bitte die markierten Felder Ausfüllen oder einen Ort aus der Liste Auswählen";
+   var message3 = "Bitte für Long und Lat eine Zahl eintragen oder einen Ort aus der Liste Auswählen";
+  
 
+   // Die Felder Datum, Long und Lat müssen ausgefüllt sein
+   document.getElementById('long').style.backgroundColor = "";
+   lon = lon.replace(/,/,".");
+   if (isNaN(lon) || lon == "") {
+      document.getElementById('long').style.backgroundColor = "#fdcccc";
+      miss = 1;	   
+   }
+   document.getElementById('lat').style.backgroundColor = "";
+   lat = lat.replace(/,/,".");
+   if (isNaN(lat) || lat == "") {
+      document.getElementById('lat').style.backgroundColor = "#fdcccc";
+      miss = 1;	   
+   }
+   document.getElementById('getdate').style.backgroundColor = "";
+   if (!date) {
+      document.getElementById('getdate').style.backgroundColor = "#fdcccc";
+      miss = 1;	   
+   }
+
+   // Ein erforderliches Feld fehlt oder hat einen ungültigen Wert	
+   if (miss) {
+      if (date && lon == "" && lat == "") {
+          document.getElementById('miss').innerHTML = message2;
+      }
+      else if ((isNaN(lon) && lon != "") || (isNaN(lat) && lat != "")) {
+          document.getElementById('miss').innerHTML = message3;
+      }
+      else {
+          document.getElementById('miss').innerHTML = message1; 
+      }
+      return;
+   }
+
+   // range für Long und Lat darf nicht über/unterschritten werden	
+   if (lon < -180) { lon = -180; }
+   if (lon > 180) { lon = 180; }
+   if (lat < -90) { lat = -90; }
+   if (lat > 90) { lat = 90; }
+
+   // Auf 2 Nachkommastellen runden
+   lon = Number(lon).toFixed(2);
+   lat = Number(lat).toFixed(2);
+
+   // Bei fehlender Uhrzeit wird das Radix ohne Häuser angezeigt
    if (time == "") { sessionStorage.setItem('notime', 1); }
    else { sessionStorage.setItem('notime', 0); }
 

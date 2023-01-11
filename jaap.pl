@@ -24,7 +24,7 @@ use Math::Trig;
 use Time::Local;
 #use open IO => ':utf8';
 
-my $version = "alpha 0.0.35";
+my $version = "alpha 0.0.35.2";
 
 my $template = "radix.svg";
 my $css = "jaap.css";
@@ -1835,8 +1835,8 @@ sub neu_dialog {
    print "<td colspan=\"3\" class=\"noline\">Uhrzeit:\n<input type=\"time\" name=\"uhrzeit\" class=\"htext\" id=\"gettime\"/>\n</td>\n</tr>\n";
 
 
-   print "<tr>\n<td class=\"noline_sh\">\nOrt:\n<input type=\"text\" name=\"ort\" class=\"otext\" id=\"ortstr\" />\n";
-   print "<td colspan=\"3\" class=\"noline\">\n<a class=\"sbtn\" href=\"javascript:searchlocation()\" />suchen</a>\n</td>\n</tr>\n";
+   print "<tr>\n<td colspan=\"2\" class=\"noline_sh\">\nOrt:\n<input type=\"text\" name=\"ort\" class=\"otext\" id=\"ortstr\" />\n";
+   print "<td colspan=\"3\" class=\"noline\">\n<a class=\"sbtn\" id=\"sb\" href=\"javascript:searchlocation()\" />suchen</a>\n</td>\n</tr>\n";
 
 
 
@@ -1848,13 +1848,15 @@ sub neu_dialog {
 
    print "<tr>\n<td class=\"noline_sh\">Long:\n<input type=\"text\" name=\"long\" id=\"long\" class=\"htext\" />\n</td>\n";
    print "<td class=\"noline\">Lat:\n<input type=\"text\" name=\"lat\" id=\"lat\" class=\"htext\" />\n</td>\n";
-   print "<td class=\"noline_c\"><input type=\"checkbox\" name=\"bc\" id=\"vchr\" class=\"bc\" value=\"bc\"/</td>\n";
+   print "<td class=\"noline_c\"><input type=\"checkbox\" name=\"bc\" id=\"vchr\" class=\"bc\" value=\"bc\"</td>\n";
    print "<label for=\"vchr\">bc</label>\n";
    print "<td class=\"noline_c\"><a href=\"javascript:set_home_loc()\" class=\"sethome\">🏡</a></td></tr>\n";
 
    #print "<input type=\"hidden\" id=\"hsys\" name=\"hsys\">\n";
 
-   print "<tr><td colspan=\"2\" class=\"noborder\">\n<button class=\"button1\" id=\"subf\" onclick=\"newradix()\">OK</button>\n</td>\n</tr>\n";
+   print "<tr><td class=\"noborder\">\n<button class=\"button1\" id=\"subf\" onclick=\"newradix()\">OK</button>\n";
+   print "<td colspan=\"3\" class=\"noborder\">\n<div id=\"miss\"></div></td>\n";
+   print "</tr>\n";
    print "</table>\n</div>\n</div>\n";
 
 }
@@ -1891,7 +1893,7 @@ sub open_about {
    print "<table class=\"out\">\n";
    print "<tr>\n<td colspan=\"2\" class=\"noline\">\n";
 
-   print "<div class=\"gnu\">Copyright (C) 2019 - 2021 Armin Warias.<br />\nFür jaap besteht KEINERLEI GARANTIE. ";
+   print "<div class=\"gnu\">Copyright (C) 2019 - 2023 Armin Warias.<br />\nFür jaap besteht KEINERLEI GARANTIE. ";
    print "klicke <a href=\"https://www.gnu.org/licenses/gpl-3.0\" target=\"_blank\"> hier</a> für Details.<br />"; 
    print "jaap ist freie Software, die du unter bestimmten Bedingungen weitergeben darfst. ";
    print "klicke <a href=\"https://www.gnu.org/licenses/gpl-3.0#terms\" target=\"_blank\"> hier </a> für Details</div>\n";

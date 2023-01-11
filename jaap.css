@@ -363,8 +363,8 @@ table.out {
 	padding-right: 5px;
 	padding-top: 15px;
 	padding-bottom: 5px;
-        text-align: center;
-	width: 50px;
+        text-align: left;
+	width: 80px;
 }
 .noline_sh {
         width: 195px;
@@ -425,7 +425,8 @@ table.out {
 	border:1px solid #999999;
 	background-color: #eeeeee;
 	font-size: 12pt;
-	width: 170px;
+	/*width: 170px;*/
+	width: 376px;
 	height: 25px;
 }
 
@@ -571,6 +572,12 @@ Modal logik*/
   color: #ff0000;
   text-decoration: none;
   cursor: pointer;
+}
+
+#miss {
+  color: #8e0000;
+  /*margin-top: 10px;*/
+  font-size: 9pt;
 }
 
 /*----------------------------------------------------------------*/
