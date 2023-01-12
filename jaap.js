@@ -247,7 +247,18 @@ function TasteGedrueckt (evt) {
       if (evt.keyCode == 76) { set_open(); } //L (load radix)
       if (evt.keyCode == 35) { set("Alle"); } //ende
       if (evt.keyCode == 36) { reset(); } //pos1
-      if (evt.keyCode == 77) { openmenue(); } //M
+      //if (evt.keyCode == 77) { openmenue(); } //M
+      if (evt.keyCode == 77) { set('Moon'); } //M
+      if (evt.keyCode == 83) { set('Sun'); } //S
+      if (evt.keyCode == 86) { set('Venus'); } //V
+      if (evt.keyCode == 69) { set('Mercury'); } //E
+      if (evt.keyCode == 65) { set('Mars'); } //A
+      if (evt.keyCode == 85) { set('Saturn'); } //U
+      if (evt.keyCode == 80) { set('Pluto'); } //P
+      if (evt.keyCode == 74) { set('Jupiter'); } //J
+      if (evt.keyCode == 81) { set('Uranus'); } //Q
+      if (evt.keyCode == 87) { set('Neptune'); } //W
+      if (evt.keyCode == 88) { document.getElementById("planets").focus(); } //X
    }
 }
 
