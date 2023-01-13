@@ -258,6 +258,7 @@ function TasteGedrueckt (evt) {
       if (evt.keyCode == 74) { set('Jupiter'); } //J
       if (evt.keyCode == 81) { set('Uranus'); } //Q
       if (evt.keyCode == 87) { set('Neptune'); } //W
+      if (evt.keyCode == 32) { set('Alle'); } //space
       if (evt.keyCode == 88) { document.getElementById("planets").focus(); } //X
    }
 }
