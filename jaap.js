@@ -1,7 +1,10 @@
 /*
 ------------------------------------------------------------------------------
  jaap.js
- Copyright (C) 2019-2020  Armin Warias
+
+ Astrologie Programm
+
+ Copyright (C) 2019-2023  Armin Warias
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
