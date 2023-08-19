@@ -27,7 +27,7 @@ use Math::Trig;
 use Time::Local;
 #use open IO => ':utf8';
 
-my $version = "alpha 0.0.35.2";
+my $version = "alpha 0.0.35.3";
 
 my $template = "radix.svg";
 my $css = "jaap.css";
@@ -90,6 +90,7 @@ foreach my $Feld (@Feldnamen) {
 }
 
 #DEBUG:
+#$ort = "nürnberg";
 #$smart = 1;
 #$name = "Test";
 #$rx{"datum"} = "24.05.2022";
@@ -124,7 +125,9 @@ if ($ret_date ne "") { %rx = spl_datestr($ret_date); }
 if ($transit)  { %tr = spl_datestr($ret_date_tr); }
 
 # Wenn ein Ort übergeben Wurde nur die Ortssuche durchführen
-if ($ort ne "") { ortssuche($ort); }
+if ($ort ne "") { 
+	ortssuche($ort); 
+}
 
 # Der Status wird im Javascriptcode ausgelesen
 my $status;
@@ -1436,15 +1439,12 @@ sub ortssuche {
    my $location = $_[0];
    my $jstr;
    my $count = 0;
-   #foreach (@ARGV) { $location .= "%20".$_; }
-   $location =~ s/^\%20//g;
-   $location =~ s/\s/\%20/g;
+   $location =~ s/ /+/g;
+   $location =~ s/([^A-Za-z0-9\+-])/sprintf("%%%02X", ord($1))/seg;
 
-   do {
-      $jstr = `curl -H 'Accept-Language: de,en-US' https://nominatim.openstreetmap.org/search/$location?format=json 2> /dev/null`;
-   } while ($jstr =~ /\<html\>/ && $count++ <= 3);
-   #DEBUG:
-   system ("echo $count >> /tmp/debug");
+   #do {
+   $jstr = `curl -H 'Accept-Language: de,en-US' 'https://nominatim.openstreetmap.org/search?q=$location\&\&format=json' 2> /dev/null`;
+   #} while ($jstr =~ /\<html\>/ && $count++ <= 3);
    my (@part1, @part2, @part3, $p1, $p2, $p3, %vals, $name);
    my $count = 0;
 
@@ -1452,8 +1452,7 @@ sub ortssuche {
    $jstr =~ s/[\[\]]//g;
    @part1 = split (/\},\{/,$jstr);
    foreach $p1 (@part1) {
-      #print "$_\n\n";
-      @part2 = split (/\",\"/,$p1);
+      @part2 = split (/,\"/,$p1);
       foreach $p2 (@part2) {
          $p2 =~ s/\"//g;
          if ($p2 =~ /^lat/ || $p2 =~ /^lon/ || $p2 =~ /^display_name/) {
@@ -1461,7 +1460,7 @@ sub ortssuche {
             $vals {$part3[0]} = $part3[1];
           }
       }
-      if (length ($vals{display_name}) > 100) { $name = substr($vals{display_name},0,100)."..."; }
+      if (length ($vals{display_name}) > 73) { $name = substr($vals{display_name},0,73)." ..."; }
       else { $name = $vals{display_name}; }
       #printf ("<option>%3d: [ %7.2f %7.2f ] %s</option>\n", $count, $vals{lon}, $vals{lat}, $name);
       printf ("<option>[ %7.2f %7.2f ] %s</option>\n", $vals{lon}, $vals{lat}, $name);
