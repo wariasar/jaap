@@ -25,7 +25,7 @@
 // Default Werte setzen
 //------------------------------------------------------------------------------
 
-var version = "alpha 0.0.35.2";
+var version = "alpha 0.0.35.4";
 var test_modus = document.getElementById("info").innerHTML;
 const isMobile = check_mobile();
 var radix = 0;
@@ -799,10 +799,11 @@ function import_aaf() {
 
 //------------------------------------------------------------------------------
 // Funktion set_open
-// Einblenden eines Modal Dialogs mit der Liste der gefunden Einträge aus dem aaf
+// Einblenden eines Modal Dialogs mit der Liste der gefunden Einträge aus der Datenbank
 //------------------------------------------------------------------------------
 function set_open () {
 
+   radixn = 0;
    var modal = document.getElementById('openradix');
    var span = document.getElementsByClassName("close_open")[0];
    var count = 0;

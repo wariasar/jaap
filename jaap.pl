@@ -27,7 +27,7 @@ use Math::Trig;
 use Time::Local;
 #use open IO => ':utf8';
 
-my $version = "alpha 0.0.35.3";
+my $version = "alpha 0.0.35.4";
 
 my $template = "radix.svg";
 my $css = "jaap.css";
