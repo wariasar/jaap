@@ -27,7 +27,7 @@ use Math::Trig;
 use Time::Local;
 #use open IO => ':utf8';
 
-my $version = "alpha 0.0.35.4";
+my $version = "alpha 0.0.35.5";
 
 my $template = "radix.svg";
 my $css = "jaap.css";
@@ -294,6 +294,7 @@ if (!$filter) { print "<option selected=\"selected\">Alle</option>\n"; }
 else { print "<option>Alle</option>\n"; }
 
 foreach (@pl) {
+   next if ($transit && ($_ eq "MC" || $_ eq "Ascendant"));
    if ($filter && $filter eq $_) { print"<option selected=\"selected\">$_</option>\n"; }
    else { print"<option>$_</option>\n"; } 
    #print"<option>$_</option>\n";
@@ -983,6 +984,7 @@ sub calc_asp {
    my %asp = ("☌" => 0, "⚹" => 60, "□" => 90, "△" => 120, "☍" => 180);
 
    foreach $first (@pl) {
+      next if ($transit && ($first eq "MC" || $first eq "Ascendant"));
       foreach $second (@pl) {
          if ($first eq "Neptune" && $second eq "Pluto") {
             print "";

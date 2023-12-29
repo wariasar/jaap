@@ -25,7 +25,7 @@
 // Default Werte setzen
 //------------------------------------------------------------------------------
 
-var version = "alpha 0.0.35.4";
+var version = "alpha 0.0.35.5";
 var test_modus = document.getElementById("info").innerHTML;
 const isMobile = check_mobile();
 var radix = 0;
