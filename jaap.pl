@@ -25,7 +25,7 @@ use CGI;
 use CGI::Carp qw(fatalsToBrowser);
 use Math::Trig;
 use Time::Local;
-#use open IO => ':utf8';
+##use open IO => ':utf8';
 
 my $version = "alpha 0.0.35.5";
 
